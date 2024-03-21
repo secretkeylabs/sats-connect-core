@@ -2,22 +2,18 @@ import { BtcRequests, Params, Requests, StxRequests } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { request } from '../request';
 import { RpcResult } from '../types';
-import { Provider, getProviderById } from '../provider';
 
-class BaseAdapter extends SatsConnectAdapter {
-  id = '';
-  name = '';
-  url = '';
+class XverseAdapter extends SatsConnectAdapter {
+  id = 'XverseProviders.BitcoinProvider';
+  name = 'Xverse';
+  url = 'xverse.app';
 
-  supportedMethods: (keyof StxRequests | keyof BtcRequests)[] = [];
-
-  constructor(providerInfo: Provider) {
-    super();
-    this.id = providerInfo.id;
-    this.name = providerInfo.name;
-    this.url = providerInfo.webUrl || '';
-    this.supportedMethods = providerInfo.methods || [];
-  }
+  supportedMethods: (keyof StxRequests | keyof BtcRequests)[] = [
+    'getAccounts',
+    'sendTransfer',
+    'signMessage',
+    'signPsbt',
+  ];
 
   request = async <Method extends keyof Requests>(
     method: Method,
@@ -31,4 +27,4 @@ class BaseAdapter extends SatsConnectAdapter {
   };
 }
 
-export { BaseAdapter };
+export { XverseAdapter };

@@ -1,5 +1,5 @@
-import { BtcRequestMethod, Params, Requests, StxRequestMethod } from 'src/request';
-import { RpcResult } from 'src/types';
+import { BtcRequestMethod, Params, Requests, StxRequestMethod } from '../request';
+import { RpcResult } from '../types';
 
 abstract class SatsConnectAdapter {
   abstract readonly id: string;
@@ -7,9 +7,6 @@ abstract class SatsConnectAdapter {
   abstract url: string;
 
   supportedMethods: (StxRequestMethod | BtcRequestMethod)[] = [];
-  installed: boolean = false;
-
-  abstract isInstalled(): Promise<boolean>;
 
   abstract request<Method extends keyof Requests>(
     method: Method,

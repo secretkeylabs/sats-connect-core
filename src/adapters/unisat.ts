@@ -55,12 +55,6 @@ class UnisatAdapter extends SatsConnectAdapter {
     'signPsbt',
   ];
 
-  async isInstalled() {
-    this.installed = typeof window.unisat !== 'undefined';
-
-    return this.installed;
-  }
-
   private async getAccounts(): Promise<Return<'getAccounts'>> {
     const [accounts, publickKey] = await Promise.all([
       window.unisat.requestAccounts(),
@@ -124,10 +118,7 @@ class UnisatAdapter extends SatsConnectAdapter {
     method: Method,
     params: Params<Method>
   ): Promise<RpcResult<Method> | undefined> => {
-    if (!this.installed) {
-      console.error('Unisat is not installed');
-    }
-    if (!(method in this.supportedMethods)) {
+    if (!this.supportedMethods.includes(method)) {
       console.error('Method not supported by the selected wallet');
     }
     try {
