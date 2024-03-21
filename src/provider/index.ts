@@ -19,13 +19,11 @@ export function getProviders(): Provider[] {
 }
 
 export function getProviderById(providerId: string) {
-  if (Array.isArray(window.btc_providers)) {
-    const provider = window.btc_providers.find((provider) => provider.id === providerId);
-    return provider?.id?.split('.').reduce((acc: any, part) => acc?.[part], window);
-  } else {
-    console.log('window.btc_providers is not defined or not an array');
-    return undefined;
-  }
+  return providerId?.split('.').reduce((acc: any, part) => acc?.[part], window);
+}
+
+export function isProviderInstalled(providerId: string) {
+  return !!getProviderById(providerId);
 }
 
 // This function is used to get the supported wallets
@@ -48,6 +46,7 @@ export function getSupportedWallets(): SupportedWallet[] {
         icon: provider.icon,
         webUrl: provider.webUrl,
         chromeWebStoreUrl: provider.chromeWebStoreUrl,
+        isInstalled: isProviderInstalled(provider.id),
       };
     }
   });

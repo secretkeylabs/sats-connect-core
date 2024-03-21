@@ -81,7 +81,7 @@ class UnisatAdapter extends SatsConnectAdapter {
     const response = await window.unisat.signMessage(message);
     return {
       address,
-      // to-do: messageHash generation sats-connect responsibility
+      // to-do: messageHash generation sats-connect responsibility?
       messageHash: '',
       signature: response,
     };

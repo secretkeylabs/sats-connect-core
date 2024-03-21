@@ -43,13 +43,9 @@ export interface Provider {
   methods?: (StxRequestMethod | BtcRequestMethod)[];
 }
 
-export type SupportedWallet = {
-  id: string;
-  name: string;
-  icon: string;
-  webUrl?: string;
-  chromeWebStoreUrl?: string;
-};
+export interface SupportedWallet extends Provider {
+  isInstalled: boolean;
+}
 
 declare global {
   interface XverseProviders {
