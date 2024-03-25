@@ -31,7 +31,7 @@ jobs:
       - run: npm run build
       - id: publish-prerelease
         if: github.event.release.prerelease
-        run: npm publish --tag prerelease
+        run: npm publish --access=public --tag prerelease
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - id: npm-publish-latest
