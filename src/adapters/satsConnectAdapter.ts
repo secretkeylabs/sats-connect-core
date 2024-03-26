@@ -1,4 +1,4 @@
-import { BtcRequestMethod, Params, Requests, StxRequestMethod } from '../request';
+import { Params, Requests } from '../request';
 import { RpcResult } from '../types';
 
 abstract class SatsConnectAdapter {

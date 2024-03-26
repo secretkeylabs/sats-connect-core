@@ -1,4 +1,4 @@
-import { BtcRequests, Params, Requests, StxRequests } from '../request';
+import { Params, Requests } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { request } from '../request';
 import { RpcResult } from '../types';

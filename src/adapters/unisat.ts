@@ -1,16 +1,24 @@
 import {
-  BtcRequests,
+  GetAccountsParams,
   Params,
   Requests,
   Return,
   SendTransferParams,
   SignMessageParams,
   SignPsbtParams,
-  StxRequests,
 } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { RpcErrorCode, RpcResult } from '../types';
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
+import { Address, AddressPurpose } from '../addresses';
+
+type InputType = {
+  index: number;
+  address?: string;
+  publicKey?: string;
+  sighashTypes?: number[];
+  disableTweakSigner?: boolean;
+}[];
 
 type Unisat = {
   requestAccounts: () => Promise<string[]>;
@@ -26,13 +34,7 @@ type Unisat = {
     psbtHex: string,
     options?: {
       autoFinalized?: boolean;
-      toSignInputs: {
-        index: number;
-        address?: string;
-        publicKey?: string;
-        sighashTypes?: number[];
-        disableTweakSigner?: boolean;
-      }[];
+      toSignInputs: InputType;
     }
   ) => Promise<string>;
   pushPsbt: (psbtHex: string) => Promise<string>;
@@ -44,26 +46,65 @@ declare global {
   }
 }
 
+function convertSignInputsToInputType(
+  signInputs: Record<string, number[]>,
+  allowedSignHash?: number
+): InputType {
+  let result: InputType = [];
+  for (let address in signInputs) {
+    let indexes = signInputs[address];
+    for (let index of indexes) {
+      result.push({
+        index: index,
+        address: address,
+        sighashTypes: allowedSignHash ? [allowedSignHash] : undefined,
+      });
+    }
+  }
+  return result;
+}
+
 class UnisatAdapter extends SatsConnectAdapter {
   id = 'unisat';
 
-  private async getAccounts(): Promise<Return<'getAccounts'>> {
-    const [accounts, publickKey] = await Promise.all([
+  private async getAccounts(params: GetAccountsParams): Promise<Return<'getAccounts'>> {
+    const { purposes } = params;
+    if (!purposes.includes(AddressPurpose.Stacks)) {
+      throw new Error('Only bitcoin addresses are supported');
+    }
+    const [accounts, publicKey] = await Promise.all([
       window.unisat.requestAccounts(),
       window.unisat.getPublicKey(),
     ]);
-    const response: Return<'getAccounts'> = accounts.map((address) => ({
+    const address = accounts[0];
+    const addressType = getAddressInfo(accounts[0]).type;
+    const paymentAddress: Address = {
       address,
-      publicKey: publickKey,
-      addressType: getAddressInfo(address).type,
-    }));
+      publicKey,
+      addressType,
+      purpose: AddressPurpose.Payment,
+    };
+    const ordinalsAddress: Address = {
+      address,
+      publicKey,
+      addressType,
+      purpose: AddressPurpose.Ordinals,
+    };
+    const response: Return<'getAccounts'> = [];
+    if (purposes.includes(AddressPurpose.Payment)) {
+      response.push(paymentAddress);
+    }
+    if (purposes.includes(AddressPurpose.Ordinals)) {
+      response.push(ordinalsAddress);
+    }
     return response;
   }
 
   private async signMessage(params: SignMessageParams): Promise<Return<'signMessage'>> {
     const { message, address } = params;
     const addressType = getAddressInfo(address).type;
-    if (addressType === AddressType.p2tr) {
+    const Bip322supportedTypes = [AddressType.p2wpkh, AddressType.p2tr];
+    if (Bip322supportedTypes.includes(addressType)) {
       const response = await window.unisat.signMessage(message, 'bip322-simple');
       return {
         address,
@@ -91,19 +132,15 @@ class UnisatAdapter extends SatsConnectAdapter {
 
   private async signPsbt(params: SignPsbtParams): Promise<Return<'signPsbt'>> {
     const { psbt, signInputs, allowedSignHash, broadcast } = params;
-    // to-do: convert psbt from base64 to hex
-    const psbtHex = await window.unisat.signPsbt(psbt, {
+    const psbtHex = Buffer.from(psbt, 'base64').toString('hex');
+    const signedPsbt = await window.unisat.signPsbt(psbtHex, {
       autoFinalized: broadcast,
-      toSignInputs: Object.entries(signInputs).map(([address, indexes]) => ({
-        address,
-        index: indexes[0],
-        sighashTypes: allowedSignHash ? [allowedSignHash] : undefined,
-      })),
+      toSignInputs: convertSignInputsToInputType(signInputs, allowedSignHash),
     });
     if (broadcast) {
       const txid = await window.unisat.pushPsbt(psbtHex);
       return {
-        psbt: psbtHex,
+        psbt: signedPsbt,
         txid,
       };
     }
@@ -119,7 +156,9 @@ class UnisatAdapter extends SatsConnectAdapter {
     try {
       switch (method) {
         case 'getAccounts': {
-          const response: Return<'getAccounts'> = await this.getAccounts();
+          const response: Return<'getAccounts'> = await this.getAccounts(
+            params as GetAccountsParams
+          );
           return {
             status: 'success',
             result: response as Return<Method>,
