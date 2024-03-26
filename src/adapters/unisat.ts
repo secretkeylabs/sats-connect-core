@@ -10,12 +10,12 @@ import {
 } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { RpcErrorCode, RpcResult } from '../types';
-import { getAddressInfo } from 'bitcoin-address-validation';
+import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
 
 type Unisat = {
   requestAccounts: () => Promise<string[]>;
   getAccounts: () => Promise<string[]>;
-  signMessage: (message: string, type?: string) => Promise<string>;
+  signMessage: (message: string, type?: 'ecdsa' | 'bip322-simple') => Promise<string>;
   getPublicKey: () => Promise<string>;
   sendBitcoin: (
     address: string,
@@ -35,6 +35,7 @@ type Unisat = {
       }[];
     }
   ) => Promise<string>;
+  pushPsbt: (psbtHex: string) => Promise<string>;
 };
 
 declare global {
@@ -71,11 +72,18 @@ class UnisatAdapter extends SatsConnectAdapter {
 
   private async signMessage(params: SignMessageParams): Promise<Return<'signMessage'>> {
     const { message, address } = params;
-    // to-do handle the type optional parameter
-    const response = await window.unisat.signMessage(message);
+    const addressType = getAddressInfo(address).type;
+    if (addressType === AddressType.p2tr) {
+      const response = await window.unisat.signMessage(message, 'bip322-simple');
+      return {
+        address,
+        messageHash: '',
+        signature: response,
+      };
+    }
+    const response = await window.unisat.signMessage(message, 'ecdsa');
     return {
       address,
-      // to-do: messageHash generation sats-connect responsibility?
       messageHash: '',
       signature: response,
     };
@@ -86,8 +94,6 @@ class UnisatAdapter extends SatsConnectAdapter {
     const response = await Promise.all(
       recipients.map((recipient) => window.unisat.sendBitcoin(recipient.address, recipient.amount))
     );
-    // to-do: handling multiple recipients
-    // xverse creates one transaction for all recipients, unisat creates one transaction for each recipient
     return {
       txid: response[0],
     };
@@ -109,6 +115,13 @@ class UnisatAdapter extends SatsConnectAdapter {
         // publicKey: '',
       })),
     });
+    if (broadcast) {
+      const txid = await window.unisat.pushPsbt(psbtHex);
+      return {
+        psbt: psbtHex,
+        txid,
+      };
+    }
     return {
       psbt: psbtHex,
     };
