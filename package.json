@@ -48,7 +48,7 @@
   "author": "Secret Key Labs",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/secretkeylabs/sats-connect-core.git/issues"
+    "url": "https://github.com/secretkeylabs/sats-connect-core/issues"
   },
-  "homepage": "https://github.com/secretkeylabs/sats-connect-core.git#readme"
+  "homepage": "https://github.com/secretkeylabs/sats-connect-core#readme"
 }
