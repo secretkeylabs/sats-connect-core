@@ -25,6 +25,5 @@ export const defaultAdapters: Record<string, new () => SatsConnectAdapter> = {
   [DefaultAdaptersInfo.unisat.id]: UnisatAdapter,
 };
 
-export * from './persistence';
 export * from './satsConnectAdapter';
 export * from './BaseAdapter';

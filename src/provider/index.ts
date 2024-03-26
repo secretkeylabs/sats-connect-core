@@ -27,6 +27,18 @@ export function isProviderInstalled(providerId: string) {
   return !!getProviderById(providerId);
 }
 
+export function setDefaultProvider(providerId: string) {
+  localStorage.setItem('sats-connect_defaultProvider', providerId);
+}
+
+export function getDefaultProvider() {
+  return localStorage.getItem('sats-connect_defaultProvider');
+}
+
+export function removeDefaultProvider() {
+  localStorage.removeItem('sats-connect_defaultProvider');
+}
+
 export function getSupportedWallets(): SupportedWallet[] {
   const btc_providers = getProviders();
   for (let key in DefaultAdaptersInfo) {

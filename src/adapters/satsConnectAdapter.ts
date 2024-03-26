@@ -3,10 +3,6 @@ import { RpcResult } from '../types';
 
 abstract class SatsConnectAdapter {
   abstract readonly id: string;
-  abstract readonly name: string;
-  abstract url: string;
-
-  supportedMethods: (StxRequestMethod | BtcRequestMethod)[] = [];
 
   abstract request<Method extends keyof Requests>(
     method: Method,

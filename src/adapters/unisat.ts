@@ -46,22 +46,12 @@ declare global {
 
 class UnisatAdapter extends SatsConnectAdapter {
   id = 'unisat';
-  name = 'Unisat';
-  url = 'https://unisat.io/';
-
-  supportedMethods: (keyof StxRequests | keyof BtcRequests)[] = [
-    'getAccounts',
-    'sendTransfer',
-    'signMessage',
-    'signPsbt',
-  ];
 
   private async getAccounts(): Promise<Return<'getAccounts'>> {
     const [accounts, publickKey] = await Promise.all([
       window.unisat.requestAccounts(),
       window.unisat.getPublicKey(),
     ]);
-    // to-do: create a generic purpose type for the response
     const response: Return<'getAccounts'> = accounts.map((address) => ({
       address,
       publicKey: publickKey,
@@ -108,11 +98,6 @@ class UnisatAdapter extends SatsConnectAdapter {
         address,
         index: indexes[0],
         sighashTypes: allowedSignHash ? [allowedSignHash] : undefined,
-        /**
-         * to-do: get the public key from the address
-         */
-        // disableTweakSigner: true,
-        // publicKey: '',
       })),
     });
     if (broadcast) {
@@ -131,9 +116,6 @@ class UnisatAdapter extends SatsConnectAdapter {
     method: Method,
     params: Params<Method>
   ): Promise<RpcResult<Method> | undefined> => {
-    if (!this.supportedMethods.includes(method)) {
-      console.error('Method not supported by the selected wallet');
-    }
     try {
       switch (method) {
         case 'getAccounts': {
