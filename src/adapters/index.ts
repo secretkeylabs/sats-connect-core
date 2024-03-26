@@ -9,4 +9,4 @@ export const defaultAdapters: Record<string, new () => SatsConnectAdapter> = {
 
 export * from './persistence';
 export * from './satsConnectAdapter';
-export * from './baseAdapter';
+export * from './BaseAdapter';
