@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "2.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -43,12 +43,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/secretkeylabs/sats-connect.git"
+    "url": "git+https://github.com/secretkeylabs/sats-connect-core.git"
   },
   "author": "Secret Key Labs",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/secretkeylabs/sats-connect/issues"
+    "url": "https://github.com/secretkeylabs/sats-connect-core.git/issues"
   },
-  "homepage": "https://github.com/secretkeylabs/sats-connect#readme"
+  "homepage": "https://github.com/secretkeylabs/sats-connect-core.git#readme"
 }

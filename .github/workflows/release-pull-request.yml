@@ -13,7 +13,7 @@ jobs:
       is-not-fork: ${{ steps.check.outputs.is_not_fork }}
     steps:
       - id: check
-        run: echo "::set-output name=is_not_fork::${{ github.repository == 'secretkeylabs/sats-connect' }}"
+        run: echo "::set-output name=is_not_fork::${{ github.repository == 'secretkeylabs/sats-connect-core' }}"
 
   test:
     runs-on: ubuntu-latest
@@ -101,4 +101,4 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             $GITHUB_URL \
-            -d "{\"body\":\"> Test this PR with \`npm i --save-exact sats-connect@$VERSION\`\"}"
+            -d "{\"body\":\"> Test this PR with \`npm i --save-exact @sats-connect/core@$VERSION\`\"}"
