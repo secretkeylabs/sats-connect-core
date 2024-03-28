@@ -12,6 +12,7 @@ import { SatsConnectAdapter } from './satsConnectAdapter';
 import { RpcErrorCode, RpcResult } from '../types';
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
 import { Address, AddressPurpose } from '../addresses';
+import { DefaultAdaptersInfo } from '.';
 
 type InputType = {
   index: number;
@@ -66,7 +67,7 @@ function convertSignInputsToInputType(
 }
 
 class UnisatAdapter extends SatsConnectAdapter {
-  id = 'unisat';
+  id = DefaultAdaptersInfo.unisat.id;
 
   private async getAccounts(params: GetAccountsParams): Promise<Return<'getAccounts'>> {
     const { purposes } = params;

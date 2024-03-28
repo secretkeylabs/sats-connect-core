@@ -2,9 +2,10 @@ import { Params, Requests } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { request } from '../request';
 import { RpcResult } from '../types';
+import { DefaultAdaptersInfo } from '.';
 
 class XverseAdapter extends SatsConnectAdapter {
-  id = 'XverseProviders.BitcoinProvider';
+  id = DefaultAdaptersInfo.xverse.id;
 
   request = async <Method extends keyof Requests>(
     method: Method,
