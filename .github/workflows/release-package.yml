@@ -45,4 +45,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
           VERSION=$(npm pkg get version | jq . -r)
-          npm dist-tag add sats-connect@$VERSION latest
+          npm dist-tag add @sats-connect/core@$VERSION latest

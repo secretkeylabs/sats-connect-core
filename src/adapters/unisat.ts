@@ -1,21 +1,31 @@
+import { Buffer } from 'buffer';
 import {
-  BtcRequests,
+  GetAccountsParams,
   Params,
   Requests,
   Return,
   SendTransferParams,
   SignMessageParams,
   SignPsbtParams,
-  StxRequests,
 } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { RpcErrorCode, RpcResult } from '../types';
-import { getAddressInfo } from 'bitcoin-address-validation';
+import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
+import { Address, AddressPurpose } from '../addresses';
+import { DefaultAdaptersInfo } from '.';
+
+type InputType = {
+  index: number;
+  address?: string;
+  publicKey?: string;
+  sighashTypes?: number[];
+  disableTweakSigner?: boolean;
+}[];
 
 type Unisat = {
   requestAccounts: () => Promise<string[]>;
   getAccounts: () => Promise<string[]>;
-  signMessage: (message: string, type?: string) => Promise<string>;
+  signMessage: (message: string, type?: 'ecdsa' | 'bip322-simple') => Promise<string>;
   getPublicKey: () => Promise<string>;
   sendBitcoin: (
     address: string,
@@ -26,15 +36,10 @@ type Unisat = {
     psbtHex: string,
     options?: {
       autoFinalized?: boolean;
-      toSignInputs: {
-        index: number;
-        address?: string;
-        publicKey?: string;
-        sighashTypes?: number[];
-        disableTweakSigner?: boolean;
-      }[];
+      toSignInputs: InputType;
     }
   ) => Promise<string>;
+  pushPsbt: (psbtHex: string) => Promise<string>;
 };
 
 declare global {
@@ -43,39 +48,75 @@ declare global {
   }
 }
 
+function convertSignInputsToInputType(
+  signInputs: Record<string, number[]>,
+  allowedSignHash?: number
+): InputType {
+  let result: InputType = [];
+  for (let address in signInputs) {
+    let indexes = signInputs[address];
+    for (let index of indexes) {
+      result.push({
+        index: index,
+        address: address,
+        sighashTypes: allowedSignHash ? [allowedSignHash] : undefined,
+      });
+    }
+  }
+  return result;
+}
+
 class UnisatAdapter extends SatsConnectAdapter {
-  id = 'unisat';
-  name = 'Unisat';
-  url = 'https://unisat.io/';
+  id = DefaultAdaptersInfo.unisat.id;
 
-  supportedMethods: (keyof StxRequests | keyof BtcRequests)[] = [
-    'getAccounts',
-    'sendTransfer',
-    'signMessage',
-    'signPsbt',
-  ];
-
-  private async getAccounts(): Promise<Return<'getAccounts'>> {
-    const [accounts, publickKey] = await Promise.all([
+  private async getAccounts(params: GetAccountsParams): Promise<Return<'getAccounts'>> {
+    const { purposes } = params;
+    if (!purposes.includes(AddressPurpose.Stacks)) {
+      throw new Error('Only bitcoin addresses are supported');
+    }
+    const [accounts, publicKey] = await Promise.all([
       window.unisat.requestAccounts(),
       window.unisat.getPublicKey(),
     ]);
-    // to-do: create a generic purpose type for the response
-    const response: Return<'getAccounts'> = accounts.map((address) => ({
+    const address = accounts[0];
+    const addressType = getAddressInfo(accounts[0]).type;
+    const paymentAddress: Address = {
       address,
-      publicKey: publickKey,
-      addressType: getAddressInfo(address).type,
-    }));
+      publicKey,
+      addressType,
+      purpose: AddressPurpose.Payment,
+    };
+    const ordinalsAddress: Address = {
+      address,
+      publicKey,
+      addressType,
+      purpose: AddressPurpose.Ordinals,
+    };
+    const response: Return<'getAccounts'> = [];
+    if (purposes.includes(AddressPurpose.Payment)) {
+      response.push(paymentAddress);
+    }
+    if (purposes.includes(AddressPurpose.Ordinals)) {
+      response.push(ordinalsAddress);
+    }
     return response;
   }
 
   private async signMessage(params: SignMessageParams): Promise<Return<'signMessage'>> {
     const { message, address } = params;
-    // to-do handle the type optional parameter
-    const response = await window.unisat.signMessage(message);
+    const addressType = getAddressInfo(address).type;
+    const Bip322supportedTypes = [AddressType.p2wpkh, AddressType.p2tr];
+    if (Bip322supportedTypes.includes(addressType)) {
+      const response = await window.unisat.signMessage(message, 'bip322-simple');
+      return {
+        address,
+        messageHash: '',
+        signature: response,
+      };
+    }
+    const response = await window.unisat.signMessage(message, 'ecdsa');
     return {
       address,
-      // to-do: messageHash generation sats-connect responsibility?
       messageHash: '',
       signature: response,
     };
@@ -86,8 +127,6 @@ class UnisatAdapter extends SatsConnectAdapter {
     const response = await Promise.all(
       recipients.map((recipient) => window.unisat.sendBitcoin(recipient.address, recipient.amount))
     );
-    // to-do: handling multiple recipients
-    // xverse creates one transaction for all recipients, unisat creates one transaction for each recipient
     return {
       txid: response[0],
     };
@@ -95,20 +134,18 @@ class UnisatAdapter extends SatsConnectAdapter {
 
   private async signPsbt(params: SignPsbtParams): Promise<Return<'signPsbt'>> {
     const { psbt, signInputs, allowedSignHash, broadcast } = params;
-    // to-do: convert psbt from base64 to hex
-    const psbtHex = await window.unisat.signPsbt(psbt, {
+    const psbtHex = Buffer.from(psbt, 'base64').toString('hex');
+    const signedPsbt = await window.unisat.signPsbt(psbtHex, {
       autoFinalized: broadcast,
-      toSignInputs: Object.entries(signInputs).map(([address, indexes]) => ({
-        address,
-        index: indexes[0],
-        sighashTypes: allowedSignHash ? [allowedSignHash] : undefined,
-        /**
-         * to-do: get the public key from the address
-         */
-        // disableTweakSigner: true,
-        // publicKey: '',
-      })),
+      toSignInputs: convertSignInputsToInputType(signInputs, allowedSignHash),
     });
+    if (broadcast) {
+      const txid = await window.unisat.pushPsbt(psbtHex);
+      return {
+        psbt: signedPsbt,
+        txid,
+      };
+    }
     return {
       psbt: psbtHex,
     };
@@ -118,13 +155,12 @@ class UnisatAdapter extends SatsConnectAdapter {
     method: Method,
     params: Params<Method>
   ): Promise<RpcResult<Method> | undefined> => {
-    if (!this.supportedMethods.includes(method)) {
-      console.error('Method not supported by the selected wallet');
-    }
     try {
       switch (method) {
         case 'getAccounts': {
-          const response: Return<'getAccounts'> = await this.getAccounts();
+          const response: Return<'getAccounts'> = await this.getAccounts(
+            params as GetAccountsParams
+          );
           return {
             status: 'success',
             result: response as Return<Method>,
@@ -152,12 +188,14 @@ class UnisatAdapter extends SatsConnectAdapter {
           };
         }
         default: {
+          const error = {
+            code: RpcErrorCode.METHOD_NOT_SUPPORTED,
+            message: 'Method not supported by the selected wallet',
+          };
+          console.error('Error calling the method', error);
           return {
             status: 'error',
-            error: {
-              code: RpcErrorCode.METHOD_NOT_SUPPORTED,
-              message: 'Method not supported by the selected wallet',
-            },
+            error,
           };
         }
       }
@@ -166,8 +204,8 @@ class UnisatAdapter extends SatsConnectAdapter {
       return {
         status: 'error',
         error: {
-          code: RpcErrorCode.INTERNAL_ERROR,
-          message: 'Wallet Error processing the request',
+          code: error.code === 4001 ? RpcErrorCode.USER_REJECTION : RpcErrorCode.INTERNAL_ERROR,
+          message: error.message ? error.message : 'Wallet method call error',
           data: error,
         },
       };
