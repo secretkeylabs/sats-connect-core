@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import {
   GetAccountsParams,
   Params,
@@ -186,12 +187,14 @@ class UnisatAdapter extends SatsConnectAdapter {
           };
         }
         default: {
+          const error = {
+            code: RpcErrorCode.METHOD_NOT_SUPPORTED,
+            message: 'Method not supported by the selected wallet',
+          };
+          console.error('Error calling the method', error);
           return {
             status: 'error',
-            error: {
-              code: RpcErrorCode.METHOD_NOT_SUPPORTED,
-              message: 'Method not supported by the selected wallet',
-            },
+            error,
           };
         }
       }
@@ -200,8 +203,8 @@ class UnisatAdapter extends SatsConnectAdapter {
       return {
         status: 'error',
         error: {
-          code: RpcErrorCode.INTERNAL_ERROR,
-          message: 'Wallet Error processing the request',
+          code: error.code === 4001 ? RpcErrorCode.USER_REJECTION : RpcErrorCode.INTERNAL_ERROR,
+          message: error.message ? error.message : 'Wallet method call error',
           data: error,
         },
       };

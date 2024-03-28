@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "bitcoin-address-validation": "2.2.3",
+    "buffer": "6.0.3",
     "jsontokens": "4.0.1",
     "lodash.omit": "4.5.0"
   },
