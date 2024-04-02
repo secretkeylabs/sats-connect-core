@@ -80,15 +80,16 @@ class UnisatAdapter extends SatsConnectAdapter {
     ]);
     const address = accounts[0];
     const addressType = getAddressInfo(accounts[0]).type;
+    const pk = addressType === AddressType.p2tr ? publicKey.slice(2) : publicKey;
     const paymentAddress: Address = {
       address,
-      publicKey,
+      publicKey: pk,
       addressType,
       purpose: AddressPurpose.Payment,
     };
     const ordinalsAddress: Address = {
       address,
-      publicKey,
+      publicKey: pk,
       addressType,
       purpose: AddressPurpose.Ordinals,
     };
@@ -124,11 +125,13 @@ class UnisatAdapter extends SatsConnectAdapter {
 
   private async sendTransfer(params: SendTransferParams): Promise<Return<'sendTransfer'>> {
     const { recipients } = params;
-    const response = await Promise.all(
-      recipients.map((recipient) => window.unisat.sendBitcoin(recipient.address, recipient.amount))
-    );
+    if (recipients.length > 1) {
+      throw new Error('Only one recipient is supported by this wallet provider');
+    }
+    const txid = await window.unisat.sendBitcoin(recipients[0].address, recipients[0].amount);
+
     return {
-      txid: response[0],
+      txid,
     };
   }
 
