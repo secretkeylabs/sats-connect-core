@@ -11,7 +11,6 @@ class XverseAdapter extends SatsConnectAdapter {
     method: Method,
     params: Params<Method>
   ): Promise<RpcResult<Method> | undefined> => {
-    console.log('XverseAdapter requestInternal', method, params);
     return request(method, params, this.id);
   };
 }
