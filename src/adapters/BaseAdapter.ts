@@ -1,8 +1,7 @@
 import { Params, Requests } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { request } from '../request';
-import { RpcErrorCode, RpcResult } from '../types';
-import RunesApi from 'src/runes';
+import { RpcResult } from '../types';
 
 class BaseAdapter extends SatsConnectAdapter {
   id = '';
