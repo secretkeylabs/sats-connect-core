@@ -1,71 +1,138 @@
-import { request } from 'src/request';
 import {
-  CreateMintOrder,
-  CreateMintResponse,
-  EstimateMintOrderBody,
-  EstimateMintOrderResponse,
+  CreateEtchOrderRequest,
+  CreateMintOrderRequest,
+  CreateOrderResponse,
+  EstimateEtchOrderRequest,
+  EstimateMintOrderRequest,
+  EstimateOrderResponse,
 } from './types';
-import axios from 'axios';
+import { BitcoinNetworkType, RpcErrorCode, RpcResult } from '../types';
 
-const runesAPI = axios.create({
-  baseURL: 'https://api.xverse.app/v1/runes',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+import axios, { AxiosInstance } from 'axios';
 
-const estimateMintCost = async (
-  mintParams: EstimateMintOrderBody
-): Promise<EstimateMintOrderResponse> => {
-  const response = await runesAPI.post<EstimateMintOrderResponse>('/mint/estimate', {
-    ...mintParams,
-  });
-  return response.data;
-};
+export const RUNES_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
+  `https://ordinals${network === BitcoinNetworkType.Testnet ? '-testnet' : ''}.xverse.app/v1/runes`;
 
-const estimateEtchCost = async (etchParams: EstimateMintOrderBody) => {
-  const response = await runesAPI.post('/etch/estimate', {
-    ...etchParams,
-  });
-  return response.data;
-};
+export class RunesApi {
+  client: AxiosInstance;
 
-const createMintOrder = async (mintOrderParams: CreateMintOrder): Promise<CreateMintResponse> => {
-  const response = await runesAPI.post<CreateMintResponse>('/mint/orders', {
-    ...mintOrderParams,
-  });
-  return response.data;
-};
-
-const executeMint = async (orderId: string, fundTransactionId: string) => {
-  const response = await runesAPI.post(`/mint/orders/${orderId}/execute`, {
-    fundTransactionId,
-  });
-  return response.data;
-};
-
-const createEtchOrder = async (etchOrderParams: CreateMintOrder) => {
-  const response = await axios.post('/etch/orders', {
-    ...etchOrderParams,
-  });
-  return response.data();
-};
-
-const mint = async (mintParams: CreateMintOrder) => {
-  const { fundAddress, fundAmount, orderId } = await createMintOrder(mintParams);
-  const transferResponse = await request('sendTransfer', {
-    recipients: [{ address: fundAddress, amount: fundAmount }],
-  });
-  if (transferResponse.status === 'error') {
-    throw new Error(transferResponse.error.message);
+  constructor(network?: BitcoinNetworkType) {
+    this.client = axios.create({
+      baseURL: `${RUNES_API_BASE_URL(network)}`,
+    });
   }
-  await executeMint(orderId, transferResponse.result.txid);
-  return transferResponse.result.txid;
-};
 
-const Runes = {
-  estimateMintCost,
-  mint,
-};
+  estimateMintCost = async (
+    mintParams: EstimateMintOrderRequest
+  ): Promise<RpcResult<'runes_estimateMint'>> => {
+    try {
+      const response = await this.client.post<EstimateOrderResponse>('/mint/estimate', {
+        ...mintParams,
+      });
+      return {
+        status: 'success',
+        result: {
+          costBreakdown: response.data.costBreakdown,
+          totalCost: response.data.totalCost,
+          totalSize: response.data.totalSize,
+        },
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        error: {
+          code: RpcErrorCode.INTERNAL_ERROR,
+          message: error.message,
+        },
+      };
+    }
+  };
 
-export default Runes;
+  estimateEtchCost = async (
+    etchParams: EstimateEtchOrderRequest
+  ): Promise<RpcResult<'runes_estimateEtch'>> => {
+    try {
+      const response = await this.client.post<EstimateOrderResponse>('/etch/estimate', {
+        ...etchParams,
+      });
+      return {
+        status: 'success',
+        result: {
+          costBreakdown: response.data.costBreakdown,
+          totalCost: response.data.totalCost,
+          totalSize: response.data.totalSize,
+        },
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        error: {
+          code: RpcErrorCode.INTERNAL_ERROR,
+          message: error.data.message,
+        },
+      };
+    }
+  };
+
+  createMintOrder = async (mintOrderParams: CreateMintOrderRequest) => {
+    try {
+      const response = await this.client.post<CreateOrderResponse>('/mint/orders', {
+        ...mintOrderParams,
+      });
+      return {
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        error: error.data.message,
+      };
+    }
+  };
+
+  createEtchOrder = async (etchOrderParams: CreateEtchOrderRequest) => {
+    try {
+      const response = await this.client.post<CreateOrderResponse>('/etch/orders', {
+        ...etchOrderParams,
+      });
+      return {
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        error: error.data.message,
+      };
+    }
+  };
+
+  executeMint = async (orderId: string, fundTransactionId: string) => {
+    try {
+      const response = await this.client.post(`/mint/orders/${orderId}/execute`, {
+        fundTransactionId,
+      });
+      return {
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        error: error.data.message,
+      };
+    }
+  };
+
+  executeEtch = async (orderId: string, fundTransactionId: string) => {
+    try {
+      const response = await this.client.post(`/etch/orders/${orderId}/execute`, {
+        fundTransactionId,
+      });
+      return {
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        error: error.data.message,
+      };
+    }
+  };
+}
+
+export default RunesApi;

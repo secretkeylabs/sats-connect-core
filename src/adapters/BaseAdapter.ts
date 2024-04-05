@@ -1,7 +1,8 @@
 import { Params, Requests } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { request } from '../request';
-import { RpcResult } from '../types';
+import { RpcErrorCode, RpcResult } from '../types';
+import RunesApi from 'src/runes';
 
 class BaseAdapter extends SatsConnectAdapter {
   id = '';
@@ -11,7 +12,7 @@ class BaseAdapter extends SatsConnectAdapter {
     this.id = providerId;
   }
 
-  request = async <Method extends keyof Requests>(
+  requestInternal = async <Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
   ): Promise<RpcResult<Method> | undefined> => {

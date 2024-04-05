@@ -1,13 +1,22 @@
-export type EstimateMintOrderBody = {
+export type CreateMintOrderRequest = {
   runeName: string;
   repeats: number;
+  refundAddress: string;
   destinationAddress: string;
   feeRate: number;
   appServiceFee?: number;
   appServiceFeeAddress?: string;
 };
 
-export type EstimateMintOrderResponse = {
+export type CreateOrderResponse = {
+  orderId: string;
+  fundAddress: string;
+  fundAmount: number;
+};
+
+export type EstimateMintOrderRequest = Omit<CreateMintOrderRequest, 'refundAddress'>;
+
+export type EstimateOrderResponse = {
   totalSize: number;
   totalCost: number;
   costBreakdown: {
@@ -18,27 +27,41 @@ export type EstimateMintOrderResponse = {
   };
 };
 
-export type CreateMintOrder = {
+export type ExecuteMintOrderRequest = {
+  fundTransactionId: string;
+};
+
+export type ExecuteMintOrderResponse = {};
+
+export type CreateEtchOrderRequest = {
   runeName: string;
-  repeats: number;
-  refundAddress: string;
+  divisibility?: number;
+  symbol?: string;
+  premine?: string;
+  isMintable: boolean;
+  terms?: {
+    amount?: string;
+    cap?: string;
+    heightStart?: string;
+    heightEnd?: string;
+    offsetStart?: string;
+    offsetEnd?: string;
+  };
+
+  inscriptionDetails?: {
+    contentType: string;
+    contentBase64: string;
+  };
+  delegateInscriptionId?: string;
+
   destinationAddress: string;
+  refundAddress: string;
   feeRate: number;
   appServiceFee?: number;
   appServiceFeeAddress?: string;
 };
 
-export type CreateMintResponse = {
-  orderId: string;
-  fundAddress: string;
-  fundAmount: number;
-};
-
-export type ExecuteMintOrderBody = {
-  fundTransactionId: string;
-};
-
-export type ExecuteMintOrderResponse = {};
+export type EstimateEtchOrderRequest = Omit<CreateEtchOrderRequest, 'refundAddress'>;
 
 export type GetMintOrderResponse = {
   id: string;

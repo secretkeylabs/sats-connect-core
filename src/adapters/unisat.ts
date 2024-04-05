@@ -1,13 +1,5 @@
 import { Buffer } from 'buffer';
-import {
-  GetAccountsParams,
-  Params,
-  Requests,
-  Return,
-  SendTransferParams,
-  SignMessageParams,
-  SignPsbtParams,
-} from '../request';
+import { Params, Requests, Return } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { RpcErrorCode, RpcResult } from '../types';
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
@@ -69,7 +61,7 @@ function convertSignInputsToInputType(
 class UnisatAdapter extends SatsConnectAdapter {
   id = DefaultAdaptersInfo.unisat.id;
 
-  private async getAccounts(params: GetAccountsParams): Promise<Return<'getAccounts'>> {
+  private async getAccounts(params: Params<'getAccounts'>): Promise<Return<'getAccounts'>> {
     const { purposes } = params;
     if (!purposes.includes(AddressPurpose.Stacks)) {
       throw new Error('Only bitcoin addresses are supported');
@@ -103,7 +95,7 @@ class UnisatAdapter extends SatsConnectAdapter {
     return response;
   }
 
-  private async signMessage(params: SignMessageParams): Promise<Return<'signMessage'>> {
+  private async signMessage(params: Params<'signMessage'>): Promise<Return<'signMessage'>> {
     const { message, address } = params;
     const addressType = getAddressInfo(address).type;
     const Bip322supportedTypes = [AddressType.p2wpkh, AddressType.p2tr];
@@ -123,7 +115,7 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
   }
 
-  private async sendTransfer(params: SendTransferParams): Promise<Return<'sendTransfer'>> {
+  private async sendTransfer(params: Params<'sendTransfer'>): Promise<Return<'sendTransfer'>> {
     const { recipients } = params;
     if (recipients.length > 1) {
       throw new Error('Only one recipient is supported by this wallet provider');
@@ -135,7 +127,7 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
   }
 
-  private async signPsbt(params: SignPsbtParams): Promise<Return<'signPsbt'>> {
+  private async signPsbt(params: Params<'signPsbt'>): Promise<Return<'signPsbt'>> {
     const { psbt, signInputs, allowedSignHash, broadcast } = params;
     const psbtHex = Buffer.from(psbt, 'base64').toString('hex');
     const signedPsbt = await window.unisat.signPsbt(psbtHex, {
@@ -154,7 +146,7 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
   }
 
-  request = async <Method extends keyof Requests>(
+  requestInternal = async <Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
   ): Promise<RpcResult<Method> | undefined> => {
@@ -162,7 +154,7 @@ class UnisatAdapter extends SatsConnectAdapter {
       switch (method) {
         case 'getAccounts': {
           const response: Return<'getAccounts'> = await this.getAccounts(
-            params as GetAccountsParams
+            params as Params<'getAccounts'>
           );
           return {
             status: 'success',
@@ -170,21 +162,21 @@ class UnisatAdapter extends SatsConnectAdapter {
           };
         }
         case 'sendTransfer': {
-          const response = await this.sendTransfer(params as SendTransferParams);
+          const response = await this.sendTransfer(params as Params<'sendTransfer'>);
           return {
             status: 'success',
             result: response as Return<Method>,
           };
         }
         case 'signMessage': {
-          const response = await this.signMessage(params as SignMessageParams);
+          const response = await this.signMessage(params as Params<'signMessage'>);
           return {
             status: 'success',
             result: response as Return<Method>,
           };
         }
         case 'signPsbt': {
-          const response = await this.signPsbt(params as SignPsbtParams);
+          const response = await this.signPsbt(params as Params<'signPsbt'>);
           return {
             status: 'success',
             result: response as Return<Method>,
