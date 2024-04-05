@@ -8,7 +8,7 @@ import {
 } from './types';
 import { BitcoinNetworkType, RpcErrorCode, RpcResult } from '../types';
 
-import axios, { AxiosInstance } from 'axios';
+import axios, { Axios, AxiosError, AxiosInstance } from 'axios';
 
 export const RUNES_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
   `https://ordinals${network === BitcoinNetworkType.Testnet ? '-testnet' : ''}.xverse.app/v1/runes`;
@@ -22,52 +22,38 @@ export class RunesApi {
     });
   }
 
-  estimateMintCost = async (
-    mintParams: EstimateMintOrderRequest
-  ): Promise<RpcResult<'runes_estimateMint'>> => {
+  estimateMintCost = async (mintParams: EstimateMintOrderRequest) => {
     try {
       const response = await this.client.post<EstimateOrderResponse>('/mint/estimate', {
         ...mintParams,
       });
       return {
-        status: 'success',
-        result: {
-          costBreakdown: response.data.costBreakdown,
-          totalCost: response.data.totalCost,
-          totalSize: response.data.totalSize,
-        },
+        data: response.data,
       };
     } catch (error) {
+      const err = error as AxiosError;
       return {
-        status: 'error',
         error: {
-          code: RpcErrorCode.INTERNAL_ERROR,
-          message: error.message,
+          code: err.response?.status,
+          message: error.data.message,
         },
       };
     }
   };
 
-  estimateEtchCost = async (
-    etchParams: EstimateEtchOrderRequest
-  ): Promise<RpcResult<'runes_estimateEtch'>> => {
+  estimateEtchCost = async (etchParams: EstimateEtchOrderRequest) => {
     try {
       const response = await this.client.post<EstimateOrderResponse>('/etch/estimate', {
         ...etchParams,
       });
       return {
-        status: 'success',
-        result: {
-          costBreakdown: response.data.costBreakdown,
-          totalCost: response.data.totalCost,
-          totalSize: response.data.totalSize,
-        },
+        data: response.data,
       };
     } catch (error) {
+      const err = error as AxiosError;
       return {
-        status: 'error',
         error: {
-          code: RpcErrorCode.INTERNAL_ERROR,
+          code: err.response?.status,
           message: error.data.message,
         },
       };
@@ -83,8 +69,12 @@ export class RunesApi {
         data: response.data,
       };
     } catch (error) {
+      const err = error as AxiosError;
       return {
-        error: error.data.message,
+        error: {
+          code: err.response?.status,
+          message: error.data.message,
+        },
       };
     }
   };
@@ -98,8 +88,12 @@ export class RunesApi {
         data: response.data,
       };
     } catch (error) {
+      const err = error as AxiosError;
       return {
-        error: error.data.message,
+        error: {
+          code: err.response?.status,
+          message: error.data.message,
+        },
       };
     }
   };
@@ -113,8 +107,12 @@ export class RunesApi {
         data: response.data,
       };
     } catch (error) {
+      const err = error as AxiosError;
       return {
-        error: error.data.message,
+        error: {
+          code: err.response?.status,
+          message: error.data.message,
+        },
       };
     }
   };
@@ -128,11 +126,19 @@ export class RunesApi {
         data: response.data,
       };
     } catch (error) {
+      const err = error as AxiosError;
       return {
-        error: error.data.message,
+        error: {
+          code: err.response?.status,
+          message: error.data.message,
+        },
       };
     }
   };
 }
 
-export default RunesApi;
+const testnetClient = new RunesApi(BitcoinNetworkType.Testnet);
+const mainnetClient = new RunesApi(BitcoinNetworkType.Mainnet);
+
+export const getRunesApiClient = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
+  network === BitcoinNetworkType.Mainnet ? mainnetClient : testnetClient;
