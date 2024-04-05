@@ -22,6 +22,13 @@ export class RunesApi {
     });
   }
 
+  private parseError = (error: AxiosError) => {
+    return {
+      code: error.response?.status,
+      message: JSON.stringify(error.response?.data),
+    };
+  };
+
   estimateMintCost = async (mintParams: EstimateMintOrderRequest) => {
     try {
       const response = await this.client.post<EstimateOrderResponse>('/mint/estimate', {
@@ -33,10 +40,7 @@ export class RunesApi {
     } catch (error) {
       const err = error as AxiosError;
       return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data as string,
-        },
+        error: this.parseError(err),
       };
     }
   };
@@ -52,10 +56,7 @@ export class RunesApi {
     } catch (error) {
       const err = error as AxiosError;
       return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data as string,
-        },
+        error: this.parseError(err),
       };
     }
   };
@@ -71,10 +72,7 @@ export class RunesApi {
     } catch (error) {
       const err = error as AxiosError;
       return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data as string,
-        },
+        error: this.parseError(err),
       };
     }
   };
@@ -90,10 +88,7 @@ export class RunesApi {
     } catch (error) {
       const err = error as AxiosError;
       return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data as string,
-        },
+        error: this.parseError(err),
       };
     }
   };
@@ -109,10 +104,7 @@ export class RunesApi {
     } catch (error) {
       const err = error as AxiosError;
       return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data as string,
-        },
+        error: this.parseError(err),
       };
     }
   };
@@ -128,10 +120,7 @@ export class RunesApi {
     } catch (error) {
       const err = error as AxiosError;
       return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data as string,
-        },
+        error: this.parseError(err),
       };
     }
   };
