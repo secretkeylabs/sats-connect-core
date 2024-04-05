@@ -35,7 +35,7 @@ export class RunesApi {
       return {
         error: {
           code: err.response?.status,
-          message: error.data.message,
+          message: err.response?.data,
         },
       };
     }
@@ -54,7 +54,7 @@ export class RunesApi {
       return {
         error: {
           code: err.response?.status,
-          message: error.data.message,
+          message: err.response?.data,
         },
       };
     }
@@ -73,7 +73,7 @@ export class RunesApi {
       return {
         error: {
           code: err.response?.status,
-          message: error.data.message,
+          message: err.response?.data,
         },
       };
     }
@@ -92,7 +92,7 @@ export class RunesApi {
       return {
         error: {
           code: err.response?.status,
-          message: error.data.message,
+          message: err.response?.data,
         },
       };
     }
@@ -111,7 +111,7 @@ export class RunesApi {
       return {
         error: {
           code: err.response?.status,
-          message: error.data.message,
+          message: err.response?.data,
         },
       };
     }
@@ -130,7 +130,7 @@ export class RunesApi {
       return {
         error: {
           code: err.response?.status,
-          message: error.data.message,
+          message: err.response?.data,
         },
       };
     }
