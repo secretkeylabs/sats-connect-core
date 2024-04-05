@@ -1,7 +1,6 @@
 import { RunesApi } from '../runes';
 import { Params, Requests } from '../request';
 import { RpcErrorCode, RpcResult } from '../types';
-import { EstimateRunesEtchParams, EstimateRunesMintParams } from '../request/types/runesMethods';
 
 abstract class SatsConnectAdapter {
   abstract readonly id: string;
@@ -122,12 +121,12 @@ abstract class SatsConnectAdapter {
       case 'runes_etch':
         return this.etchRunes(params as Params<'runes_etch'>) as Promise<RpcResult<Method>>;
       case 'runes_estimateMint':
-        return new RunesApi((params as EstimateRunesMintParams).network).estimateMintCost(
-          params as EstimateRunesMintParams
+        return new RunesApi((params as Params<'runes_estimateMint'>).network).estimateMintCost(
+          params as Params<'runes_estimateMint'>
         ) as Promise<RpcResult<Method>>;
       case 'runes_estimateEtch':
-        return new RunesApi((params as EstimateRunesMintParams).network).estimateEtchCost(
-          params as EstimateRunesEtchParams
+        return new RunesApi((params as Params<'runes_estimateEtch'>).network).estimateEtchCost(
+          params as Params<'runes_estimateEtch'>
         ) as Promise<RpcResult<Method>>;
       default:
         return this.requestInternal(method, params);
