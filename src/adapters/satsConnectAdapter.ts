@@ -7,7 +7,16 @@ abstract class SatsConnectAdapter {
 
   private async mintRunes(params: Params<'runes_mint'>): Promise<RpcResult<'runes_mint'>> {
     try {
-      const orderResponse = await new RunesApi(params.network).createMintOrder(params);
+      const mintRequest: Omit<Params<'runes_mint'>, 'network'> = {
+        destinationAddress: params.destinationAddress,
+        feeRate: params.feeRate,
+        refundAddress: params.refundAddress,
+        repeats: params.repeats,
+        runeName: params.runeName,
+        appServiceFee: params.appServiceFee,
+        appServiceFeeAddress: params.appServiceFeeAddress,
+      };
+      const orderResponse = await new RunesApi(params.network).createMintOrder(mintRequest);
       if (!orderResponse.data) {
         return {
           status: 'error',
@@ -60,8 +69,23 @@ abstract class SatsConnectAdapter {
   }
 
   private async etchRunes(params: Params<'runes_etch'>): Promise<RpcResult<'runes_etch'>> {
+    const etchRequest: Omit<Params<'runes_etch'>, 'network'> = {
+      destinationAddress: params.destinationAddress,
+      refundAddress: params.refundAddress,
+      feeRate: params.feeRate,
+      runeName: params.runeName,
+      divisibility: params.divisibility,
+      symbol: params.symbol,
+      premine: params.premine,
+      isMintable: params.isMintable,
+      terms: params.terms,
+      inscriptionDetails: params.inscriptionDetails,
+      delegateInscriptionId: params.delegateInscriptionId,
+      appServiceFee: params.appServiceFee,
+      appServiceFeeAddress: params.appServiceFeeAddress,
+    };
     try {
-      const orderResponse = await new RunesApi(params.network).createEtchOrder(params);
+      const orderResponse = await new RunesApi(params.network).createEtchOrder(etchRequest);
       if (!orderResponse.data) {
         return {
           status: 'error',
@@ -116,9 +140,17 @@ abstract class SatsConnectAdapter {
   private async estimateMint(
     params: Params<'runes_estimateMint'>
   ): Promise<RpcResult<'runes_estimateMint'>> {
+    const estimateMintRequest: Omit<Params<'runes_estimateMint'>, 'network'> = {
+      destinationAddress: params.destinationAddress,
+      feeRate: params.feeRate,
+      repeats: params.repeats,
+      runeName: params.runeName,
+      appServiceFee: params.appServiceFee,
+      appServiceFeeAddress: params.appServiceFeeAddress,
+    };
     const response = await getRunesApiClient(
       (params as Params<'runes_estimateMint'>).network
-    ).estimateMintCost(params as Params<'runes_estimateMint'>);
+    ).estimateMintCost(estimateMintRequest);
     if (response.data) {
       return {
         status: 'success',
@@ -137,10 +169,22 @@ abstract class SatsConnectAdapter {
 
   private async estimateEtch(
     params: Params<'runes_estimateEtch'>
-  ): Promise<RpcResult<'runes_estimateMint'>> {
-    const response = await getRunesApiClient(
-      (params as Params<'runes_estimateEtch'>).network
-    ).estimateEtchCost(params as Params<'runes_estimateEtch'>);
+  ): Promise<RpcResult<'runes_estimateEtch'>> {
+    const estimateEtchRequest: Omit<Params<'runes_estimateEtch'>, 'network'> = {
+      destinationAddress: params.destinationAddress,
+      feeRate: params.feeRate,
+      runeName: params.runeName,
+      divisibility: params.divisibility,
+      symbol: params.symbol,
+      premine: params.premine,
+      isMintable: params.isMintable,
+      terms: params.terms,
+      inscriptionDetails: params.inscriptionDetails,
+      delegateInscriptionId: params.delegateInscriptionId,
+      appServiceFee: params.appServiceFee,
+      appServiceFeeAddress: params.appServiceFeeAddress,
+    };
+    const response = await getRunesApiClient(params.network).estimateEtchCost(estimateEtchRequest);
     if (response.data) {
       return {
         status: 'success',
