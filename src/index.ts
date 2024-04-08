@@ -7,4 +7,3 @@ export * from './provider';
 export * from './request';
 export * from './transactions';
 export * from './types';
-export * from './ui';
