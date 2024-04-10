@@ -201,6 +201,24 @@ abstract class SatsConnectAdapter {
     };
   }
 
+  private async getOrder(params: Params<'runes_getOrder'>): Promise<RpcResult<'runes_getOrder'>> {
+    const response = await getRunesApiClient(params.network).getOrder(params.id);
+    if (response.data) {
+      return {
+        status: 'success',
+        result: response.data,
+      };
+    }
+    return {
+      status: 'error',
+      error: {
+        code:
+          response.error.code === 400 ? RpcErrorCode.INVALID_REQUEST : RpcErrorCode.INTERNAL_ERROR,
+        message: response.error.message,
+      },
+    };
+  }
+
   async request<Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
@@ -218,7 +236,9 @@ abstract class SatsConnectAdapter {
         return this.estimateEtch(params as Params<'runes_estimateEtch'>) as Promise<
           RpcResult<Method>
         >;
-
+      case 'runes_getOrder': {
+        return this.getOrder(params as Params<'runes_getOrder'>) as Promise<RpcResult<Method>>;
+      }
       default:
         return this.requestInternal(method, params);
     }

@@ -6,7 +6,13 @@ import {
   SignMessage,
   SignPsbt,
 } from './btcMethods';
-import { EstimateRunesEtch, EstimateRunesMint, EtchRunes, MintRunes } from './runesMethods';
+import {
+  EstimateRunesEtch,
+  EstimateRunesMint,
+  EtchRunes,
+  GetOrder,
+  MintRunes,
+} from './runesMethods';
 import {
   StxCallContract,
   StxDeployContract,
@@ -47,6 +53,7 @@ export interface RunesRequests {
   runes_mint: MintRunes;
   runes_estimateEtch: EstimateRunesEtch;
   runes_etch: EtchRunes;
+  runes_getOrder: GetOrder;
 }
 
 export type RunesRequestMethod = keyof RunesRequests;
