@@ -70,3 +70,15 @@ export type GetMintOrderResponse = {
   reason: string;
   createdAt: string;
 };
+
+export type GetOrderRequest = {
+  id: string;
+};
+
+export type GetOrderResponse = {
+  id: string;
+  orderType: 'rune_mint' | 'rune_etch';
+  state: 'new' | 'pending' | 'executing' | 'complete' | 'failed' | 'refunded' | 'stale';
+  reason?: string;
+  createdAt: string;
+};

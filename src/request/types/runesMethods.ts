@@ -4,6 +4,8 @@ import {
   EstimateEtchOrderRequest,
   EstimateMintOrderRequest,
   EstimateOrderResponse,
+  GetOrderRequest,
+  GetOrderResponse,
 } from '../../runes/types';
 import { BitcoinNetworkType, MethodParamsAndResult } from '../../types';
 
@@ -50,3 +52,9 @@ export type EtchRunesResult = {
 };
 
 export type EtchRunes = MethodParamsAndResult<EtchRunesParams, EtchRunesResult>;
+
+interface GetOrderParams extends GetOrderRequest {
+  network?: BitcoinNetworkType;
+}
+
+export type GetOrder = MethodParamsAndResult<GetOrderParams, GetOrderResponse>;
