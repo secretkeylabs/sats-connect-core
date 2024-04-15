@@ -66,10 +66,8 @@ class UnisatAdapter extends SatsConnectAdapter {
     if (!purposes.includes(AddressPurpose.Stacks)) {
       throw new Error('Only bitcoin addresses are supported');
     }
-    const [accounts, publicKey] = await Promise.all([
-      window.unisat.requestAccounts(),
-      window.unisat.getPublicKey(),
-    ]);
+    const accounts = await window.unisat.requestAccounts();
+    const publicKey = await window.unisat.getPublicKey();
     const address = accounts[0];
     const addressType = getAddressInfo(accounts[0]).type;
     const pk = addressType === AddressType.p2tr ? publicKey.slice(2) : publicKey;
