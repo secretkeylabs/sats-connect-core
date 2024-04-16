@@ -42,10 +42,11 @@ export function removeDefaultProvider() {
 
 export function getSupportedWallets(): SupportedWallet[] {
   const btc_providers = getProviders();
+  const allProviders = [...btc_providers];
   for (const key in omit(DefaultAdaptersInfo, ['xverse'])) {
-    btc_providers.push(DefaultAdaptersInfo[key]);
+    allProviders.push(DefaultAdaptersInfo[key]);
   }
-  const wallets: SupportedWallet[] = btc_providers.map((provider) => {
+  const wallets: SupportedWallet[] = allProviders.map((provider) => {
     {
       return {
         ...provider,
