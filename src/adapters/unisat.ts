@@ -63,7 +63,7 @@ class UnisatAdapter extends SatsConnectAdapter {
 
   private async getAccounts(params: Params<'getAccounts'>): Promise<Return<'getAccounts'>> {
     const { purposes } = params;
-    if (!purposes.includes(AddressPurpose.Stacks)) {
+    if (purposes.includes(AddressPurpose.Stacks)) {
       throw new Error('Only bitcoin addresses are supported');
     }
     const accounts = await window.unisat.requestAccounts();
