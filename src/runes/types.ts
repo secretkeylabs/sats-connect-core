@@ -79,6 +79,7 @@ export type GetOrderResponse = {
   id: string;
   orderType: 'rune_mint' | 'rune_etch';
   state: 'new' | 'pending' | 'executing' | 'complete' | 'failed' | 'refunded' | 'stale';
+  fundingAddress: string;
   reason?: string;
   createdAt: string;
 };
