@@ -6,6 +6,8 @@ import {
   EstimateMintOrderRequest,
   EstimateOrderResponse,
   GetOrderResponse,
+  RBFOrderRequest,
+  RBFOrderResponse,
 } from './types';
 import { BitcoinNetworkType } from '../types';
 
@@ -129,6 +131,23 @@ export class RunesApi {
   getOrder = async (orderId: string) => {
     try {
       const response = await this.client.get<GetOrderResponse>(`/orders/${orderId}`);
+      return {
+        data: response.data,
+      };
+    } catch (error) {
+      const err = error as AxiosError;
+      return {
+        error: this.parseError(err),
+      };
+    }
+  };
+
+  rbfOrder = async (rbfRequest: RBFOrderRequest) => {
+    const { orderId, newFeeRate } = rbfRequest;
+    try {
+      const response = await this.client.post<RBFOrderResponse>(`/orders/${orderId}/rbf-estimate`, {
+        newFeeRate,
+      });
       return {
         data: response.data,
       };

@@ -79,6 +79,17 @@ export type GetOrderResponse = {
   id: string;
   orderType: 'rune_mint' | 'rune_etch';
   state: 'new' | 'pending' | 'executing' | 'complete' | 'failed' | 'refunded' | 'stale';
+  fundingAddress: string;
   reason?: string;
   createdAt: string;
+};
+
+export type RBFOrderRequest = {
+  orderId: string;
+  newFeeRate: number;
+};
+
+export type RBFOrderResponse = {
+  rbfCost: number;
+  fundingAddress: string;
 };

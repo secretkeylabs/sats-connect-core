@@ -6,6 +6,8 @@ import {
   EstimateOrderResponse,
   GetOrderRequest,
   GetOrderResponse,
+  RBFOrderRequest,
+  RBFOrderResponse,
 } from '../../runes/types';
 import { BitcoinNetworkType, MethodParamsAndResult } from '../../types';
 
@@ -27,6 +29,7 @@ export interface MintRunesParams extends CreateMintOrderRequest {
 export type MintRunesResult = {
   orderId: string;
   fundTransactionId: string;
+  fundingAddress: string;
 };
 
 export type MintRunes = MethodParamsAndResult<MintRunesParams, MintRunesResult>;
@@ -49,6 +52,7 @@ export interface EtchRunesParams extends CreateEtchOrderRequest {
 export type EtchRunesResult = {
   orderId: string;
   fundTransactionId: string;
+  fundingAddress: string;
 };
 
 export type EtchRunes = MethodParamsAndResult<EtchRunesParams, EtchRunesResult>;
@@ -58,3 +62,21 @@ interface GetOrderParams extends GetOrderRequest {
 }
 
 export type GetOrder = MethodParamsAndResult<GetOrderParams, GetOrderResponse>;
+
+interface EstimateRbfOrderParams extends RBFOrderRequest {
+  network?: BitcoinNetworkType;
+}
+
+export type EstimateRbfOrder = MethodParamsAndResult<EstimateRbfOrderParams, RBFOrderResponse>;
+
+interface RbfOrderParams extends RBFOrderRequest {
+  network?: BitcoinNetworkType;
+}
+
+interface RbfOrderResult {
+  orderId: string;
+  fundRBFTransactionId: string;
+  fundingAddress: string;
+}
+
+export type RbfOrder = MethodParamsAndResult<RbfOrderParams, RbfOrderResult>;
