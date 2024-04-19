@@ -215,7 +215,9 @@ abstract class SatsConnectAdapter {
       status: 'error',
       error: {
         code:
-          response.error.code === 400 ? RpcErrorCode.INVALID_REQUEST : RpcErrorCode.INTERNAL_ERROR,
+          response.error.code === 400 || response.error.code === 404
+            ? RpcErrorCode.INVALID_REQUEST
+            : RpcErrorCode.INTERNAL_ERROR,
         message: response.error.message,
       },
     };
@@ -242,7 +244,9 @@ abstract class SatsConnectAdapter {
       status: 'error',
       error: {
         code:
-          response.error.code === 400 ? RpcErrorCode.INVALID_REQUEST : RpcErrorCode.INTERNAL_ERROR,
+          response.error.code === 400 || response.error.code === 404
+            ? RpcErrorCode.INVALID_REQUEST
+            : RpcErrorCode.INTERNAL_ERROR,
         message: response.error.message,
       },
     };
@@ -260,7 +264,7 @@ abstract class SatsConnectAdapter {
           status: 'error',
           error: {
             code:
-              orderResponse.error.code === 400
+              orderResponse.error.code === 400 || orderResponse.error.code === 404
                 ? RpcErrorCode.INVALID_REQUEST
                 : RpcErrorCode.INTERNAL_ERROR,
             message: orderResponse.error.message,
