@@ -221,14 +221,14 @@ abstract class SatsConnectAdapter {
     };
   }
 
-  private async estimateRpfOrder(
-    params: Params<'runes_estimateRpfOrder'>
-  ): Promise<RpcResult<'runes_estimateRpfOrder'>> {
-    const rpfOrderRequest: Omit<Params<'runes_estimateRpfOrder'>, 'network'> = {
+  private async estimateRbfOrder(
+    params: Params<'runes_estimateRbfOrder'>
+  ): Promise<RpcResult<'runes_estimateRbfOrder'>> {
+    const rbfOrderRequest: Omit<Params<'runes_estimateRbfOrder'>, 'network'> = {
       newFeeRate: params.newFeeRate,
       orderId: params.orderId,
     };
-    const response = await getRunesApiClient(params.network).rpfOrder(rpfOrderRequest);
+    const response = await getRunesApiClient(params.network).rbfOrder(rbfOrderRequest);
     if (response.data) {
       return {
         status: 'success',
@@ -248,13 +248,13 @@ abstract class SatsConnectAdapter {
     };
   }
 
-  private async rpfOrder(params: Params<'runes_rpfOrder'>): Promise<RpcResult<'runes_rpfOrder'>> {
+  private async rbfOrder(params: Params<'runes_rbfOrder'>): Promise<RpcResult<'runes_rbfOrder'>> {
     try {
-      const rpfOrderRequest: Omit<Params<'runes_rpfOrder'>, 'network'> = {
+      const rbfOrderRequest: Omit<Params<'runes_rbfOrder'>, 'network'> = {
         newFeeRate: params.newFeeRate,
         orderId: params.orderId,
       };
-      const orderResponse = await getRunesApiClient(params.network).rpfOrder(rpfOrderRequest);
+      const orderResponse = await getRunesApiClient(params.network).rbfOrder(rbfOrderRequest);
       if (!orderResponse.data) {
         return {
           status: 'error',
@@ -288,7 +288,7 @@ abstract class SatsConnectAdapter {
         status: 'success',
         result: {
           fundingAddress: orderResponse.data.fundingAddress,
-          orderId: rpfOrderRequest.orderId,
+          orderId: rbfOrderRequest.orderId,
           fundRBFTransactionId: paymentResponse.result.txid,
         },
       };
@@ -323,13 +323,13 @@ abstract class SatsConnectAdapter {
       case 'runes_getOrder': {
         return this.getOrder(params as Params<'runes_getOrder'>) as Promise<RpcResult<Method>>;
       }
-      case 'runes_estimateRpfOrder': {
-        return this.estimateRpfOrder(params as Params<'runes_estimateRpfOrder'>) as Promise<
+      case 'runes_estimateRbfOrder': {
+        return this.estimateRbfOrder(params as Params<'runes_estimateRbfOrder'>) as Promise<
           RpcResult<Method>
         >;
       }
-      case 'runes_rpfOrder': {
-        return this.rpfOrder(params as Params<'runes_rpfOrder'>) as Promise<RpcResult<Method>>;
+      case 'runes_rbfOrder': {
+        return this.rbfOrder(params as Params<'runes_rbfOrder'>) as Promise<RpcResult<Method>>;
       }
       default:
         return this.requestInternal(method, params);

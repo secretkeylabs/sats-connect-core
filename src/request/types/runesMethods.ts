@@ -6,8 +6,8 @@ import {
   EstimateOrderResponse,
   GetOrderRequest,
   GetOrderResponse,
-  RPFOrderRequest,
-  RPFOrderResponse,
+  RBFOrderRequest,
+  RBFOrderResponse,
 } from '../../runes/types';
 import { BitcoinNetworkType, MethodParamsAndResult } from '../../types';
 
@@ -63,20 +63,20 @@ interface GetOrderParams extends GetOrderRequest {
 
 export type GetOrder = MethodParamsAndResult<GetOrderParams, GetOrderResponse>;
 
-interface EstimateRpfOrderParams extends RPFOrderRequest {
+interface EstimateRbfOrderParams extends RBFOrderRequest {
   network?: BitcoinNetworkType;
 }
 
-export type EstimateRpfOrder = MethodParamsAndResult<EstimateRpfOrderParams, RPFOrderResponse>;
+export type EstimateRbfOrder = MethodParamsAndResult<EstimateRbfOrderParams, RBFOrderResponse>;
 
-interface RpfOrderParams extends RPFOrderRequest {
+interface RbfOrderParams extends RBFOrderRequest {
   network?: BitcoinNetworkType;
 }
 
-interface RpfOrderResult {
+interface RbfOrderResult {
   orderId: string;
   fundRBFTransactionId: string;
   fundingAddress: string;
 }
 
-export type RpfOrder = MethodParamsAndResult<RpfOrderParams, RpfOrderResult>;
+export type RbfOrder = MethodParamsAndResult<RbfOrderParams, RbfOrderResult>;

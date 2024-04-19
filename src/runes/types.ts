@@ -83,12 +83,12 @@ export type GetOrderResponse = {
   createdAt: string;
 };
 
-export type RPFOrderRequest = {
+export type RBFOrderRequest = {
   orderId: string;
   newFeeRate: number;
 };
 
-export type RPFOrderResponse = {
+export type RBFOrderResponse = {
   rbfCost: number;
   fundingAddress: string;
 };
