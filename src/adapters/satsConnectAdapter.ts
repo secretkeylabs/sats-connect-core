@@ -55,6 +55,7 @@ abstract class SatsConnectAdapter {
         result: {
           orderId: orderResponse.data.orderId,
           fundTransactionId: paymentResponse.result.txid,
+          fundingAddress: orderResponse.data.fundAddress,
         },
       };
     } catch (error) {
@@ -124,6 +125,7 @@ abstract class SatsConnectAdapter {
         result: {
           orderId: orderResponse.data.orderId,
           fundTransactionId: paymentResponse.result.txid,
+          fundingAddress: orderResponse.data.fundAddress,
         },
       };
     } catch (error) {
@@ -219,6 +221,88 @@ abstract class SatsConnectAdapter {
     };
   }
 
+  private async estimateRpfOrder(
+    params: Params<'runes_estimateRpfOrder'>
+  ): Promise<RpcResult<'runes_estimateRpfOrder'>> {
+    const rpfOrderRequest: Omit<Params<'runes_estimateRpfOrder'>, 'network'> = {
+      newFeeRate: params.newFeeRate,
+      orderId: params.orderId,
+    };
+    const response = await getRunesApiClient(params.network).rpfOrder(rpfOrderRequest);
+    if (response.data) {
+      return {
+        status: 'success',
+        result: {
+          fundingAddress: response.data.fundingAddress,
+          rbfCost: response.data.rbfCost,
+        },
+      };
+    }
+    return {
+      status: 'error',
+      error: {
+        code:
+          response.error.code === 400 ? RpcErrorCode.INVALID_REQUEST : RpcErrorCode.INTERNAL_ERROR,
+        message: response.error.message,
+      },
+    };
+  }
+
+  private async rpfOrder(params: Params<'runes_rpfOrder'>): Promise<RpcResult<'runes_rpfOrder'>> {
+    try {
+      const rpfOrderRequest: Omit<Params<'runes_rpfOrder'>, 'network'> = {
+        newFeeRate: params.newFeeRate,
+        orderId: params.orderId,
+      };
+      const orderResponse = await getRunesApiClient(params.network).rpfOrder(rpfOrderRequest);
+      if (!orderResponse.data) {
+        return {
+          status: 'error',
+          error: {
+            code:
+              orderResponse.error.code === 400
+                ? RpcErrorCode.INVALID_REQUEST
+                : RpcErrorCode.INTERNAL_ERROR,
+            message: orderResponse.error.message,
+          },
+        };
+      }
+      const paymentResponse = await this.requestInternal('sendTransfer', {
+        recipients: [
+          {
+            address: orderResponse.data.fundingAddress,
+            amount: orderResponse.data.rbfCost,
+          },
+        ],
+      });
+      if (paymentResponse?.status !== 'success') {
+        return {
+          status: 'error',
+          error: {
+            code: RpcErrorCode.USER_REJECTION,
+            message: 'User rejected the payment request',
+          },
+        };
+      }
+      return {
+        status: 'success',
+        result: {
+          fundingAddress: orderResponse.data.fundingAddress,
+          orderId: rpfOrderRequest.orderId,
+          fundRBFTransactionId: paymentResponse.result.txid,
+        },
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        error: {
+          code: RpcErrorCode.INTERNAL_ERROR,
+          message: error.message,
+        },
+      };
+    }
+  }
+
   async request<Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
@@ -238,6 +322,14 @@ abstract class SatsConnectAdapter {
         >;
       case 'runes_getOrder': {
         return this.getOrder(params as Params<'runes_getOrder'>) as Promise<RpcResult<Method>>;
+      }
+      case 'runes_estimateRpfOrder': {
+        return this.estimateRpfOrder(params as Params<'runes_estimateRpfOrder'>) as Promise<
+          RpcResult<Method>
+        >;
+      }
+      case 'runes_rpfOrder': {
+        return this.rpfOrder(params as Params<'runes_rpfOrder'>) as Promise<RpcResult<Method>>;
       }
       default:
         return this.requestInternal(method, params);

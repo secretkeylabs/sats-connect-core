@@ -82,3 +82,13 @@ export type GetOrderResponse = {
   reason?: string;
   createdAt: string;
 };
+
+export type RPFOrderRequest = {
+  orderId: string;
+  newFeeRate: number;
+};
+
+export type RPFOrderResponse = {
+  rbfCost: number;
+  fundingAddress: string;
+};
