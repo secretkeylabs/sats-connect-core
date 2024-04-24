@@ -1,4 +1,4 @@
-import { getRunesApiClient, RunesApi } from '../runes';
+import { getRunesApiClient, RunesApi } from '../runes/api';
 import { Params, Requests } from '../request';
 import { RpcErrorCode, RpcResult } from '../types';
 

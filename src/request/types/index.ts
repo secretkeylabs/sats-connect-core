@@ -12,6 +12,7 @@ import {
   EstimateRunesMint,
   EtchRunes,
   GetOrder,
+  GetRunesBalance,
   MintRunes,
   RbfOrder,
 } from './runesMethods';
@@ -58,6 +59,7 @@ export interface RunesRequests {
   runes_getOrder: GetOrder;
   runes_estimateRbfOrder: EstimateRbfOrder;
   runes_rbfOrder: RbfOrder;
+  runes_getBalance: GetRunesBalance;
 }
 
 export type RunesRequestMethod = keyof RunesRequests;

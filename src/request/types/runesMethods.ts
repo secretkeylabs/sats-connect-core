@@ -80,3 +80,14 @@ interface RbfOrderResult {
 }
 
 export type RbfOrder = MethodParamsAndResult<RbfOrderParams, RbfOrderResult>;
+
+type GetRunesBalanceParams = null;
+interface GetRunesBalanceResult {
+  balances: {
+    rune: string;
+    amount: string;
+    divisibility: number;
+  }[];
+}
+
+export type GetRunesBalance = MethodParamsAndResult<GetRunesBalanceParams, GetRunesBalanceResult>;

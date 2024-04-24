@@ -1,4 +1,10 @@
-import { BtcRequestMethod, Params, Requests, StxRequestMethod } from '../request';
+import {
+  BtcRequestMethod,
+  Params,
+  Requests,
+  RunesRequestMethod,
+  StxRequestMethod,
+} from '../request';
 import type { GetAddressResponse } from '../addresses';
 import type { GetCapabilitiesResponse } from '../capabilities';
 import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
@@ -40,7 +46,7 @@ export interface Provider {
   mozillaAddOnsUrl?: string;
   googlePlayStoreUrl?: string;
   iOSAppStoreUrl?: string;
-  methods?: (StxRequestMethod | BtcRequestMethod)[];
+  methods?: (StxRequestMethod | BtcRequestMethod | RunesRequestMethod)[];
 }
 
 export interface SupportedWallet extends Provider {
