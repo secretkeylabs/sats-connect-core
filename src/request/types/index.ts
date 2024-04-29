@@ -38,6 +38,7 @@ export interface RunesRequests {
   runes_estimateRbfOrder: RunesMethods.EstimateRbfOrder;
   runes_rbfOrder: RunesMethods.RbfOrder;
   runes_getBalance: RunesMethods.GetRunesBalance;
+  runes_transfer: RunesMethods.TransferRunes;
 }
 
 export type RunesRequestMethod = keyof RunesRequests;

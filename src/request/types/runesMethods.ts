@@ -112,3 +112,16 @@ export type GetRunesBalance = MethodParamsAndResult<
   v.InferOutput<typeof getRunesBalanceParamsSchema>,
   v.InferOutput<typeof getRunesBalanceResultSchema>
 >;
+
+type TransferRunesParams = {
+  recipients: {
+    runeName: string;
+    amount: number;
+    address: string;
+  }[];
+};
+interface TransferRunesResult {
+  txid: string;
+}
+
+export type TransferRunes = MethodParamsAndResult<TransferRunesParams, TransferRunesResult>;
