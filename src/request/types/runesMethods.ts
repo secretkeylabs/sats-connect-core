@@ -113,10 +113,10 @@ export type GetRunesBalance = MethodParamsAndResult<
   v.InferOutput<typeof getRunesBalanceResultSchema>
 >;
 
-type TransferRunesParams = {
+export type TransferRunesParams = {
   recipients: {
     runeName: string;
-    amount: number;
+    amount: string;
     address: string;
   }[];
 };
