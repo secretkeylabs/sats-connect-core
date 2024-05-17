@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "0.0.10",
+  "version": "0.0.9",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
