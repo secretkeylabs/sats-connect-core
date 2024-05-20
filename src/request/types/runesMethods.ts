@@ -84,9 +84,11 @@ export type RbfOrder = MethodParamsAndResult<RbfOrderParams, RbfOrderResult>;
 type GetRunesBalanceParams = null;
 interface GetRunesBalanceResult {
   balances: {
-    rune: string;
+    runeName: string;
     amount: string;
     divisibility: number;
+    symbol: string;
+    inscriptionId: string | null;
   }[];
 }
 
