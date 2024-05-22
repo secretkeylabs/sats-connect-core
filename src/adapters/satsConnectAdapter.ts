@@ -96,6 +96,16 @@ abstract class SatsConnectAdapter {
       appServiceFeeAddress: params.appServiceFeeAddress,
     };
     try {
+      const walletInfo = await this.requestInternal('getInfo', null).catch(() => null);
+      if (walletInfo && walletInfo.status === 'success') {
+        const isMintSupported = walletInfo.result.methods?.includes('rune_etch');
+        if (isMintSupported) {
+          const response = await this.requestInternal('runes_etch', params);
+          if (response) {
+            return response;
+          }
+        }
+      }
       const orderResponse = await new RunesApi(params.network).createEtchOrder(etchRequest);
       if (!orderResponse.data) {
         return {
