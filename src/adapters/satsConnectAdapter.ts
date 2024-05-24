@@ -41,8 +41,8 @@ abstract class SatsConnectAdapter {
         return {
           status: 'error',
           error: {
-            code: RpcErrorCode.USER_REJECTION,
-            message: 'User rejected the payment request',
+            code: paymentResponse?.error?.code || RpcErrorCode.USER_REJECTION,
+            message: paymentResponse?.error.message || 'User rejected the payment request',
           },
         };
       }
@@ -111,8 +111,8 @@ abstract class SatsConnectAdapter {
         return {
           status: 'error',
           error: {
-            code: RpcErrorCode.USER_REJECTION,
-            message: 'User rejected the payment request',
+            code: paymentResponse?.error?.code || RpcErrorCode.USER_REJECTION,
+            message: paymentResponse?.error.message || 'User rejected the payment request',
           },
         };
       }
