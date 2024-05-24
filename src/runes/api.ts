@@ -166,9 +166,11 @@ export class RunesApi {
 }
 
 const clients: Partial<Record<BitcoinNetworkType, RunesApi>> = {};
-export const getRunesApiClient = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) => {
+export const getRunesApiClient = (
+  network: BitcoinNetworkType = BitcoinNetworkType.Mainnet
+): RunesApi => {
   if (!clients[network]) {
     clients[network] = new RunesApi(network);
   }
-  return clients[network];
+  return clients[network]!;
 };
