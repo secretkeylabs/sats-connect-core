@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import type { RequestOptions, RequestPayload } from '../types';
 
 export enum AddressPurpose {
@@ -20,12 +21,13 @@ export enum AddressType {
   stacks = 'stacks',
 }
 
-export interface Address {
-  address: string;
-  publicKey: string;
-  purpose?: AddressPurpose;
-  addressType?: AddressType;
-}
+export const addressSchema = z.object({
+  address: z.string(),
+  publicKey: z.string(),
+  purpose: z.nativeEnum(AddressPurpose),
+  addressType: z.nativeEnum(AddressType),
+});
+export type Address = z.infer<typeof addressSchema>;
 
 export interface GetAddressResponse {
   addresses: Address[];

@@ -30,6 +30,9 @@
     "jsontokens": "4.0.1",
     "lodash.omit": "4.5.0"
   },
+  "peerDependencies": {
+    "zod": ">=3.23.8"
+  },
   "devDependencies": {
     "@types/jest": "^29.2.6",
     "@types/lodash.omit": "4.5.9",

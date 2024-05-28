@@ -2,37 +2,54 @@
  * Represents the types and interfaces related to BTC methods.
  */
 
-import { Address, AddressPurpose } from '../../addresses';
-import { MethodParamsAndResult } from '../../types';
+import { z } from 'zod';
+import { Address, AddressPurpose, addressSchema } from '../../addresses';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 
-type GetInfoResult = {
-  version: number | string;
-  methods?: Array<string>;
-  supports?: Array<string>;
-};
+export const getInfoMethodName = 'getInfo';
+export const getInfoParamsSchema = z.undefined();
+export const getInfoResultSchema = z.object({
+  version: z.union([z.number(), z.string()]),
+  methods: z.array(z.string()).optional(),
+  supports: z.array(z.string()),
+});
+export const getInfoSchema = rpcRequestMessageSchema.extend({
+  method: z.literal(getInfoMethodName),
+  params: getInfoParamsSchema,
+  id: z.string(),
+});
+export type GetInfo = MethodParamsAndResult<
+  z.infer<typeof getInfoParamsSchema>,
+  z.infer<typeof getInfoResultSchema>
+>;
 
-export type GetInfo = MethodParamsAndResult<null, GetInfoResult>;
-
-type GetAddressesParams = {
+export const getAddressesMethodName = 'getAddresses';
+export const getAddressesParamsSchema = z.object({
   /**
    * The purposes for which to generate addresses.
    * possible values are "payment", "ordinals", ...
    */
-  purposes: Array<AddressPurpose>;
+  purposes: z.array(z.nativeEnum(AddressPurpose)),
   /**
-   * a message to be displayed to the user in the request prompt.
+   * A message to be displayed to the user in the request prompt.
    */
-  message?: string;
-};
-
-/**
- * The addresses generated for the given purposes.
- */
-type GetAddressesResult = {
-  addresses: Array<Address>;
-};
-
-export type GetAddresses = MethodParamsAndResult<GetAddressesParams, GetAddressesResult>;
+  message: z.string().optional(),
+});
+export const getAddressesResultSchema = z.object({
+  /**
+   * The addresses generated for the given purposes.
+   */
+  addresses: z.array(addressSchema),
+});
+export const getAddressesRequestMessageSchema = rpcRequestMessageSchema.extend({
+  method: z.literal(getAddressesMethodName),
+  params: getAddressesParamsSchema,
+  id: z.string(),
+});
+export type GetAddresses = MethodParamsAndResult<
+  z.infer<typeof getAddressesParamsSchema>,
+  z.infer<typeof getAddressesResultSchema>
+>;
 
 export type SignMessageParams = {
   /**
@@ -124,21 +141,15 @@ export type SignPsbtResult = {
 
 export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
-export type GetAccountsParams = {
-  /**
-   * The purposes for which to generate addresses.
-   * possible values are "payment", "ordinals", ...
-   */
-  purposes: Array<AddressPurpose>;
-  /**
-   * a message to be displayed to the user in the request prompt.
-   */
-  /**
-   * a message to be displayed to the user in the request prompt.
-   */
-  message?: string;
-};
-
-export type GetAccountResult = Address[];
-
-export type GetAccounts = MethodParamsAndResult<GetAccountsParams, GetAccountResult>;
+export const getAccountsMethodName = 'getAccounts';
+export const getAccountsParamsSchema = getAddressesParamsSchema;
+export const getAccountsResultSchema = z.array(addressSchema);
+export const getAccountsRequestMessageSchema = rpcRequestMessageSchema.extend({
+  method: z.literal(getAccountsMethodName),
+  params: getAccountsParamsSchema,
+  id: z.string(),
+});
+export type GetAccounts = MethodParamsAndResult<
+  z.infer<typeof getAccountsParamsSchema>,
+  z.infer<typeof getAccountsResultSchema>
+>;
