@@ -26,8 +26,8 @@ export type GetInfo = MethodParamsAndResult<
 export const getAddressesMethodName = 'getAddresses';
 export const getAddressesParamsSchema = z.object({
   /**
-   * The purposes for which to generate addresses.
-   * possible values are "payment", "ordinals", ...
+   * The purposes for which to generate addresses. See
+   * {@linkcode AddressPurpose} for available purposes.
    */
   purposes: z.array(z.nativeEnum(AddressPurpose)),
   /**
