@@ -3,14 +3,25 @@
  */
 
 import { z } from 'zod';
-import { Address, AddressPurpose, addressSchema } from '../../addresses';
+import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 
 export const getInfoMethodName = 'getInfo';
 export const getInfoParamsSchema = z.undefined();
 export const getInfoResultSchema = z.object({
-  version: z.union([z.number(), z.string()]),
+  /**
+   * Version of the wallet.
+   */
+  version: z.string(),
+
+  /**
+   * [WBIP](https://wbips.netlify.app/wbips/WBIP002) methods supported by the wallet.
+   */
   methods: z.array(z.string()).optional(),
+
+  /**
+   * List of WBIP standards supported by the wallet. Not currently used.
+   */
   supports: z.array(z.string()),
 });
 export const getInfoSchema = rpcRequestMessageSchema.extend({
@@ -51,33 +62,40 @@ export type GetAddresses = MethodParamsAndResult<
   z.infer<typeof getAddressesResultSchema>
 >;
 
-export type SignMessageParams = {
+export const signMessageMethodName = 'signMessage';
+export const signMessageParamsSchema = z.object({
   /**
    * The address used for signing.
    **/
-  address: string;
+  address: z.string(),
   /**
    * The message to sign.
    **/
-  message: string;
-};
-
-type SignMessageResult = {
+  message: z.string(),
+});
+export const signMessageResultSchema = z.object({
   /**
    * The signature of the message.
    */
-  signature: string;
+  signature: z.string(),
   /**
    * hash of the message.
    */
-  messageHash: string;
+  messageHash: z.string(),
   /**
    * The address used for signing.
    */
-  address: string;
-};
-
-export type SignMessage = MethodParamsAndResult<SignMessageParams, SignMessageResult>;
+  address: z.string(),
+});
+export const signMessageRequestMessageSchema = rpcRequestMessageSchema.extend({
+  method: z.literal(signMessageMethodName),
+  params: signMessageParamsSchema,
+  id: z.string(),
+});
+export type SignMessage = MethodParamsAndResult<
+  z.infer<typeof signMessageParamsSchema>,
+  z.infer<typeof signMessageResultSchema>
+>;
 
 type Recipient = {
   /**
