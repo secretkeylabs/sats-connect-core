@@ -98,8 +98,8 @@ abstract class SatsConnectAdapter {
     try {
       const walletInfo = await this.requestInternal('getInfo', null).catch(() => null);
       if (walletInfo && walletInfo.status === 'success') {
-        const isMintSupported = walletInfo.result.methods?.includes('rune_etch');
-        if (isMintSupported) {
+        const isEtchSupported = walletInfo.result.methods?.includes('runes_etch');
+        if (isEtchSupported) {
           const response = await this.requestInternal('runes_etch', params);
           if (response) {
             return response;
