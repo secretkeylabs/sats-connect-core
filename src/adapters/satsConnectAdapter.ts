@@ -37,14 +37,8 @@ abstract class SatsConnectAdapter {
           },
         ],
       });
-      if (paymentResponse?.status !== 'success') {
-        return {
-          status: 'error',
-          error: {
-            code: RpcErrorCode.USER_REJECTION,
-            message: 'User rejected the payment request',
-          },
-        };
+      if (paymentResponse.status !== 'success') {
+        return paymentResponse;
       }
       await new RunesApi(params.network).executeMint(
         orderResponse.data.orderId,
@@ -107,14 +101,8 @@ abstract class SatsConnectAdapter {
           },
         ],
       });
-      if (paymentResponse?.status !== 'success') {
-        return {
-          status: 'error',
-          error: {
-            code: RpcErrorCode.USER_REJECTION,
-            message: 'User rejected the payment request',
-          },
-        };
+      if (paymentResponse.status !== 'success') {
+        return paymentResponse;
       }
       await new RunesApi(params.network).executeEtch(
         orderResponse.data.orderId,
@@ -279,14 +267,8 @@ abstract class SatsConnectAdapter {
           },
         ],
       });
-      if (paymentResponse?.status !== 'success') {
-        return {
-          status: 'error',
-          error: {
-            code: RpcErrorCode.USER_REJECTION,
-            message: 'User rejected the payment request',
-          },
-        };
+      if (paymentResponse.status !== 'success') {
+        return paymentResponse;
       }
       return {
         status: 'success',
@@ -310,7 +292,7 @@ abstract class SatsConnectAdapter {
   async request<Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
-  ): Promise<RpcResult<Method> | undefined> {
+  ): Promise<RpcResult<Method>> {
     switch (method) {
       case 'runes_mint':
         return this.mintRunes(params as Params<'runes_mint'>) as Promise<RpcResult<Method>>;
@@ -343,6 +325,6 @@ abstract class SatsConnectAdapter {
   protected abstract requestInternal<Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
-  ): Promise<RpcResult<Method> | undefined>;
+  ): Promise<RpcResult<Method>>;
 }
 export { SatsConnectAdapter };

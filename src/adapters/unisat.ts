@@ -147,7 +147,7 @@ class UnisatAdapter extends SatsConnectAdapter {
   requestInternal = async <Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
-  ): Promise<RpcResult<Method> | undefined> => {
+  ): Promise<RpcResult<Method>> => {
     try {
       switch (method) {
         case 'getAccounts': {

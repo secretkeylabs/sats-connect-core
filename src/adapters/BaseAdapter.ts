@@ -14,7 +14,7 @@ class BaseAdapter extends SatsConnectAdapter {
   requestInternal = async <Method extends keyof Requests>(
     method: Method,
     params: Params<Method>
-  ): Promise<RpcResult<Method> | undefined> => {
+  ): Promise<RpcResult<Method>> => {
     return request(method, params, this.id);
   };
 }
