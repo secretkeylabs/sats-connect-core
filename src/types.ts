@@ -4,6 +4,7 @@ import { Requests, Return } from './request';
 export enum BitcoinNetworkType {
   Mainnet = 'Mainnet',
   Testnet = 'Testnet',
+  Signet = 'Signet',
 }
 
 export interface BitcoinNetwork {

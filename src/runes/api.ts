@@ -1,3 +1,4 @@
+import { BitcoinNetworkType } from '../types';
 import {
   CreateEtchOrderRequest,
   CreateMintOrderRequest,
@@ -9,12 +10,16 @@ import {
   RBFOrderRequest,
   RBFOrderResponse,
 } from './types';
-import { BitcoinNetworkType } from '../types';
 
 import axios, { AxiosError, AxiosInstance } from 'axios';
 
+const urlNetworkSuffix = {
+  [BitcoinNetworkType.Mainnet]: '',
+  [BitcoinNetworkType.Testnet]: '-testnet',
+  [BitcoinNetworkType.Signet]: '-signet',
+};
 export const ORDINALS_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
-  `https://ordinals${network === BitcoinNetworkType.Testnet ? '-testnet' : ''}.xverse.app/v1`;
+  `https://ordinals${urlNetworkSuffix[network]}.xverse.app/v1`;
 
 export class RunesApi {
   client: AxiosInstance;
@@ -160,8 +165,12 @@ export class RunesApi {
   };
 }
 
-const testnetClient = new RunesApi(BitcoinNetworkType.Testnet);
-const mainnetClient = new RunesApi(BitcoinNetworkType.Mainnet);
-
-export const getRunesApiClient = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
-  network === BitcoinNetworkType.Mainnet ? mainnetClient : testnetClient;
+const clients: Partial<Record<BitcoinNetworkType, RunesApi>> = {};
+export const getRunesApiClient = (
+  network: BitcoinNetworkType = BitcoinNetworkType.Mainnet
+): RunesApi => {
+  if (!clients[network]) {
+    clients[network] = new RunesApi(network);
+  }
+  return clients[network]!;
+};
