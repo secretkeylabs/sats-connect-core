@@ -2,99 +2,108 @@
  * Represents the types and interfaces related to BTC methods.
  */
 
-import { z } from 'zod';
 import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import * as v from 'valibot';
 
 export const getInfoMethodName = 'getInfo';
-export const getInfoParamsSchema = z.undefined();
-export const getInfoResultSchema = z.object({
+export const getInfoParamsSchema = v.null();
+export const getInfoResultSchema = v.object({
   /**
    * Version of the wallet.
    */
-  version: z.string(),
+  version: v.string(),
 
   /**
    * [WBIP](https://wbips.netlify.app/wbips/WBIP002) methods supported by the wallet.
    */
-  methods: z.array(z.string()).optional(),
+  methods: v.optional(v.array(v.string())),
 
   /**
    * List of WBIP standards supported by the wallet. Not currently used.
    */
-  supports: z.array(z.string()),
+  supports: v.array(v.string()),
 });
-export const getInfoSchema = rpcRequestMessageSchema.extend({
-  method: z.literal(getInfoMethodName),
-  params: getInfoParamsSchema,
-  id: z.string(),
+export const getInfoSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getInfoMethodName),
+    params: getInfoParamsSchema,
+    id: v.string(),
+  }).entries,
 });
 export type GetInfo = MethodParamsAndResult<
-  z.infer<typeof getInfoParamsSchema>,
-  z.infer<typeof getInfoResultSchema>
+  v.InferOutput<typeof getInfoParamsSchema>,
+  v.InferOutput<typeof getInfoResultSchema>
 >;
 
 export const getAddressesMethodName = 'getAddresses';
-export const getAddressesParamsSchema = z.object({
+export const getAddressesParamsSchema = v.object({
   /**
    * The purposes for which to generate addresses. See
    * {@linkcode AddressPurpose} for available purposes.
    */
-  purposes: z.array(z.nativeEnum(AddressPurpose)),
+  purposes: v.array(v.enum(AddressPurpose)),
   /**
    * A message to be displayed to the user in the request prompt.
    */
-  message: z.string().optional(),
+  message: v.optional(v.string()),
 });
-export const getAddressesResultSchema = z.object({
+export const getAddressesResultSchema = v.object({
   /**
    * The addresses generated for the given purposes.
    */
-  addresses: z.array(addressSchema),
+  addresses: v.array(addressSchema),
 });
-export const getAddressesRequestMessageSchema = rpcRequestMessageSchema.extend({
-  method: z.literal(getAddressesMethodName),
-  params: getAddressesParamsSchema,
-  id: z.string(),
+export const getAddressesRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getAddressesMethodName),
+    params: getAddressesParamsSchema,
+    id: v.string(),
+  }).entries,
 });
 export type GetAddresses = MethodParamsAndResult<
-  z.infer<typeof getAddressesParamsSchema>,
-  z.infer<typeof getAddressesResultSchema>
+  v.InferOutput<typeof getAddressesParamsSchema>,
+  v.InferOutput<typeof getAddressesResultSchema>
 >;
 
 export const signMessageMethodName = 'signMessage';
-export const signMessageParamsSchema = z.object({
+export const signMessageParamsSchema = v.object({
   /**
    * The address used for signing.
    **/
-  address: z.string(),
+  address: v.string(),
   /**
    * The message to sign.
    **/
-  message: z.string(),
+  message: v.string(),
 });
-export const signMessageResultSchema = z.object({
+export const signMessageResultSchema = v.object({
   /**
    * The signature of the message.
    */
-  signature: z.string(),
+  signature: v.string(),
   /**
    * hash of the message.
    */
-  messageHash: z.string(),
+  messageHash: v.string(),
   /**
    * The address used for signing.
    */
-  address: z.string(),
+  address: v.string(),
 });
-export const signMessageRequestMessageSchema = rpcRequestMessageSchema.extend({
-  method: z.literal(signMessageMethodName),
-  params: signMessageParamsSchema,
-  id: z.string(),
+export const signMessageRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(signMessageMethodName),
+    params: signMessageParamsSchema,
+    id: v.string(),
+  }).entries,
 });
 export type SignMessage = MethodParamsAndResult<
-  z.infer<typeof signMessageParamsSchema>,
-  z.infer<typeof signMessageResultSchema>
+  v.InferOutput<typeof signMessageParamsSchema>,
+  v.InferOutput<typeof signMessageResultSchema>
 >;
 
 type Recipient = {
@@ -161,13 +170,16 @@ export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
 export const getAccountsMethodName = 'getAccounts';
 export const getAccountsParamsSchema = getAddressesParamsSchema;
-export const getAccountsResultSchema = z.array(addressSchema);
-export const getAccountsRequestMessageSchema = rpcRequestMessageSchema.extend({
-  method: z.literal(getAccountsMethodName),
-  params: getAccountsParamsSchema,
-  id: z.string(),
+export const getAccountsResultSchema = v.array(addressSchema);
+export const getAccountsRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getAccountsMethodName),
+    params: getAccountsParamsSchema,
+    id: v.string(),
+  }).entries,
 });
 export type GetAccounts = MethodParamsAndResult<
-  z.infer<typeof getAccountsParamsSchema>,
-  z.infer<typeof getAccountsResultSchema>
+  v.InferOutput<typeof getAccountsParamsSchema>,
+  v.InferOutput<typeof getAccountsResultSchema>
 >;

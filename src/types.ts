@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import type { BitcoinProvider } from './provider';
 import { Requests, Return } from './request';
 
@@ -26,14 +26,14 @@ export interface RequestOptions<Payload extends RequestPayload, Response> {
 
 // RPC Request and Response types
 
-export const rpcRequestMessageSchema = z.object({
-  jsonrpc: z.literal('2.0'),
-  method: z.string(),
-  params: z.union([z.array(z.unknown()), z.object({}).passthrough()]).optional(),
-  id: z.union([z.string(), z.number(), z.null()]).optional(),
+export const rpcRequestMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  method: v.string(),
+  params: v.optional(v.union([v.array(v.unknown()), v.looseObject({})])),
+  id: v.optional(v.union([v.string(), v.number(), v.null()])),
 });
 
-export type RpcRequestMessage = z.infer<typeof rpcRequestMessageSchema>;
+export type RpcRequestMessage = v.InferOutput<typeof rpcRequestMessageSchema>;
 
 export type RpcId = string | null;
 

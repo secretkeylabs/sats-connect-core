@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import type { RequestOptions, RequestPayload } from '../types';
 
 export enum AddressPurpose {
@@ -21,13 +21,13 @@ export enum AddressType {
   stacks = 'stacks',
 }
 
-export const addressSchema = z.object({
-  address: z.string(),
-  publicKey: z.string(),
-  purpose: z.nativeEnum(AddressPurpose),
-  addressType: z.nativeEnum(AddressType),
+export const addressSchema = v.object({
+  address: v.string(),
+  publicKey: v.string(),
+  purpose: v.enum(AddressPurpose),
+  addressType: v.enum(AddressType),
 });
-export type Address = z.infer<typeof addressSchema>;
+export type Address = v.InferOutput<typeof addressSchema>;
 
 export interface GetAddressResponse {
   addresses: Address[];
