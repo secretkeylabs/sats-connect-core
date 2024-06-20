@@ -2,65 +2,109 @@
  * Represents the types and interfaces related to BTC methods.
  */
 
-import { Address, AddressPurpose } from '../../addresses';
-import { MethodParamsAndResult } from '../../types';
+import { AddressPurpose, addressSchema } from '../../addresses';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import * as v from 'valibot';
 
-type GetInfoResult = {
-  version: number | string;
-  methods?: Array<string>;
-  supports?: Array<string>;
-};
-
-export type GetInfo = MethodParamsAndResult<null, GetInfoResult>;
-
-type GetAddressesParams = {
+export const getInfoMethodName = 'getInfo';
+export const getInfoParamsSchema = v.null();
+export const getInfoResultSchema = v.object({
   /**
-   * The purposes for which to generate addresses.
-   * possible values are "payment", "ordinals", ...
+   * Version of the wallet.
    */
-  purposes: Array<AddressPurpose>;
+  version: v.string(),
+
   /**
-   * a message to be displayed to the user in the request prompt.
+   * [WBIP](https://wbips.netlify.app/wbips/WBIP002) methods supported by the wallet.
    */
-  message?: string;
-};
+  methods: v.optional(v.array(v.string())),
 
-/**
- * The addresses generated for the given purposes.
- */
-type GetAddressesResult = {
-  addresses: Array<Address>;
-};
+  /**
+   * List of WBIP standards supported by the wallet. Not currently used.
+   */
+  supports: v.array(v.string()),
+});
+export const getInfoSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getInfoMethodName),
+    params: getInfoParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetInfo = MethodParamsAndResult<
+  v.InferOutput<typeof getInfoParamsSchema>,
+  v.InferOutput<typeof getInfoResultSchema>
+>;
 
-export type GetAddresses = MethodParamsAndResult<GetAddressesParams, GetAddressesResult>;
+export const getAddressesMethodName = 'getAddresses';
+export const getAddressesParamsSchema = v.object({
+  /**
+   * The purposes for which to generate addresses. See
+   * {@linkcode AddressPurpose} for available purposes.
+   */
+  purposes: v.array(v.enum(AddressPurpose)),
+  /**
+   * A message to be displayed to the user in the request prompt.
+   */
+  message: v.optional(v.string()),
+});
+export const getAddressesResultSchema = v.object({
+  /**
+   * The addresses generated for the given purposes.
+   */
+  addresses: v.array(addressSchema),
+});
+export const getAddressesRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getAddressesMethodName),
+    params: getAddressesParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetAddresses = MethodParamsAndResult<
+  v.InferOutput<typeof getAddressesParamsSchema>,
+  v.InferOutput<typeof getAddressesResultSchema>
+>;
 
-export type SignMessageParams = {
+export const signMessageMethodName = 'signMessage';
+export const signMessageParamsSchema = v.object({
   /**
    * The address used for signing.
    **/
-  address: string;
+  address: v.string(),
   /**
    * The message to sign.
    **/
-  message: string;
-};
-
-type SignMessageResult = {
+  message: v.string(),
+});
+export const signMessageResultSchema = v.object({
   /**
    * The signature of the message.
    */
-  signature: string;
+  signature: v.string(),
   /**
    * hash of the message.
    */
-  messageHash: string;
+  messageHash: v.string(),
   /**
    * The address used for signing.
    */
-  address: string;
-};
-
-export type SignMessage = MethodParamsAndResult<SignMessageParams, SignMessageResult>;
+  address: v.string(),
+});
+export const signMessageRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(signMessageMethodName),
+    params: signMessageParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type SignMessage = MethodParamsAndResult<
+  v.InferOutput<typeof signMessageParamsSchema>,
+  v.InferOutput<typeof signMessageResultSchema>
+>;
 
 type Recipient = {
   /**
@@ -124,21 +168,18 @@ export type SignPsbtResult = {
 
 export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
-export type GetAccountsParams = {
-  /**
-   * The purposes for which to generate addresses.
-   * possible values are "payment", "ordinals", ...
-   */
-  purposes: Array<AddressPurpose>;
-  /**
-   * a message to be displayed to the user in the request prompt.
-   */
-  /**
-   * a message to be displayed to the user in the request prompt.
-   */
-  message?: string;
-};
-
-export type GetAccountResult = Address[];
-
-export type GetAccounts = MethodParamsAndResult<GetAccountsParams, GetAccountResult>;
+export const getAccountsMethodName = 'getAccounts';
+export const getAccountsParamsSchema = getAddressesParamsSchema;
+export const getAccountsResultSchema = v.array(addressSchema);
+export const getAccountsRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getAccountsMethodName),
+    params: getAccountsParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetAccounts = MethodParamsAndResult<
+  v.InferOutput<typeof getAccountsParamsSchema>,
+  v.InferOutput<typeof getAccountsResultSchema>
+>;
