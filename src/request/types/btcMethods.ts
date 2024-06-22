@@ -183,3 +183,24 @@ export type GetAccounts = MethodParamsAndResult<
   v.InferOutput<typeof getAccountsParamsSchema>,
   v.InferOutput<typeof getAccountsResultSchema>
 >;
+
+// Get the balance of the current Bitcoin account.
+export const getBalanceMethodName = 'getBalance';
+export const getBalanceParamsSchema = v.undefined();
+export const getBalanceResultSchema = v.object({
+  /**
+   * The balance of the wallet in sats.
+   */
+  balance: v.string(),
+});
+export const getBalanceSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getBalanceMethodName),
+    id: v.string(),
+  }).entries,
+});
+export type GetBalance = MethodParamsAndResult<
+  v.InferOutput<typeof getBalanceParamsSchema>,
+  v.InferOutput<typeof getBalanceResultSchema>
+>;
