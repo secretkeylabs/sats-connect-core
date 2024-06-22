@@ -96,6 +96,10 @@ export enum RpcErrorCode {
    * method is not supported for the address provided
    */
   METHOD_NOT_SUPPORTED = -32001,
+  /**
+   * The client does not have permission to access the requested resource.
+   */
+  ACCESS_DENIED = -32002,
 }
 
 export interface RpcError {
