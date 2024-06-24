@@ -1,6 +1,7 @@
 import {
   GetAccounts,
   GetAddresses,
+  GetBalance,
   GetInfo,
   SendTransfer,
   SignMessage,
@@ -45,6 +46,7 @@ export interface BtcRequests {
   getInfo: GetInfo;
   getAddresses: GetAddresses;
   getAccounts: GetAccounts;
+  getBalance: GetBalance;
   signMessage: SignMessage;
   sendTransfer: SendTransfer;
   signPsbt: SignPsbt;
