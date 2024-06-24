@@ -191,7 +191,8 @@ export const getBalanceResultSchema = v.object({
   /**
    * The balance of the wallet in sats.
    */
-  balance: v.string(),
+  confirmedBalance: v.bigint(),
+  unconfirmedUtxosBalance: v.bigint(),
 });
 export const getBalanceSchema = v.object({
   ...rpcRequestMessageSchema.entries,
