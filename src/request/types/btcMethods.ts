@@ -189,10 +189,20 @@ export const getBalanceMethodName = 'getBalance';
 export const getBalanceParamsSchema = v.undefined();
 export const getBalanceResultSchema = v.object({
   /**
-   * The balance of the wallet in sats.
+   * The confirmed balance of the wallet in sats.
    */
-  confirmedBalance: v.bigint(),
-  unconfirmedUtxosBalance: v.bigint(),
+  confirmed: v.bigint(),
+
+  /**
+   * The unconfirmed balance of the wallet in sats.
+   */
+  unconfirmed: v.bigint(),
+
+  /**
+   * The total balance (both confirmed and unconfrimed UTXOs) of the wallet in
+   * sats.
+   */
+  total: v.bigint(),
 });
 export const getBalanceSchema = v.object({
   ...rpcRequestMessageSchema.entries,
