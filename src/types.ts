@@ -26,6 +26,8 @@ export interface RequestOptions<Payload extends RequestPayload, Response> {
 
 // RPC Request and Response types
 
+export const RpcIdSchema = v.optional(v.union([v.string(), v.number(), v.null()]));
+export type RpcId = v.InferOutput<typeof RpcIdSchema>;
 export const rpcRequestMessageSchema = v.object({
   jsonrpc: v.literal('2.0'),
   method: v.string(),
@@ -40,12 +42,9 @@ export const rpcRequestMessageSchema = v.object({
       v.null(),
     ])
   ),
-  id: v.optional(v.union([v.string(), v.number(), v.null()])),
+  id: RpcIdSchema,
 });
-
 export type RpcRequestMessage = v.InferOutput<typeof rpcRequestMessageSchema>;
-
-export type RpcId = string | null;
 
 export interface RpcBase {
   jsonrpc: '2.0';
@@ -101,6 +100,22 @@ export enum RpcErrorCode {
    */
   ACCESS_DENIED = -32002,
 }
+
+export const rpcSuccessResponseMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  result: v.unknown(),
+  id: RpcIdSchema,
+});
+
+export const rpcErrorResponseMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  error: v.unknown(),
+  id: RpcIdSchema,
+});
+export const rpcResponseMessageSchema = v.union([
+  rpcSuccessResponseMessageSchema,
+  rpcErrorResponseMessageSchema,
+]);
 
 export interface RpcError {
   code: number | RpcErrorCode;
