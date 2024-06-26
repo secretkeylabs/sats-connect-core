@@ -189,20 +189,25 @@ export const getBalanceMethodName = 'getBalance';
 export const getBalanceParamsSchema = v.undefined();
 export const getBalanceResultSchema = v.object({
   /**
-   * The confirmed balance of the wallet in sats.
+   * The confirmed balance of the wallet in sats. Using a string due to chrome
+   * messages not supporting bigint
+   * (https://issues.chromium.org/issues/40116184).
    */
-  confirmed: v.bigint(),
+  confirmed: v.string(),
 
   /**
-   * The unconfirmed balance of the wallet in sats.
+   * The unconfirmed balance of the wallet in sats. Using a string due to chrome
+   * messages not supporting bigint
+   * (https://issues.chromium.org/issues/40116184).
    */
-  unconfirmed: v.bigint(),
+  unconfirmed: v.string(),
 
   /**
    * The total balance (both confirmed and unconfrimed UTXOs) of the wallet in
-   * sats.
+   * sats. Using a string due to chrome messages not supporting bigint
+   * (https://issues.chromium.org/issues/40116184).
    */
-  total: v.bigint(),
+  total: v.string(),
 });
 export const getBalanceRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,

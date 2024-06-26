@@ -4,7 +4,7 @@ import * as v from 'valibot';
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.undefined();
 export const connectResultSchema = v.literal(true);
-export const connectSchema = v.object({
+export const connectRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(connectMethodName),
@@ -20,7 +20,7 @@ export type Connect = MethodParamsAndResult<
 export const disconnectMethodName = 'wallet_disconnect';
 export const disconnectParamsSchema = v.undefined();
 export const disconnectResultSchema = v.literal(true);
-export const disconnectSchema = v.object({
+export const disconnectRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(disconnectMethodName),
