@@ -1,11 +1,8 @@
 import { getProviderById } from '../provider';
 import {
-  RpcBase,
-  RpcError,
   RpcErrorCode,
   RpcResult,
-  RpcSuccessResponse,
-  rpcResponseMessageSchema,
+  rpcErrorResponseMessageSchema,
   rpcSuccessResponseMessageSchema,
 } from '../types';
 import * as v from 'valibot';
@@ -29,29 +26,27 @@ export const request = async <Method extends keyof Requests>(
 
   const response = await provider.request(method, params);
 
-  const parseResult = v.safeParse(rpcResponseMessageSchema, response);
-
-  if (!parseResult.success) {
+  if (v.is(rpcErrorResponseMessageSchema, response)) {
     return {
       status: 'error',
-      error: {
-        code: RpcErrorCode.INTERNAL_ERROR,
-        message: 'Received unknown response from provider.',
-        data: response,
-      },
+      error: response.error,
     };
   }
 
-  const parsedResponse = parseResult.output;
-  if ('error' in parsedResponse) {
+  if (v.is(rpcSuccessResponseMessageSchema, response)) {
     return {
-      status: 'error',
-      error: parsedResponse.error as RpcError,
+      status: 'success',
+      result: response.result as Return<Method>,
     };
   }
+
   return {
-    status: 'success',
-    result: parsedResponse.result as Return<Method>,
+    status: 'error',
+    error: {
+      code: RpcErrorCode.INTERNAL_ERROR,
+      message: 'Received unknown response from provider.',
+      data: response,
+    },
   };
 };
 

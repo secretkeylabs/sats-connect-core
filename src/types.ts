@@ -103,19 +103,22 @@ export enum RpcErrorCode {
 
 export const rpcSuccessResponseMessageSchema = v.object({
   jsonrpc: v.literal('2.0'),
-  result: v.unknown(),
+  result: v.nonOptional(v.unknown()),
   id: RpcIdSchema,
 });
+export type RpcSuccessResponseMessage = v.InferOutput<typeof rpcSuccessResponseMessageSchema>;
 
 export const rpcErrorResponseMessageSchema = v.object({
   jsonrpc: v.literal('2.0'),
-  error: v.unknown(),
+  error: v.nonOptional(v.unknown()),
   id: RpcIdSchema,
 });
+export type RpcErrorResponseMessage = v.InferOutput<typeof rpcErrorResponseMessageSchema>;
 export const rpcResponseMessageSchema = v.union([
   rpcSuccessResponseMessageSchema,
   rpcErrorResponseMessageSchema,
 ]);
+export type RpcResponseMessage = v.InferOutput<typeof rpcResponseMessageSchema>;
 
 export interface RpcError {
   code: number | RpcErrorCode;
