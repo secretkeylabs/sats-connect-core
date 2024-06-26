@@ -204,7 +204,7 @@ export const getBalanceResultSchema = v.object({
    */
   total: v.bigint(),
 });
-export const getBalanceSchema = v.object({
+export const getBalanceRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(getBalanceMethodName),

@@ -80,3 +80,4 @@ export type Params<Method> = Method extends keyof Requests ? Requests[Method]['p
 export * from './stxMethods';
 export * from './btcMethods';
 export * from './walletMethods';
+export * from './runesMethods';

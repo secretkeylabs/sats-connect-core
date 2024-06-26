@@ -9,7 +9,8 @@ import {
   RBFOrderRequest,
   RBFOrderResponse,
 } from '../../runes/types';
-import { BitcoinNetworkType, MethodParamsAndResult } from '../../types';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import * as v from 'valibot';
 
 export interface EstimateRunesMintParams extends EstimateMintOrderRequest {
   network?: BitcoinNetworkType;
@@ -81,15 +82,28 @@ interface RbfOrderResult {
 
 export type RbfOrder = MethodParamsAndResult<RbfOrderParams, RbfOrderResult>;
 
-type GetRunesBalanceParams = null;
-interface GetRunesBalanceResult {
-  balances: {
-    runeName: string;
-    amount: string;
-    divisibility: number;
-    symbol: string;
-    inscriptionId: string | null;
-  }[];
-}
-
-export type GetRunesBalance = MethodParamsAndResult<GetRunesBalanceParams, GetRunesBalanceResult>;
+export const getRunesBalanceMethodName = 'getRunesBalance';
+export const getRunesBalanceParamsSchema = v.null();
+export const getRunesBalanceResultSchema = v.object({
+  balances: v.array(
+    v.object({
+      runeName: v.string(),
+      amount: v.string(),
+      divisibility: v.number(),
+      symbol: v.string(),
+      inscriptionId: v.nullish(v.string()),
+    })
+  ),
+});
+export const getRunesBalanceRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getRunesBalanceMethodName),
+    params: getRunesBalanceParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetRunesBalance = MethodParamsAndResult<
+  v.InferOutput<typeof getRunesBalanceParamsSchema>,
+  v.InferOutput<typeof getRunesBalanceResultSchema>
+>;
