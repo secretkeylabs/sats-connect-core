@@ -27,7 +27,7 @@ import {
   StxSignTransaction,
   StxTransferStx,
 } from './stxMethods';
-import { Connect, Disconnect } from './walletMethods';
+import { RequestPermissions, RenouncePermissions } from './walletMethods';
 
 export interface StxRequests {
   stx_callContract: StxCallContract;
@@ -68,8 +68,8 @@ export interface RunesRequests {
 export type RunesRequestMethod = keyof RunesRequests;
 
 export interface WalletMethods {
-  wallet_connect: Connect;
-  wallet_disconnect: Disconnect;
+  wallet_requestPermissions: RequestPermissions;
+  wallet_renouncePermissions: RenouncePermissions;
 }
 
 export type Requests = BtcRequests & StxRequests & RunesRequests & WalletMethods;
