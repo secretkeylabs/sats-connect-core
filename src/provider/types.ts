@@ -1,5 +1,6 @@
 import {
   BtcRequestMethod,
+  OrdinalsRequestMethod,
   Params,
   Requests,
   RunesRequestMethod,
@@ -46,7 +47,7 @@ export interface Provider {
   mozillaAddOnsUrl?: string;
   googlePlayStoreUrl?: string;
   iOSAppStoreUrl?: string;
-  methods?: (StxRequestMethod | BtcRequestMethod | RunesRequestMethod)[];
+  methods?: (StxRequestMethod | BtcRequestMethod | RunesRequestMethod | OrdinalsRequestMethod)[];
 }
 
 export interface SupportedWallet extends Provider {
