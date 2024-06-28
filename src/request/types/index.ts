@@ -7,6 +7,7 @@ import {
   SignMessage,
   SignPsbt,
 } from './btcMethods';
+import { GetInscriptions } from './ordinalsMethods';
 import {
   EstimateRbfOrder,
   EstimateRunesEtch,
@@ -67,12 +68,18 @@ export interface RunesRequests {
 
 export type RunesRequestMethod = keyof RunesRequests;
 
+export interface OrdinalsRequests {
+  ord_getInscriptions: GetInscriptions;
+}
+
+export type OrdinalsRequestMethod = keyof OrdinalsRequests;
+
 export interface WalletMethods {
   wallet_connect: Connect;
   wallet_disconnect: Disconnect;
 }
 
-export type Requests = BtcRequests & StxRequests & RunesRequests & WalletMethods;
+export type Requests = BtcRequests & StxRequests & RunesRequests & WalletMethods & OrdinalsRequests;
 
 export type Return<Method> = Method extends keyof Requests ? Requests[Method]['result'] : never;
 export type Params<Method> = Method extends keyof Requests ? Requests[Method]['params'] : never;
@@ -81,3 +88,4 @@ export * from './stxMethods';
 export * from './btcMethods';
 export * from './walletMethods';
 export * from './runesMethods';
+export * from './ordinalsMethods';
