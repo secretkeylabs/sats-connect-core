@@ -249,10 +249,10 @@ export type DeployContractResult = TxId & Transaction;
 export type StxDeployContract = MethodParamsAndResult<DeployContractParams, DeployContractResult>;
 
 // Types for `stx_getAccounts` request
-export type GetAccountsResult = {
+export type StxGetAccountsResult = {
   addresses: Array<Address & PublicKey & { gaiaHubUrl: string; gaiaAppKey: string }>;
 };
-export type StxGetAccounts = MethodParamsAndResult<{}, GetAccountsResult>;
+export type StxGetAccounts = MethodParamsAndResult<{}, StxGetAccountsResult>;
 
 export const stxGetAddressesMethodName = 'stx_getAddresses';
 export const stxGetAddressesParamsSchema = v.nullish(
@@ -263,12 +263,14 @@ export const stxGetAddressesParamsSchema = v.nullish(
     message: v.optional(v.string()),
   })
 );
+export type StxGetAddressesParams = v.InferOutput<typeof stxGetAddressesParamsSchema>;
 export const stxGetAddressesResultSchema = v.object({
   /**
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
 });
+export type StxGetAddressesResult = v.InferOutput<typeof stxGetAddressesResultSchema>;
 export const stxGetAddressesRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -277,6 +279,9 @@ export const stxGetAddressesRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type StxGetAddressesRequestMessage = v.InferOutput<
+  typeof stxGetAddressesRequestMessageSchema
+>;
 export type StxGetAddresses = MethodParamsAndResult<
   v.InferOutput<typeof stxGetAddressesParamsSchema>,
   v.InferOutput<typeof stxGetAddressesResultSchema>

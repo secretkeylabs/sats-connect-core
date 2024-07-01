@@ -83,7 +83,8 @@ interface RbfOrderResult {
 export type RbfOrder = MethodParamsAndResult<RbfOrderParams, RbfOrderResult>;
 
 export const getRunesBalanceMethodName = 'runes_getBalance';
-export const getRunesBalanceParamsSchema = v.null();
+export const getRunesBalanceParamsSchema = v.nullish(v.null());
+export type GetRunesBalanceParams = v.InferOutput<typeof getRunesBalanceParamsSchema>;
 export const getRunesBalanceResultSchema = v.object({
   balances: v.array(
     v.object({
@@ -95,6 +96,7 @@ export const getRunesBalanceResultSchema = v.object({
     })
   ),
 });
+export type GetRunesBalanceResult = v.InferOutput<typeof getRunesBalanceResultSchema>;
 export const getRunesBalanceRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -103,6 +105,9 @@ export const getRunesBalanceRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type GetRunesBalanceRequestMessage = v.InferOutput<
+  typeof getRunesBalanceRequestMessageSchema
+>;
 export type GetRunesBalance = MethodParamsAndResult<
   v.InferOutput<typeof getRunesBalanceParamsSchema>,
   v.InferOutput<typeof getRunesBalanceResultSchema>

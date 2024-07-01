@@ -7,7 +7,8 @@ import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 
 export const getInfoMethodName = 'getInfo';
-export const getInfoParamsSchema = v.null();
+export const getInfoParamsSchema = v.nullish(v.null());
+export type GetInfoParams = v.InferOutput<typeof getInfoParamsSchema>;
 export const getInfoResultSchema = v.object({
   /**
    * Version of the wallet.
@@ -24,7 +25,8 @@ export const getInfoResultSchema = v.object({
    */
   supports: v.array(v.string()),
 });
-export const getInfoSchema = v.object({
+export type GetInfoResult = v.InferOutput<typeof getInfoResultSchema>;
+export const getInfoRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(getInfoMethodName),
@@ -32,6 +34,7 @@ export const getInfoSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type GetInfoRequestMessage = v.InferOutput<typeof getInfoRequestMessageSchema>;
 export type GetInfo = MethodParamsAndResult<
   v.InferOutput<typeof getInfoParamsSchema>,
   v.InferOutput<typeof getInfoResultSchema>
@@ -49,12 +52,14 @@ export const getAddressesParamsSchema = v.object({
    */
   message: v.optional(v.string()),
 });
+export type GetAddressesParams = v.InferOutput<typeof getAddressesParamsSchema>;
 export const getAddressesResultSchema = v.object({
   /**
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
 });
+export type GetAddressesResult = v.InferOutput<typeof getAddressesResultSchema>;
 export const getAddressesRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -63,6 +68,7 @@ export const getAddressesRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type GetAddressesRequestMessage = v.InferOutput<typeof getAddressesRequestMessageSchema>;
 export type GetAddresses = MethodParamsAndResult<
   v.InferOutput<typeof getAddressesParamsSchema>,
   v.InferOutput<typeof getAddressesResultSchema>
@@ -79,6 +85,7 @@ export const signMessageParamsSchema = v.object({
    **/
   message: v.string(),
 });
+export type SignMessageParams = v.InferOutput<typeof signMessageParamsSchema>;
 export const signMessageResultSchema = v.object({
   /**
    * The signature of the message.
@@ -93,6 +100,7 @@ export const signMessageResultSchema = v.object({
    */
   address: v.string(),
 });
+export type SignMessageResult = v.InferOutput<typeof signMessageResultSchema>;
 export const signMessageRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -101,6 +109,7 @@ export const signMessageRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type SignMessageRequestMessage = v.InferOutput<typeof signMessageRequestMessageSchema>;
 export type SignMessage = MethodParamsAndResult<
   v.InferOutput<typeof signMessageParamsSchema>,
   v.InferOutput<typeof signMessageResultSchema>
@@ -170,7 +179,9 @@ export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
 export const getAccountsMethodName = 'getAccounts';
 export const getAccountsParamsSchema = getAddressesParamsSchema;
+export type GetAccountsParams = v.InferOutput<typeof getAccountsParamsSchema>;
 export const getAccountsResultSchema = v.array(addressSchema);
+export type GetAccountsResult = v.InferOutput<typeof getAccountsResultSchema>;
 export const getAccountsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -179,6 +190,7 @@ export const getAccountsRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type GetAccountsRequestMessage = v.InferOutput<typeof getAccountsRequestMessageSchema>;
 export type GetAccounts = MethodParamsAndResult<
   v.InferOutput<typeof getAccountsParamsSchema>,
   v.InferOutput<typeof getAccountsResultSchema>
@@ -186,7 +198,7 @@ export type GetAccounts = MethodParamsAndResult<
 
 // Get the balance of the current Bitcoin account.
 export const getBalanceMethodName = 'getBalance';
-export const getBalanceParamsSchema = v.undefined();
+export const getBalanceParamsSchema = v.nullish(v.null());
 export const getBalanceResultSchema = v.object({
   /**
    * The confirmed balance of the wallet in sats. Using a string due to chrome
