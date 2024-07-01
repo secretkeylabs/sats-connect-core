@@ -26,7 +26,6 @@ import {
   StxSignTransaction,
   StxTransferStx,
 } from './stxMethods';
-import { Connect, Disconnect } from './walletMethods';
 
 export interface StxRequests {
   stx_callContract: StxCallContract;
@@ -65,16 +64,10 @@ export interface RunesRequests {
 
 export type RunesRequestMethod = keyof RunesRequests;
 
-export interface WalletMethods {
-  wallet_connect: Connect;
-  wallet_disconnect: Disconnect;
-}
-
-export type Requests = BtcRequests & StxRequests & RunesRequests & WalletMethods;
+export type Requests = BtcRequests & StxRequests & RunesRequests;
 
 export type Return<Method> = Method extends keyof Requests ? Requests[Method]['result'] : never;
 export type Params<Method> = Method extends keyof Requests ? Requests[Method]['params'] : never;
 
 export * from './stxMethods';
 export * from './btcMethods';
-export * from './walletMethods';
