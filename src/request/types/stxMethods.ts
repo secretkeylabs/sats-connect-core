@@ -255,12 +255,14 @@ export type GetAccountsResult = {
 export type StxGetAccounts = MethodParamsAndResult<{}, GetAccountsResult>;
 
 export const stxGetAddressesMethodName = 'stx_getAddresses';
-export const stxGetAddressesParamsSchema = v.object({
-  /**
-   * A message to be displayed to the user in the request prompt.
-   */
-  message: v.optional(v.string()),
-});
+export const stxGetAddressesParamsSchema = v.nullish(
+  v.object({
+    /**
+     * A message to be displayed to the user in the request prompt.
+     */
+    message: v.optional(v.string()),
+  })
+);
 export const stxGetAddressesResultSchema = v.object({
   /**
    * The addresses generated for the given purposes.
