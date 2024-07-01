@@ -7,6 +7,16 @@ abstract class SatsConnectAdapter {
 
   private async mintRunes(params: Params<'runes_mint'>): Promise<RpcResult<'runes_mint'>> {
     try {
+      const walletInfo = await this.requestInternal('getInfo', null).catch(() => null);
+      if (walletInfo && walletInfo.status === 'success') {
+        const isMintSupported = walletInfo.result.methods?.includes('runes_mint');
+        if (isMintSupported) {
+          const response = await this.requestInternal('runes_mint', params);
+          if (response) {
+            return response;
+          }
+        }
+      }
       const mintRequest: Omit<Params<'runes_mint'>, 'network'> = {
         destinationAddress: params.destinationAddress,
         feeRate: params.feeRate,
@@ -80,6 +90,16 @@ abstract class SatsConnectAdapter {
       appServiceFeeAddress: params.appServiceFeeAddress,
     };
     try {
+      const walletInfo = await this.requestInternal('getInfo', null).catch(() => null);
+      if (walletInfo && walletInfo.status === 'success') {
+        const isEtchSupported = walletInfo.result.methods?.includes('runes_etch');
+        if (isEtchSupported) {
+          const response = await this.requestInternal('runes_etch', params);
+          if (response) {
+            return response;
+          }
+        }
+      }
       const orderResponse = await new RunesApi(params.network).createEtchOrder(etchRequest);
       if (!orderResponse.data) {
         return {
