@@ -1,4 +1,3 @@
-import * as v from 'valibot';
 import type { RequestOptions, RequestPayload } from '../types';
 
 export enum AddressPurpose {
@@ -21,13 +20,12 @@ export enum AddressType {
   stacks = 'stacks',
 }
 
-export const addressSchema = v.object({
-  address: v.string(),
-  publicKey: v.string(),
-  purpose: v.enum(AddressPurpose),
-  addressType: v.enum(AddressType),
-});
-export type Address = v.InferOutput<typeof addressSchema>;
+export interface Address {
+  address: string;
+  publicKey: string;
+  purpose?: AddressPurpose;
+  addressType?: AddressType;
+}
 
 export interface GetAddressResponse {
   addresses: Address[];

@@ -1,4 +1,3 @@
-import * as v from 'valibot';
 import type { BitcoinProvider } from './provider';
 import { Requests, Return } from './request';
 
@@ -25,25 +24,6 @@ export interface RequestOptions<Payload extends RequestPayload, Response> {
 }
 
 // RPC Request and Response types
-
-export const rpcRequestMessageSchema = v.object({
-  jsonrpc: v.literal('2.0'),
-  method: v.string(),
-  params: v.optional(
-    v.union([
-      v.array(v.unknown()),
-      v.looseObject({}),
-      // Note: This is to support current incorrect usage of RPC 2.0. Params need
-      // to be either an array or an object when provided. Changing this now would
-      // be a breaking change, so accepting null values for now. Tracking in
-      // https://linear.app/xverseapp/issue/ENG-4538.
-      v.null(),
-    ])
-  ),
-  id: v.optional(v.union([v.string(), v.number(), v.null()])),
-});
-
-export type RpcRequestMessage = v.InferOutput<typeof rpcRequestMessageSchema>;
 
 export type RpcId = string | null;
 
