@@ -1,34 +1,34 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 
-export const connectMethodName = 'wallet_connect';
-export const connectParamsSchema = v.undefined();
-export const connectResultSchema = v.undefined();
-export const connectSchema = v.object({
+export const requestPermissionsMethodName = 'wallet_requestPermissions';
+export const requestPermissionsParamsSchema = v.undefined();
+export const requestPermissionsResultSchema = v.literal(true);
+export const requestPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(connectMethodName),
-    params: connectParamsSchema,
+    method: v.literal(requestPermissionsMethodName),
+    params: requestPermissionsParamsSchema,
     id: v.string(),
   }).entries,
 });
-export type Connect = MethodParamsAndResult<
-  v.InferOutput<typeof connectParamsSchema>,
-  v.InferOutput<typeof connectResultSchema>
+export type RequestPermissions = MethodParamsAndResult<
+  v.InferOutput<typeof requestPermissionsParamsSchema>,
+  v.InferOutput<typeof requestPermissionsResultSchema>
 >;
 
-export const disconnectMethodName = 'wallet_disconnect';
-export const disconnectParamsSchema = v.undefined();
-export const disconnectResultSchema = v.undefined();
-export const disconnectSchema = v.object({
+export const renouncePermissionsMethodName = 'wallet_renouncePermissions';
+export const renouncePermissionsParamsSchema = v.undefined();
+export const renouncePermissionsResultSchema = v.literal(true);
+export const renouncePermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(disconnectMethodName),
-    params: disconnectParamsSchema,
+    method: v.literal(renouncePermissionsMethodName),
+    params: renouncePermissionsParamsSchema,
     id: v.string(),
   }).entries,
 });
-export type Disconnect = MethodParamsAndResult<
-  v.InferOutput<typeof disconnectParamsSchema>,
-  v.InferOutput<typeof disconnectResultSchema>
+export type RenouncePermissions = MethodParamsAndResult<
+  v.InferOutput<typeof renouncePermissionsParamsSchema>,
+  v.InferOutput<typeof renouncePermissionsResultSchema>
 >;

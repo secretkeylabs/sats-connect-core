@@ -26,6 +26,8 @@ export interface RequestOptions<Payload extends RequestPayload, Response> {
 
 // RPC Request and Response types
 
+export const RpcIdSchema = v.optional(v.union([v.string(), v.number(), v.null()]));
+export type RpcId = v.InferOutput<typeof RpcIdSchema>;
 export const rpcRequestMessageSchema = v.object({
   jsonrpc: v.literal('2.0'),
   method: v.string(),
@@ -40,12 +42,9 @@ export const rpcRequestMessageSchema = v.object({
       v.null(),
     ])
   ),
-  id: v.optional(v.union([v.string(), v.number(), v.null()])),
+  id: RpcIdSchema,
 });
-
 export type RpcRequestMessage = v.InferOutput<typeof rpcRequestMessageSchema>;
-
-export type RpcId = string | null;
 
 export interface RpcBase {
   jsonrpc: '2.0';
@@ -96,7 +95,30 @@ export enum RpcErrorCode {
    * method is not supported for the address provided
    */
   METHOD_NOT_SUPPORTED = -32001,
+  /**
+   * The client does not have permission to access the requested resource.
+   */
+  ACCESS_DENIED = -32002,
 }
+
+export const rpcSuccessResponseMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  result: v.nonOptional(v.unknown()),
+  id: RpcIdSchema,
+});
+export type RpcSuccessResponseMessage = v.InferOutput<typeof rpcSuccessResponseMessageSchema>;
+
+export const rpcErrorResponseMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  error: v.nonOptional(v.unknown()),
+  id: RpcIdSchema,
+});
+export type RpcErrorResponseMessage = v.InferOutput<typeof rpcErrorResponseMessageSchema>;
+export const rpcResponseMessageSchema = v.union([
+  rpcSuccessResponseMessageSchema,
+  rpcErrorResponseMessageSchema,
+]);
+export type RpcResponseMessage = v.InferOutput<typeof rpcResponseMessageSchema>;
 
 export interface RpcError {
   code: number | RpcErrorCode;

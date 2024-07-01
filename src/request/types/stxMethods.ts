@@ -1,4 +1,6 @@
-import { MethodParamsAndResult } from '../../types';
+import { addressSchema } from 'src/addresses';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import * as v from 'valibot';
 
 interface Pubkey {
   /**
@@ -247,17 +249,43 @@ export type DeployContractResult = TxId & Transaction;
 export type StxDeployContract = MethodParamsAndResult<DeployContractParams, DeployContractResult>;
 
 // Types for `stx_getAccounts` request
-export type GetAccountsResult = {
+export type StxGetAccountsResult = {
   addresses: Array<Address & PublicKey & { gaiaHubUrl: string; gaiaAppKey: string }>;
 };
-export type StxGetAccounts = MethodParamsAndResult<{}, GetAccountsResult>;
+export type StxGetAccounts = MethodParamsAndResult<{}, StxGetAccountsResult>;
 
-// Types for `stx_getAddresses` request
-export type GetAddressesParams = undefined | null;
-export type GetAddressesResult = {
-  addresses: Array<Address & PublicKey>;
-};
-export type StxGetAddresses = MethodParamsAndResult<GetAddressesParams, GetAddressesResult>;
+export const stxGetAddressesMethodName = 'stx_getAddresses';
+export const stxGetAddressesParamsSchema = v.nullish(
+  v.object({
+    /**
+     * A message to be displayed to the user in the request prompt.
+     */
+    message: v.optional(v.string()),
+  })
+);
+export type StxGetAddressesParams = v.InferOutput<typeof stxGetAddressesParamsSchema>;
+export const stxGetAddressesResultSchema = v.object({
+  /**
+   * The addresses generated for the given purposes.
+   */
+  addresses: v.array(addressSchema),
+});
+export type StxGetAddressesResult = v.InferOutput<typeof stxGetAddressesResultSchema>;
+export const stxGetAddressesRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(stxGetAddressesMethodName),
+    params: stxGetAddressesParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type StxGetAddressesRequestMessage = v.InferOutput<
+  typeof stxGetAddressesRequestMessageSchema
+>;
+export type StxGetAddresses = MethodParamsAndResult<
+  v.InferOutput<typeof stxGetAddressesParamsSchema>,
+  v.InferOutput<typeof stxGetAddressesResultSchema>
+>;
 
 // Types for `stx_signTransaction` request
 export type SignTransactionParams = Transaction & Partial<Pubkey>;

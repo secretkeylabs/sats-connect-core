@@ -11,6 +11,7 @@
     "test": "jest",
     "build-debug": "webpack --mode development",
     "build": "npm run clean && tsup src/index.ts --format esm --dts",
+    "build:watch": "npm run clean && tsup src/index.ts --format esm --dts --watch",
     "clean": "rimraf dist",
     "lint": "prettier --write .",
     "prepare": "husky install"

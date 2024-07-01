@@ -1,6 +1,12 @@
 import { getProviderById } from '../provider';
-import { RpcBase, RpcResult, RpcSuccessResponse } from '../types';
-import { Params, Requests } from './types';
+import {
+  RpcErrorCode,
+  RpcResult,
+  rpcErrorResponseMessageSchema,
+  rpcSuccessResponseMessageSchema,
+} from '../types';
+import * as v from 'valibot';
+import { Params, Requests, Return } from './types';
 
 export const request = async <Method extends keyof Requests>(
   method: Method,
@@ -20,23 +26,28 @@ export const request = async <Method extends keyof Requests>(
 
   const response = await provider.request(method, params);
 
-  if (isRpcSuccessResponse<Method>(response)) {
+  if (v.is(rpcErrorResponseMessageSchema, response)) {
+    return {
+      status: 'error',
+      error: response.error,
+    };
+  }
+
+  if (v.is(rpcSuccessResponseMessageSchema, response)) {
     return {
       status: 'success',
-      result: response.result,
+      result: response.result as Return<Method>,
     };
   }
 
   return {
     status: 'error',
-    error: response.error,
+    error: {
+      code: RpcErrorCode.INTERNAL_ERROR,
+      message: 'Received unknown response from provider.',
+      data: response,
+    },
   };
-};
-
-const isRpcSuccessResponse = <Method extends keyof Requests>(
-  response: RpcBase
-): response is RpcSuccessResponse<Method> => {
-  return Object.hasOwn(response, 'result') && !!(response as RpcSuccessResponse<Method>).result;
 };
 
 export * from './types';
