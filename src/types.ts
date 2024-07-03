@@ -1,3 +1,4 @@
+import * as v from 'valibot';
 import type { BitcoinProvider } from './provider';
 import { Requests, Return } from './request';
 
@@ -25,7 +26,25 @@ export interface RequestOptions<Payload extends RequestPayload, Response> {
 
 // RPC Request and Response types
 
-export type RpcId = string | null;
+export const RpcIdSchema = v.optional(v.union([v.string(), v.number(), v.null()]));
+export type RpcId = v.InferOutput<typeof RpcIdSchema>;
+export const rpcRequestMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  method: v.string(),
+  params: v.optional(
+    v.union([
+      v.array(v.unknown()),
+      v.looseObject({}),
+      // Note: This is to support current incorrect usage of RPC 2.0. Params need
+      // to be either an array or an object when provided. Changing this now would
+      // be a breaking change, so accepting null values for now. Tracking in
+      // https://linear.app/xverseapp/issue/ENG-4538.
+      v.null(),
+    ])
+  ),
+  id: RpcIdSchema,
+});
+export type RpcRequestMessage = v.InferOutput<typeof rpcRequestMessageSchema>;
 
 export interface RpcBase {
   jsonrpc: '2.0';
@@ -76,7 +95,30 @@ export enum RpcErrorCode {
    * method is not supported for the address provided
    */
   METHOD_NOT_SUPPORTED = -32001,
+  /**
+   * The client does not have permission to access the requested resource.
+   */
+  ACCESS_DENIED = -32002,
 }
+
+export const rpcSuccessResponseMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  result: v.nonOptional(v.unknown()),
+  id: RpcIdSchema,
+});
+export type RpcSuccessResponseMessage = v.InferOutput<typeof rpcSuccessResponseMessageSchema>;
+
+export const rpcErrorResponseMessageSchema = v.object({
+  jsonrpc: v.literal('2.0'),
+  error: v.nonOptional(v.unknown()),
+  id: RpcIdSchema,
+});
+export type RpcErrorResponseMessage = v.InferOutput<typeof rpcErrorResponseMessageSchema>;
+export const rpcResponseMessageSchema = v.union([
+  rpcSuccessResponseMessageSchema,
+  rpcErrorResponseMessageSchema,
+]);
+export type RpcResponseMessage = v.InferOutput<typeof rpcResponseMessageSchema>;
 
 export interface RpcError {
   code: number | RpcErrorCode;
