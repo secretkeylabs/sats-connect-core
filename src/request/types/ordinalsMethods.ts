@@ -7,6 +7,9 @@ export const getInscriptionsParamsSchema = v.object({
   limit: v.number(),
 });
 export const getInscriptionsResultSchema = v.object({
+  total: v.number(),
+  limit: v.number(),
+  offset: v.number(),
   inscriptions: v.array(
     v.object({
       inscriptionId: v.string(),
