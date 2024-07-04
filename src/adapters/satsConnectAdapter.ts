@@ -13,7 +13,15 @@ abstract class SatsConnectAdapter {
         if (isMintSupported) {
           const response = await this.requestInternal('runes_mint', params);
           if (response) {
-            return response;
+            if (response.status === 'success') {
+              return response;
+            }
+            if (
+              response.status === 'error' &&
+              response.error.code !== RpcErrorCode.METHOD_NOT_SUPPORTED
+            ) {
+              return response;
+            }
           }
         }
       }
