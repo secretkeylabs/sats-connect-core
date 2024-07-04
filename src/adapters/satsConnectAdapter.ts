@@ -18,7 +18,7 @@ abstract class SatsConnectAdapter {
             }
             if (
               response.status === 'error' &&
-              response.error.code !== RpcErrorCode.METHOD_NOT_SUPPORTED
+              response.error.code !== RpcErrorCode.METHOD_NOT_FOUND
             ) {
               return response;
             }
@@ -109,7 +109,7 @@ abstract class SatsConnectAdapter {
             }
             if (
               response.status === 'error' &&
-              response.error.code !== RpcErrorCode.METHOD_NOT_SUPPORTED
+              response.error.code !== RpcErrorCode.METHOD_NOT_FOUND
             ) {
               return response;
             }
