@@ -178,7 +178,21 @@ export type SignPsbtResult = {
 export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
 export const getAccountsMethodName = 'getAccounts';
-export const getAccountsParamsSchema = getAddressesParamsSchema;
+export const getAccountsParamsSchema = v.object({
+  /**
+   * The purposes for which to generate addresses. See
+   * {@linkcode AddressPurpose} for available purposes.
+   */
+  purposes: v.array(v.enum(AddressPurpose)),
+  /**
+   * A message to be displayed to the user in the request prompt.
+   */
+  message: v.optional(v.string()),
+  /**
+   * Includes wallet type (software / ledger) info in the response.
+   */
+  includeWalletType: v.optional(v.boolean()),
+});
 export type GetAccountsParams = v.InferOutput<typeof getAccountsParamsSchema>;
 export const getAccountsResultSchema = v.array(addressSchema);
 export type GetAccountsResult = v.InferOutput<typeof getAccountsResultSchema>;
