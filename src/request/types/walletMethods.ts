@@ -1,5 +1,6 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
+import { walletTypeSchema } from './common';
 
 export const requestPermissionsMethodName = 'wallet_requestPermissions';
 export const requestPermissionsParamsSchema = v.undefined();
@@ -31,4 +32,20 @@ export const renouncePermissionsRequestMessageSchema = v.object({
 export type RenouncePermissions = MethodParamsAndResult<
   v.InferOutput<typeof renouncePermissionsParamsSchema>,
   v.InferOutput<typeof renouncePermissionsResultSchema>
+>;
+
+// Get the wallet type of the current account
+export const getWalletTypeMethodName = 'wallet_getWalletType';
+export const getWalletTypeParamsSchema = v.nullish(v.null());
+export const getWalletTypeResultSchema = walletTypeSchema;
+export const getWalletTypeRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getWalletTypeMethodName),
+    id: v.string(),
+  }).entries,
+});
+export type GetWalletType = MethodParamsAndResult<
+  v.InferOutput<typeof getWalletTypeParamsSchema>,
+  v.InferOutput<typeof getWalletTypeResultSchema>
 >;

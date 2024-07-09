@@ -5,6 +5,7 @@
 import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
+import { walletTypeSchema } from './common';
 
 export const getInfoMethodName = 'getInfo';
 export const getInfoParamsSchema = v.nullish(v.null());
@@ -188,13 +189,17 @@ export const getAccountsParamsSchema = v.object({
    * A message to be displayed to the user in the request prompt.
    */
   message: v.optional(v.string()),
-  /**
-   * Includes wallet type (software / ledger) info in the response.
-   */
-  includeWalletType: v.optional(v.boolean()),
 });
 export type GetAccountsParams = v.InferOutput<typeof getAccountsParamsSchema>;
-export const getAccountsResultSchema = v.array(addressSchema);
+
+export const getAccountsResultSchema = v.array(
+  v.object({
+    ...addressSchema.entries,
+    ...v.object({
+      walletType: walletTypeSchema,
+    }).entries,
+  })
+);
 export type GetAccountsResult = v.InferOutput<typeof getAccountsResultSchema>;
 export const getAccountsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
