@@ -215,7 +215,6 @@ export type GetAccounts = MethodParamsAndResult<
   v.InferOutput<typeof getAccountsResultSchema>
 >;
 
-// Get the balance of the current Bitcoin account.
 export const getBalanceMethodName = 'getBalance';
 export const getBalanceParamsSchema = v.nullish(v.null());
 export const getBalanceResultSchema = v.object({

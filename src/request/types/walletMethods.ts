@@ -34,7 +34,6 @@ export type RenouncePermissions = MethodParamsAndResult<
   v.InferOutput<typeof renouncePermissionsResultSchema>
 >;
 
-// Get the wallet type of the current account
 export const getWalletTypeMethodName = 'wallet_getWalletType';
 export const getWalletTypeParamsSchema = v.nullish(v.null());
 export const getWalletTypeResultSchema = walletTypeSchema;
