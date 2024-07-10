@@ -75,6 +75,12 @@ export type GetAddresses = MethodParamsAndResult<
 >;
 
 export const signMessageMethodName = 'signMessage';
+
+export enum MessageSigningProtocols {
+  ECDSA = 'ECDSA',
+  BIP322 = 'BIP322',
+}
+
 export const signMessageParamsSchema = v.object({
   /**
    * The address used for signing.
@@ -84,6 +90,10 @@ export const signMessageParamsSchema = v.object({
    * The message to sign.
    **/
   message: v.string(),
+  /**
+   * The protocol to use for signing the message.
+   */
+  protocol: v.optional(v.enum(MessageSigningProtocols)),
 });
 export type SignMessageParams = v.InferOutput<typeof signMessageParamsSchema>;
 export const signMessageResultSchema = v.object({
@@ -99,6 +109,10 @@ export const signMessageResultSchema = v.object({
    * The address used for signing.
    */
   address: v.string(),
+  /**
+   * The protocol to use for signing the message.
+   */
+  protocol: v.enum(MessageSigningProtocols),
 });
 export type SignMessageResult = v.InferOutput<typeof signMessageResultSchema>;
 export const signMessageRequestMessageSchema = v.object({
