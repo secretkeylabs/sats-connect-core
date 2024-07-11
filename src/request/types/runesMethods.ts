@@ -113,15 +113,21 @@ export type GetRunesBalance = MethodParamsAndResult<
   v.InferOutput<typeof getRunesBalanceResultSchema>
 >;
 
-export type TransferRunesParams = {
-  recipients: {
-    runeName: string;
-    amount: string;
-    address: string;
-  }[];
-};
-interface TransferRunesResult {
-  txid: string;
-}
+export const RuneTransferRecipientsSchema = v.array(
+  v.object({
+    runeName: v.string(),
+    amount: v.string(),
+    address: v.string(),
+  })
+);
+export const TransferRunesMethodName = 'runes_transfer';
+export const TransferRunesParamsSchema = v.object({
+  recipients: RuneTransferRecipientsSchema,
+});
+export type TransferRunesParams = v.InferOutput<typeof TransferRunesParamsSchema>;
+export const TransferRunesResultSchema = v.object({
+  txid: v.string(),
+});
+export type TransferRunesResult = v.InferOutput<typeof TransferRunesResultSchema>;
 
 export type TransferRunes = MethodParamsAndResult<TransferRunesParams, TransferRunesResult>;
