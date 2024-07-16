@@ -1,5 +1,5 @@
 import type * as BtcMethods from './btcMethods';
-import { GetInscriptions } from './ordinalsMethods';
+import { GetInscriptions, SendInscriptions } from './ordinalsMethods';
 import type * as RunesMethods from './runesMethods';
 import type * as StxMethods from './stxMethods';
 import type * as WalletMethods from './walletMethods';
@@ -44,6 +44,7 @@ export type RunesRequestMethod = keyof RunesRequests;
 
 export interface OrdinalsRequests {
   ord_getInscriptions: GetInscriptions;
+  ord_sendInscriptions: SendInscriptions;
 }
 
 export type OrdinalsRequestMethod = keyof OrdinalsRequests;
