@@ -2,7 +2,7 @@ import type * as BtcMethods from './btcMethods';
 import { GetInscriptions } from './ordinalsMethods';
 import type * as RunesMethods from './runesMethods';
 import type * as StxMethods from './stxMethods';
-import { RequestPermissions, RenouncePermissions } from './walletMethods';
+import type * as WalletMethods from './walletMethods';
 
 export interface StxRequests {
   stx_callContract: StxMethods.StxCallContract;
@@ -48,12 +48,17 @@ export interface OrdinalsRequests {
 
 export type OrdinalsRequestMethod = keyof OrdinalsRequests;
 
-export interface WalletMethods {
-  wallet_requestPermissions: RequestPermissions;
-  wallet_renouncePermissions: RenouncePermissions;
+export interface WalletRequests {
+  wallet_requestPermissions: WalletMethods.RequestPermissions;
+  wallet_renouncePermissions: WalletMethods.RenouncePermissions;
+  wallet_getWalletType: WalletMethods.GetWalletType;
 }
 
-export type Requests = BtcRequests & StxRequests & RunesRequests & WalletMethods & OrdinalsRequests;
+export type Requests = BtcRequests &
+  StxRequests &
+  RunesRequests &
+  WalletRequests &
+  OrdinalsRequests;
 
 export type Return<Method> = Method extends keyof Requests ? Requests[Method]['result'] : never;
 export type Params<Method> = Method extends keyof Requests ? Requests[Method]['params'] : never;
@@ -63,3 +68,4 @@ export * from './btcMethods';
 export * from './walletMethods';
 export * from './runesMethods';
 export * from './ordinalsMethods';
+export * from './common';

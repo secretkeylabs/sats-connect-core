@@ -5,6 +5,7 @@
 import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
+import { walletTypeSchema } from './common';
 
 export const getInfoMethodName = 'getInfo';
 export const getInfoParamsSchema = v.nullish(v.null());
@@ -192,9 +193,27 @@ export type SignPsbtResult = {
 export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
 export const getAccountsMethodName = 'getAccounts';
-export const getAccountsParamsSchema = getAddressesParamsSchema;
+export const getAccountsParamsSchema = v.object({
+  /**
+   * The purposes for which to generate addresses. See
+   * {@linkcode AddressPurpose} for available purposes.
+   */
+  purposes: v.array(v.enum(AddressPurpose)),
+  /**
+   * A message to be displayed to the user in the request prompt.
+   */
+  message: v.optional(v.string()),
+});
 export type GetAccountsParams = v.InferOutput<typeof getAccountsParamsSchema>;
-export const getAccountsResultSchema = v.array(addressSchema);
+
+export const getAccountsResultSchema = v.array(
+  v.object({
+    ...addressSchema.entries,
+    ...v.object({
+      walletType: walletTypeSchema,
+    }).entries,
+  })
+);
 export type GetAccountsResult = v.InferOutput<typeof getAccountsResultSchema>;
 export const getAccountsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
@@ -210,7 +229,6 @@ export type GetAccounts = MethodParamsAndResult<
   v.InferOutput<typeof getAccountsResultSchema>
 >;
 
-// Get the balance of the current Bitcoin account.
 export const getBalanceMethodName = 'getBalance';
 export const getBalanceParamsSchema = v.nullish(v.null());
 export const getBalanceResultSchema = v.object({
