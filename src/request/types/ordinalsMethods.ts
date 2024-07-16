@@ -55,7 +55,7 @@ export const SendInscriptionsResultSchema = v.object({
 export const SendInscriptionsSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(getInscriptionsMethodName),
+    method: v.literal(SendInscriptionsMethodName),
     params: SendInscriptionsParamsSchema,
     id: v.string(),
   }).entries,
