@@ -40,8 +40,8 @@ export type GetInscriptions = MethodParamsAndResult<
   v.InferOutput<typeof getInscriptionsResultSchema>
 >;
 
-export const SendInscriptionsMethodName = 'ord_sendInscriptions';
-export const SendInscriptionsParamsSchema = v.object({
+export const sendInscriptionsMethodName = 'ord_sendInscriptions';
+export const sendInscriptionsParamsSchema = v.object({
   transfers: v.array(
     v.object({
       address: v.string(),
@@ -49,19 +49,19 @@ export const SendInscriptionsParamsSchema = v.object({
     })
   ),
 });
-export const SendInscriptionsResultSchema = v.object({
+export const sendInscriptionsResultSchema = v.object({
   txid: v.string(),
 });
-export const SendInscriptionsSchema = v.object({
+export const sendInscriptionsSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(SendInscriptionsMethodName),
-    params: SendInscriptionsParamsSchema,
+    method: v.literal(sendInscriptionsMethodName),
+    params: sendInscriptionsParamsSchema,
     id: v.string(),
   }).entries,
 });
 
 export type SendInscriptions = MethodParamsAndResult<
-  v.InferOutput<typeof SendInscriptionsParamsSchema>,
-  v.InferOutput<typeof SendInscriptionsResultSchema>
+  v.InferOutput<typeof sendInscriptionsParamsSchema>,
+  v.InferOutput<typeof sendInscriptionsResultSchema>
 >;
