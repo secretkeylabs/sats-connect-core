@@ -113,18 +113,27 @@ export type GetRunesBalance = MethodParamsAndResult<
   v.InferOutput<typeof getRunesBalanceResultSchema>
 >;
 
-export const RuneTransferRecipientsSchema = v.array(
-  v.object({
-    runeName: v.string(),
-    amount: v.string(),
-    address: v.string(),
-  })
-);
-export const TransferRunesMethodName = 'runes_transfer';
-export const TransferRunesParamsSchema = v.object({
-  recipients: RuneTransferRecipientsSchema,
+export const transferRunesMethodName = 'runes_transfer';
+export const transferRunesParamsSchema = v.object({
+  recipients: v.array(
+    v.object({
+      runeName: v.string(),
+      amount: v.string(),
+      address: v.string(),
+    })
+  ),
 });
-export type TransferRunesParams = v.InferOutput<typeof TransferRunesParamsSchema>;
+
+export const transferRunesSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(transferRunesMethodName),
+    params: transferRunesParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+
+export type TransferRunesParams = v.InferOutput<typeof transferRunesParamsSchema>;
 export const TransferRunesResultSchema = v.object({
   txid: v.string(),
 });
