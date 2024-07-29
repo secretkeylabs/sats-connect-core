@@ -1,6 +1,7 @@
 import { getRunesApiClient, RunesApi } from '../runes/api';
 import { Params, Requests } from '../request';
 import { RpcErrorCode, RpcResult } from '../types';
+import { AddListener } from 'src/provider';
 
 abstract class SatsConnectAdapter {
   abstract readonly id: string;
@@ -357,6 +358,8 @@ abstract class SatsConnectAdapter {
         return this.requestInternal(method, params);
     }
   }
+
+  abstract addListener: AddListener;
 
   protected abstract requestInternal<Method extends keyof Requests>(
     method: Method,
