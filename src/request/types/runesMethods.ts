@@ -123,8 +123,9 @@ export const transferRunesParamsSchema = v.object({
     })
   ),
 });
+export type TransferRunesParams = v.InferOutput<typeof transferRunesParamsSchema>;
 
-export const transferRunesSchema = v.object({
+export const transferRunesRequestSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(transferRunesMethodName),
@@ -132,8 +133,8 @@ export const transferRunesSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type TransferRunesRequest = v.InferOutput<typeof transferRunesRequestSchema>;
 
-export type TransferRunesParams = v.InferOutput<typeof transferRunesParamsSchema>;
 export const TransferRunesResultSchema = v.object({
   txid: v.string(),
 });
