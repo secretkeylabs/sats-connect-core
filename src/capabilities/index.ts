@@ -36,6 +36,7 @@ const extractOrValidateCapabilities = (
     createInscription: validateCapability('createInscription'),
     createRepeatInscriptions: validateCapability('createRepeatInscriptions'),
     signMultipleTransactions: validateCapability('signMultipleTransactions'),
+    addListener: validateCapability('addListener'),
   };
 
   return Object.entries(capabilityMap).reduce((acc, [capability, value]) => {

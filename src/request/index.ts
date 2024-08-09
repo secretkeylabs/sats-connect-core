@@ -1,4 +1,4 @@
-import { getProviderById } from '../provider';
+import { AddListener, getProviderById } from '../provider';
 import {
   RpcErrorCode,
   RpcResult,
@@ -48,6 +48,22 @@ export const request = async <Method extends keyof Requests>(
       data: response,
     },
   };
+};
+
+export const addListener = (
+  event: Parameters<AddListener>[0],
+  cb: Parameters<AddListener>[1],
+  providerId?: string
+): ReturnType<AddListener> => {
+  let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
+  if (providerId) {
+    provider = getProviderById(providerId);
+  }
+  if (!provider) {
+    throw new Error('no wallet provider was found');
+  }
+
+  return provider.addListener(event, cb);
 };
 
 export * from './types';
