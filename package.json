@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
@@ -25,13 +25,11 @@
     ]
   },
   "dependencies": {
-    "axios": "1.6.8",
+    "axios": "1.7.4",
     "bitcoin-address-validation": "2.2.3",
     "buffer": "6.0.3",
     "jsontokens": "4.0.1",
-    "lodash.omit": "4.5.0"
-  },
-  "peerDependencies": {
+    "lodash.omit": "4.5.0",
     "valibot": "0.33.2"
   },
   "devDependencies": {
