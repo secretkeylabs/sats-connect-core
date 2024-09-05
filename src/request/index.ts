@@ -11,6 +11,11 @@ import { Params, Requests, Return } from './types';
 export const request = async <Method extends keyof Requests>(
   method: Method,
   params: Params<Method>,
+  /**
+   * The providerId is the object path to the provider in the window object.
+   * E.g., a provider available at `window.Foo.BarProvider` would have a
+   * providerId of `Foo.BarProvider`.
+   */
   providerId?: string
 ): Promise<RpcResult<Method>> => {
   let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
