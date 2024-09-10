@@ -48,3 +48,18 @@ export type GetWalletType = MethodParamsAndResult<
   v.InferOutput<typeof getWalletTypeParamsSchema>,
   v.InferOutput<typeof getWalletTypeResultSchema>
 >;
+
+export const getPermissionsMethodName = 'wallet_getPermissions';
+export const getPermissionsParamsSchema = v.nullish(v.null());
+export const getPermissionsResultSchema = v.array(v.string());
+export const getPermissionsRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getPermissionsMethodName),
+    id: v.string(),
+  }).entries,
+});
+export type GetPermissions = MethodParamsAndResult<
+  v.InferOutput<typeof getPermissionsParamsSchema>,
+  v.InferOutput<typeof getPermissionsResultSchema>
+>;
