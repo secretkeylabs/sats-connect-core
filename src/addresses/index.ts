@@ -4,6 +4,9 @@ import { createUnsecuredToken } from 'jsontokens';
 import { getProviderOrThrow } from '../provider';
 import type { GetAddressOptions } from './types';
 
+/**
+ * @deprecated Use `request()` instead
+ */
 export const getAddress = async (options: GetAddressOptions) => {
   const provider = await getProviderOrThrow(options.getProvider);
 
