@@ -32,7 +32,19 @@ export const networkChangeSchema = v.object({
 });
 export type NetworkChangeEvent = v.InferOutput<typeof networkChangeSchema>;
 
-export const walletEventSchema = v.variant('type', [accountChangeSchema, networkChangeSchema]);
+// disconnect
+export const disconnectEventName = 'disconnect';
+export const disconnectSchema = v.object({
+  type: v.literal(disconnectEventName),
+});
+export type DisconnectEvent = v.InferOutput<typeof disconnectSchema>;
+
+export const walletEventSchema = v.variant('type', [
+  accountChangeSchema,
+  networkChangeSchema,
+  disconnectSchema,
+]);
+
 export type WalletEvent = v.InferOutput<typeof walletEventSchema>;
 
 export type AddListener = <const WalletEventName extends WalletEvent['type']>(
