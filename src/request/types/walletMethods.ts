@@ -49,17 +49,17 @@ export type GetWalletType = MethodParamsAndResult<
   v.InferOutput<typeof getWalletTypeResultSchema>
 >;
 
-export const getPermissionsMethodName = 'wallet_getPermissions';
-export const getPermissionsParamsSchema = v.nullish(v.null());
-export const getPermissionsResultSchema = v.array(v.string());
-export const getPermissionsRequestMessageSchema = v.object({
+export const getCurrentPermissionsMethodName = 'wallet_getCurrentPermissions';
+export const getCurrentPermissionsParamsSchema = v.nullish(v.null());
+export const getCurrentPermissionsResultSchema = v.array(v.string());
+export const getCurrentPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(getPermissionsMethodName),
+    method: v.literal(getCurrentPermissionsMethodName),
     id: v.string(),
   }).entries,
 });
-export type GetPermissions = MethodParamsAndResult<
-  v.InferOutput<typeof getPermissionsParamsSchema>,
-  v.InferOutput<typeof getPermissionsResultSchema>
+export type GetCurrentPermissions = MethodParamsAndResult<
+  v.InferOutput<typeof getCurrentPermissionsParamsSchema>,
+  v.InferOutput<typeof getCurrentPermissionsResultSchema>
 >;
