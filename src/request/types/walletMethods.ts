@@ -1,6 +1,7 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
+import { permissions } from '@secretkeylabs/xverse-core';
 
 export const requestPermissionsMethodName = 'wallet_requestPermissions';
 export const requestPermissionsParamsSchema = v.undefined();
@@ -51,7 +52,7 @@ export type GetWalletType = MethodParamsAndResult<
 
 export const getCurrentPermissionsMethodName = 'wallet_getCurrentPermissions';
 export const getCurrentPermissionsParamsSchema = v.nullish(v.null());
-export const getCurrentPermissionsResultSchema = v.array(v.string());
+export const getCurrentPermissionsResultSchema = v.array(permissions.schemas.permission);
 export const getCurrentPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({

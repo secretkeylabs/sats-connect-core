@@ -25,11 +25,12 @@
     ]
   },
   "dependencies": {
+    "@secretkeylabs/xverse-core": "21.1.0-7e6ee40",
     "axios": "1.7.4",
     "bitcoin-address-validation": "2.2.3",
     "buffer": "6.0.3",
     "jsontokens": "4.0.1",
-    "valibot": "0.33.2"
+    "valibot": "0.42.1"
   },
   "devDependencies": {
     "@types/jest": "^29.2.6",
