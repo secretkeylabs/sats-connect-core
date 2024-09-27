@@ -52,7 +52,9 @@ export type GetWalletType = MethodParamsAndResult<
 
 export const getCurrentPermissionsMethodName = 'wallet_getCurrentPermissions';
 export const getCurrentPermissionsParamsSchema = v.nullish(v.null());
-export const getCurrentPermissionsResultSchema = v.array(permissions.schemas.permission);
+export const getCurrentPermissionsResultSchema = v.array(
+  v.object({ ...permissions.schemas.permission.entries, resource: permissions.schemas.resource })
+);
 export const getCurrentPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
