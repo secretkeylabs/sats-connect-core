@@ -29,16 +29,8 @@ jobs:
 
       - name: Publish to NPM package registry
         run: |
-          echo "@secretkeylabs:registry=https://registry.npmjs.org/" > .npmrc
+          echo "@sats-connect:registry=https://registry.npmjs.org/" > .npmrc
           echo "//registry.npmjs.org/:_authToken=$AUTH_TOKEN" >> .npmrc
           npm publish --access=public
         env:
           AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_REGISTRY_TOKEN }}
-
-      - name: Publish to GitHub Package Registry
-        run: |
-          echo "@secretkeylabs:registry=https://npm.pkg.github.com/" > .npmrc
-          echo "//npm.pkg.github.com/:_authToken=$AUTH_TOKEN" >> .npmrc
-          npm publish --access=public
-        env:
-          AUTH_TOKEN: ${{ secrets.GH_PACKAGE_REGISTRY_TOKEN }}
