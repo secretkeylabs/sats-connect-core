@@ -15,12 +15,6 @@ module.exports = {
     libraryTarget: 'var',
     path: path.resolve(process.cwd(), 'dist'),
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-      fetch: 'cross-fetch',
-    }),
-  ],
   optimization: {
     minimize: isProduction,
   },

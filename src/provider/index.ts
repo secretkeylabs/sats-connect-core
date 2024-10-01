@@ -1,6 +1,5 @@
 import { DefaultAdaptersInfo } from '../adapters';
-import { type SupportedWallet, type BitcoinProvider, type Provider } from './types';
-import omit from 'lodash.omit';
+import { type BitcoinProvider, type Provider, type SupportedWallet } from './types';
 
 export async function getProviderOrThrow(
   getProvider?: () => Promise<BitcoinProvider | undefined>
@@ -41,11 +40,11 @@ export function removeDefaultProvider() {
 }
 
 export function getSupportedWallets(): SupportedWallet[] {
-  const btc_providers = getProviders();
-  const allProviders = [...btc_providers];
-  for (const key in omit(DefaultAdaptersInfo, ['xverse'])) {
-    allProviders.push(DefaultAdaptersInfo[key]);
-  }
+  const ambientProviders = getProviders();
+  const { xverse, ...defaultProviders } = DefaultAdaptersInfo;
+
+  const allProviders = [...ambientProviders, ...Object.values(defaultProviders)];
+
   const wallets: SupportedWallet[] = allProviders.map((provider) => {
     {
       return {

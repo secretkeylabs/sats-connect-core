@@ -1,6 +1,6 @@
-import { addressSchema } from 'src/addresses';
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
+import { addressSchema } from '../../addresses';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 
 interface Pubkey {
   /**
