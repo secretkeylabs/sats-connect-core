@@ -13,7 +13,7 @@ export const permissionWithoutClientId = v.variant('type', [
   v.omit(permissions.resources.account.accountPermissionSchema, ['clientId']),
   v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']),
 ]);
-export type PermissionsWithoutClientId = v.InferOutput<typeof permissionWithoutClientId>;
+export type PermissionWithoutClientId = v.InferOutput<typeof permissionWithoutClientId>;
 
 export const requestPermissionsMethodName = 'wallet_requestPermissions';
 export const requestPermissionsParamsSchema = v.nullish(v.array(permissionWithoutClientId));
