@@ -9,16 +9,14 @@ import { addressSchema } from 'src/addresses';
  * since the wallet performs authentication based on the client's tab origin and
  * should not rely on the client authenticating themselves.
  */
-export const permissionsWithoutClientId = v.array(
-  v.variant('type', [
-    v.omit(permissions.resources.account.accountPermissionSchema, ['clientId']),
-    v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']),
-  ])
-);
-export type PermissionsWithoutClientId = v.InferOutput<typeof permissionsWithoutClientId>;
+export const permissionWithoutClientId = v.variant('type', [
+  v.omit(permissions.resources.account.accountPermissionSchema, ['clientId']),
+  v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']),
+]);
+export type PermissionsWithoutClientId = v.InferOutput<typeof permissionWithoutClientId>;
 
 export const requestPermissionsMethodName = 'wallet_requestPermissions';
-export const requestPermissionsParamsSchema = v.nullish(permissionsWithoutClientId);
+export const requestPermissionsParamsSchema = v.nullish(v.array(permissionWithoutClientId));
 export const requestPermissionsResultSchema = v.literal(true);
 export const requestPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
@@ -146,7 +144,7 @@ export type RegisterClient = MethodParamsAndResult<
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
   v.object({
-    permissions: v.optional(permissionsWithoutClientId),
+    permissions: v.optional(v.array(permissionWithoutClientId)),
     clientInfo: registerClientParamsSchema,
   })
 );
