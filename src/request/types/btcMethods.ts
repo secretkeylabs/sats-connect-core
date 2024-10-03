@@ -170,6 +170,7 @@ export const sendTransferRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type SendTransferRequestMessage = v.InferOutput<typeof sendTransferRequestMessageSchema>;
 export type SendTransfer = MethodParamsAndResult<SendTransferParams, SendTransferResult>;
 
 export type SignPsbtParams = {
