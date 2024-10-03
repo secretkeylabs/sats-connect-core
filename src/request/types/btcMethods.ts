@@ -173,6 +173,7 @@ export const signPsbtParamsSchema = v.object({
    * The key is the address and the value is an array of indexes of the inputs to sign.
    */
   signInputs: v.record(v.string(), v.array(v.number())),
+  allowedSignHash: v.optional(v.number()),
   /**
    * Whether to broadcast the transaction after signing.
    **/
