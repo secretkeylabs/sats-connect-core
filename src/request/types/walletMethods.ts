@@ -5,18 +5,26 @@ import { permissions } from '@secretkeylabs/xverse-core';
 import { addressSchema } from 'src/addresses';
 
 /**
- * Permissions with the clientId field omitted. Used for permission requests,
- * since the wallet performs authentication based on the client's tab origin and
- * should not rely on the client authenticating themselves.
+ * Permissions with the clientId field omitted and optional actions. Used for
+ * permission requests, since the wallet performs authentication based on the
+ * client's tab origin and should not rely on the client authenticating
+ * themselves.
  */
-export const permissionWithoutClientId = v.variant('type', [
-  v.omit(permissions.resources.account.accountPermissionSchema, ['clientId']),
-  v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']),
+export const permissionTemplate = v.variant('type', [
+  v.object({
+    ...v.omit(permissions.resources.account.accountPermissionSchema, ['clientId', 'actions'])
+      .entries,
+    actions: v.partial(permissions.resources.account.accountActionsSchema),
+  }),
+  v.object({
+    ...v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']).entries,
+    actions: v.partial(permissions.resources.wallet.walletActionSchema),
+  }),
 ]);
-export type PermissionWithoutClientId = v.InferOutput<typeof permissionWithoutClientId>;
+export type PermissionWithoutClientId = v.InferOutput<typeof permissionTemplate>;
 
 export const requestPermissionsMethodName = 'wallet_requestPermissions';
-export const requestPermissionsParamsSchema = v.nullish(v.array(permissionWithoutClientId));
+export const requestPermissionsParamsSchema = v.nullish(v.array(permissionTemplate));
 export const requestPermissionsResultSchema = v.literal(true);
 export const requestPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
@@ -144,7 +152,7 @@ export type RegisterClient = MethodParamsAndResult<
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
   v.object({
-    permissions: v.optional(v.array(permissionWithoutClientId)),
+    permissions: v.optional(v.array(permissionTemplate)),
     clientInfo: registerClientParamsSchema,
   })
 );
