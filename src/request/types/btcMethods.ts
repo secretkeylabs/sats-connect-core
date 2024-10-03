@@ -226,6 +226,7 @@ export type GetAccounts = MethodParamsAndResult<
 
 export const getBalanceMethodName = 'getBalance';
 export const getBalanceParamsSchema = v.nullish(v.null());
+export type GetBalanceParams = v.InferOutput<typeof getBalanceParamsSchema>;
 export const getBalanceResultSchema = v.object({
   /**
    * The confirmed balance of the wallet in sats. Using a string due to chrome
@@ -248,6 +249,7 @@ export const getBalanceResultSchema = v.object({
    */
   total: v.string(),
 });
+export type GetBalanceResult = v.InferOutput<typeof getBalanceResultSchema>;
 export const getBalanceRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -255,7 +257,5 @@ export const getBalanceRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
-export type GetBalance = MethodParamsAndResult<
-  v.InferOutput<typeof getBalanceParamsSchema>,
-  v.InferOutput<typeof getBalanceResultSchema>
->;
+export type GetBalanceRequestMessage = v.InferOutput<typeof getBalanceRequestMessageSchema>;
+export type GetBalance = MethodParamsAndResult<GetBalanceParams, GetBalanceResult>;
