@@ -143,32 +143,10 @@ export const getAccountRequestMessageSchema = v.object({
 export type GetAccountRequestMessage = v.InferOutput<typeof getAccountRequestMessageSchema>;
 export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResult>;
 
-export const registerClientMethodName = 'wallet_registerClient';
-export const registerClientParamsSchema = v.object({
-  name: v.optional(v.string()),
-  description: v.optional(v.string()),
-});
-export type RegisterClientParams = v.InferOutput<typeof registerClientParamsSchema>;
-export const registerClientResultSchema = v.object({
-  id: v.string(),
-});
-export type RegisterClientResult = v.InferOutput<typeof registerClientResultSchema>;
-export const registerClientRequestMessageSchema = v.object({
-  ...rpcRequestMessageSchema.entries,
-  ...v.object({
-    method: v.literal(registerClientMethodName),
-    params: registerClientParamsSchema,
-    id: v.string(),
-  }).entries,
-});
-export type RegisterClientRequestMessage = v.InferOutput<typeof registerClientRequestMessageSchema>;
-export type RegisterClient = MethodParamsAndResult<RegisterClientParams, RegisterClientResult>;
-
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
   v.object({
     permissions: v.optional(v.array(permissionTemplate)),
-    clientInfo: registerClientParamsSchema,
   })
 );
 export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
