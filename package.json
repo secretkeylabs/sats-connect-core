@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "build-debug": "webpack --mode development",
+    "build-debug": "npm run clean && webpack --mode development",
     "build": "npm run clean && tsup src/index.ts --format esm --dts",
     "build:watch": "npm run clean && tsup src/index.ts --format esm --dts --watch",
     "clean": "rimraf dist",
@@ -29,12 +29,10 @@
     "bitcoin-address-validation": "2.2.3",
     "buffer": "6.0.3",
     "jsontokens": "4.0.1",
-    "lodash.omit": "4.5.0",
     "valibot": "0.33.2"
   },
   "devDependencies": {
     "@types/jest": "^29.2.6",
-    "@types/lodash.omit": "4.5.9",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "prettier": "3.3.3",

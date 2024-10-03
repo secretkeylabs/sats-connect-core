@@ -1,10 +1,11 @@
-import { Buffer } from 'buffer';
-import { Params, Requests, Return } from '../request';
-import { SatsConnectAdapter } from './satsConnectAdapter';
-import { RpcErrorCode, RpcResult } from '../types';
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
-import { Address, AddressPurpose } from '../addresses';
+import { Buffer } from 'buffer';
+import { AddListener } from 'src/provider/types';
 import { DefaultAdaptersInfo } from '.';
+import { Address, AddressPurpose } from '../addresses';
+import { MessageSigningProtocols, Params, Requests, Return } from '../request';
+import { RpcErrorCode, RpcResult } from '../types';
+import { SatsConnectAdapter } from './satsConnectAdapter';
 
 type InputType = {
   index: number;
@@ -13,6 +14,8 @@ type InputType = {
   sighashTypes?: number[];
   disableTweakSigner?: boolean;
 }[];
+
+type UnisatEvent = 'accountsChanged' | 'networkChanged';
 
 type Unisat = {
   requestAccounts: () => Promise<string[]>;
@@ -32,6 +35,8 @@ type Unisat = {
     }
   ) => Promise<string>;
   pushPsbt: (psbtHex: string) => Promise<string>;
+  on: (event: UnisatEvent, handler: () => void) => void;
+  removeListener: (event: UnisatEvent, handler: () => void) => void;
 };
 
 declare global {
@@ -40,10 +45,7 @@ declare global {
   }
 }
 
-function convertSignInputsToInputType(
-  signInputs: Record<string, number[]>,
-  allowedSignHash?: number
-): InputType {
+function convertSignInputsToInputType(signInputs: Record<string, number[]>): InputType {
   let result: InputType = [];
   for (let address in signInputs) {
     let indexes = signInputs[address];
@@ -51,7 +53,6 @@ function convertSignInputsToInputType(
       result.push({
         index: index,
         address: address,
-        sighashTypes: allowedSignHash ? [allowedSignHash] : undefined,
       });
     }
   }
@@ -85,10 +86,10 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
     const response: Return<'getAccounts'> = [];
     if (purposes.includes(AddressPurpose.Payment)) {
-      response.push(paymentAddress);
+      response.push({ ...paymentAddress, walletType: 'software' });
     }
     if (purposes.includes(AddressPurpose.Ordinals)) {
-      response.push(ordinalsAddress);
+      response.push({ ...ordinalsAddress, walletType: 'software' });
     }
     return response;
   }
@@ -103,6 +104,7 @@ class UnisatAdapter extends SatsConnectAdapter {
         address,
         messageHash: '',
         signature: response,
+        protocol: MessageSigningProtocols.BIP322,
       };
     }
     const response = await window.unisat.signMessage(message, 'ecdsa');
@@ -110,6 +112,7 @@ class UnisatAdapter extends SatsConnectAdapter {
       address,
       messageHash: '',
       signature: response,
+      protocol: MessageSigningProtocols.ECDSA,
     };
   }
 
@@ -126,11 +129,11 @@ class UnisatAdapter extends SatsConnectAdapter {
   }
 
   private async signPsbt(params: Params<'signPsbt'>): Promise<Return<'signPsbt'>> {
-    const { psbt, signInputs, allowedSignHash, broadcast } = params;
+    const { psbt, signInputs, broadcast } = params;
     const psbtHex = Buffer.from(psbt, 'base64').toString('hex');
     const signedPsbt = await window.unisat.signPsbt(psbtHex, {
       autoFinalized: broadcast,
-      toSignInputs: convertSignInputsToInputType(signInputs, allowedSignHash),
+      toSignInputs: convertSignInputsToInputType(signInputs),
     });
     if (broadcast) {
       const txid = await window.unisat.pushPsbt(psbtHex);
@@ -202,6 +205,35 @@ class UnisatAdapter extends SatsConnectAdapter {
           data: error,
         },
       };
+    }
+  };
+
+  public addListener: AddListener = (eventName, cb) => {
+    switch (eventName) {
+      case 'accountChange': {
+        const handler = () => {
+          (cb as (event: { type: 'accountChange' }) => void)({ type: 'accountChange' });
+        };
+        window.unisat.on('accountsChanged', handler);
+
+        return () => {
+          window.unisat.removeListener('accountsChanged', handler);
+        };
+      }
+      case 'networkChange': {
+        const handler = () => {
+          (cb as (event: { type: 'networkChange' }) => void)({ type: 'networkChange' });
+        };
+        window.unisat.on('networkChanged', handler);
+
+        return () => {
+          window.unisat.removeListener('networkChanged', handler);
+        };
+      }
+      default: {
+        console.error('Event not supported by the selected wallet');
+        return () => {};
+      }
     }
   };
 }

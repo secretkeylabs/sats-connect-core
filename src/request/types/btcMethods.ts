@@ -2,9 +2,9 @@
  * Represents the types and interfaces related to BTC methods.
  */
 
+import * as v from 'valibot';
 import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
-import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 
 export const getInfoMethodName = 'getInfo';
@@ -167,11 +167,6 @@ export type SignPsbtParams = {
    * The key is the address and the value is an array of indexes of the inputs to sign.
    */
   signInputs: Record<string, number[]>;
-  /**
-   * the sigHash type to use for signing.
-   * will default to the sighash type of the input if not provided.
-   **/
-  allowedSignHash?: number;
   /**
    * Whether to broadcast the transaction after signing.
    **/
