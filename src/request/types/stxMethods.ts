@@ -158,21 +158,15 @@ interface CodeBody {
   codeBody: string;
 }
 
-interface ClarityVersion {
-  /**
-   * The Clarity version of the contract.
-   */
-  clarityVersion?: string;
-}
-
 // Types for `stx_callContract` request
-export interface CallContractParams {
+export const stxCallContractMethodName = 'stx_callContract';
+export const stxCallContractParamsSchema = v.object({
   /**
-   * The contract's Crockford base-32 encoded Stacks address and name.
+   * The contract principal.
    *
    * E.g. `"SPKE...GD5C.my-contract"`
    */
-  contract: string;
+  contract: v.string(),
 
   /**
    * The name of the function to call.
@@ -180,7 +174,7 @@ export interface CallContractParams {
    * Note: spec changes ongoing,
    * https://github.com/stacksgov/sips/pull/166#pullrequestreview-1914236999
    */
-  functionName: string;
+  functionName: v.string(),
 
   /**
    * The function's arguments. The arguments are expected to be hex-encoded
@@ -196,10 +190,33 @@ export interface CallContractParams {
    * const hexArgs = functionArgs.map(cvToString);
    * ```
    */
-  arguments?: Array<string>;
-}
-export type CallContractResult = TxId & Transaction;
-export type StxCallContract = MethodParamsAndResult<CallContractParams, CallContractResult>;
+  arguments: v.optional(v.array(v.string())),
+});
+export type StxCallContractParams = v.InferOutput<typeof stxCallContractParamsSchema>;
+export const stxCallContractResultSchema = v.object({
+  /**
+   * The ID of the transaction.
+   */
+  txid: v.string(),
+
+  /**
+   * A Stacks transaction as a hex-encoded string.
+   */
+  transaction: v.string(),
+});
+export type StxCallContractResult = v.InferOutput<typeof stxCallContractResultSchema>;
+export const stxCallContractRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(stxCallContractMethodName),
+    params: stxCallContractParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type StxCallContractRequestMessage = v.InferOutput<
+  typeof stxCallContractRequestMessageSchema
+>;
+export type StxCallContract = MethodParamsAndResult<StxCallContractParams, StxCallContractResult>;
 
 // Types for `stx_transferStx` request
 export type TransferStxParams = Amount &
