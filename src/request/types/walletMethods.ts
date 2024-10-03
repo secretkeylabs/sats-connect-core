@@ -18,7 +18,7 @@ export const permissionTemplate = v.variant('type', [
   }),
   v.object({
     ...v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']).entries,
-    actions: v.partial(permissions.resources.wallet.walletActionSchema),
+    actions: v.partial(permissions.resources.wallet.walletActionsSchema),
   }),
 ]);
 export type PermissionWithoutClientId = v.InferOutput<typeof permissionTemplate>;
