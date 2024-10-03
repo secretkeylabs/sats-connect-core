@@ -2,7 +2,7 @@ import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 import { permissions } from '@secretkeylabs/xverse-core';
-import { addressSchema } from 'src/addresses';
+import { addressSchema } from '../../addresses';
 
 /**
  * Permissions with the clientId field omitted and optional actions. Used for
