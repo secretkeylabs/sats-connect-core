@@ -130,17 +130,6 @@ export type SignMessage = MethodParamsAndResult<
   v.InferOutput<typeof signMessageResultSchema>
 >;
 
-type Recipient = {
-  /**
-   * The recipient's address.
-   **/
-  address: string;
-  /**
-   * The amount to send to the recipient in satoshis.
-   */
-  amount: number;
-};
-
 export const sendTransferMethodName = 'sendTransfer';
 export const sendTransferParamsSchema = v.object({
   /**
@@ -173,34 +162,44 @@ export const sendTransferRequestMessageSchema = v.object({
 export type SendTransferRequestMessage = v.InferOutput<typeof sendTransferRequestMessageSchema>;
 export type SendTransfer = MethodParamsAndResult<SendTransferParams, SendTransferResult>;
 
-export type SignPsbtParams = {
+export const signPsbtMethodName = 'signPsbt';
+export const signPsbtParamsSchema = v.object({
   /**
    * The base64 encoded PSBT to sign.
    */
-  psbt: string;
+  psbt: v.string(),
   /**
    * The inputs to sign.
    * The key is the address and the value is an array of indexes of the inputs to sign.
    */
-  signInputs: Record<string, number[]>;
+  signInputs: v.record(v.string(), v.array(v.number())),
   /**
    * Whether to broadcast the transaction after signing.
    **/
-  broadcast?: boolean;
-};
-
-export type SignPsbtResult = {
+  broadcast: v.optional(v.boolean()),
+});
+export type SignPsbtParams = v.InferOutput<typeof signPsbtParamsSchema>;
+export const signPsbtResultSchema = v.object({
   /**
    * The base64 encoded PSBT after signing.
    */
-  psbt: string;
+  psbt: v.string(),
   /**
    * The transaction id as a hex-encoded string.
    * This is only returned if the transaction was broadcast.
    **/
-  txid?: string;
-};
-
+  txid: v.optional(v.string()),
+});
+export type SignPsbtResult = v.InferOutput<typeof signPsbtResultSchema>;
+export const signPsbtRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(signPsbtMethodName),
+    params: signPsbtParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type SignPsbtRequestMessage = v.InferOutput<typeof signPsbtRequestMessageSchema>;
 export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
 export const getAccountsMethodName = 'getAccounts';
