@@ -9,7 +9,7 @@ export interface StxRequests {
   stx_deployContract: StxMethods.StxDeployContract;
   stx_getAccounts: StxMethods.StxGetAccounts;
   stx_getAddresses: StxMethods.StxGetAddresses;
-  stx_signMessage: StxMethods.StxSignStxMessage;
+  stx_signMessage: StxMethods.StxSignMessage;
   stx_signStructuredMessage: StxMethods.StxSignStructuredMessage;
   stx_signTransaction: StxMethods.StxSignTransaction;
   stx_transferStx: StxMethods.StxTransferStx;
