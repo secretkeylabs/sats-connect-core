@@ -4,7 +4,7 @@ import * as v from 'valibot';
 export const runesMintMethodName = 'runes_mint';
 
 export const runesMintParamsSchema = v.object({
-  appServiceFee: v.optional(v.string()),
+  appServiceFee: v.optional(v.number()),
   appServiceFeeAddress: v.optional(v.string()),
   destinationAddress: v.string(),
   feeRate: v.number(),

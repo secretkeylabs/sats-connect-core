@@ -1,4 +1,4 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
 export const runesEtchMethodName = 'runes_etch';
@@ -29,6 +29,7 @@ export const runesEtchParamsSchema = v.object({
   appServiceFeeAddress: v.optional(v.string()),
   terms: v.optional(etchTermsSchema),
   inscriptionDetails: v.optional(inscriptionDetailsSchema),
+  network: v.optional(v.enum(BitcoinNetworkType)),
 });
 export type RunesEtchParams = v.InferOutput<typeof runesEtchParamsSchema>;
 
