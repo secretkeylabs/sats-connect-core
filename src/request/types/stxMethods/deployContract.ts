@@ -1,8 +1,8 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
-const stxDeployContractMethodName = 'stx_deployContract';
-const stxDeployContractParamsSchema = v.object({
+export const stxDeployContractMethodName = 'stx_deployContract';
+export const stxDeployContractParamsSchema = v.object({
   /**
    * Name of the contract.
    */
