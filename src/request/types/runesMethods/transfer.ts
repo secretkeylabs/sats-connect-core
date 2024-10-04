@@ -18,7 +18,7 @@ export const runesTransferResultSchema = v.object({
 });
 export type RunesTransferResult = v.InferOutput<typeof runesTransferResultSchema>;
 
-export const runesTransferRequestSchema = v.object({
+export const runesTransferRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(runesTransferMethodName),
@@ -26,6 +26,6 @@ export const runesTransferRequestSchema = v.object({
     id: v.string(),
   }).entries,
 });
-export type RunesTransferRequest = v.InferOutput<typeof runesTransferRequestSchema>;
+export type RunesTransferRequestMessage = v.InferOutput<typeof runesTransferRequestMessageSchema>;
 
 export type RunesTransfer = MethodParamsAndResult<TransferRunesParams, RunesTransferResult>;
