@@ -30,14 +30,14 @@ export interface BtcRequests {
 export type BtcRequestMethod = keyof BtcRequests;
 
 export interface RunesRequests {
-  runes_estimateMint: RunesMethods.RunesEstimateMint;
-  runes_mint: RunesMethods.RunesMint;
   runes_estimateEtch: RunesMethods.RunesEstimateEtch;
-  runes_etch: RunesMethods.RunesEtch;
-  runes_getOrder: RunesMethods.RunesGetOrder;
+  runes_estimateMint: RunesMethods.RunesEstimateMint;
   runes_estimateRbfOrder: RunesMethods.RunesEstimateRbfOrder;
-  runes_rbfOrder: RunesMethods.RunesRbfOrder;
+  runes_etch: RunesMethods.RunesEtch;
   runes_getBalance: RunesMethods.RunesGetBalance;
+  runes_getOrder: RunesMethods.RunesGetOrder;
+  runes_mint: RunesMethods.RunesMint;
+  runes_rbfOrder: RunesMethods.RunesRbfOrder;
   runes_transfer: RunesMethods.RunesTransfer;
 }
 
