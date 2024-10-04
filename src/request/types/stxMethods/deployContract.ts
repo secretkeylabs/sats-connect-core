@@ -9,14 +9,14 @@ export const stxDeployContractParamsSchema = v.object({
   name: v.string(),
 
   /**
-   * The code of the Clarity contract.
+   * The source code of the Clarity contract.
    */
-  codeBody: v.string(),
+  clarityCode: v.string(),
 
   /**
    * The version of the Clarity contract.
    */
-  version: v.optional(v.string()),
+  clarityVersion: v.optional(v.string()),
 });
 export type StxDeployContractParams = v.InferOutput<typeof stxDeployContractParamsSchema>;
 export const stxDeployContractResultSchema = v.object({
