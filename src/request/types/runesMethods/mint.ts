@@ -1,4 +1,4 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
 export const runesMintMethodName = 'runes_mint';
@@ -11,7 +11,7 @@ export const runesMintParamsSchema = v.object({
   refundAddress: v.string(),
   repeats: v.number(),
   runeName: v.string(),
-  network: v.optional(v.string()),
+  network: v.optional(v.enum(BitcoinNetworkType)),
 });
 export type RunesMintParams = v.InferOutput<typeof runesMintParamsSchema>;
 
