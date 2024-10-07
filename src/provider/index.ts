@@ -40,12 +40,7 @@ export function removeDefaultProvider() {
 }
 
 export function getSupportedWallets(): SupportedWallet[] {
-  const ambientProviders = getProviders();
-  const { xverse, ...defaultProviders } = DefaultAdaptersInfo;
-
-  const allProviders = [...ambientProviders, ...Object.values(defaultProviders)];
-
-  const wallets: SupportedWallet[] = allProviders.map((provider) => {
+  const wallets: SupportedWallet[] = Object.values(DefaultAdaptersInfo).map((provider) => {
     {
       return {
         ...provider,
