@@ -62,7 +62,7 @@ export const sendInscriptionsResultSchema = v.object({
 });
 export type SendInscriptionsResult = v.InferOutput<typeof sendInscriptionsResultSchema>;
 
-export const sendInscriptionsSchema = v.object({
+export const sendInscriptionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(sendInscriptionsMethodName),
@@ -70,7 +70,9 @@ export const sendInscriptionsSchema = v.object({
     id: v.string(),
   }).entries,
 });
-export type SendInscriptionsRequestMessage = v.InferOutput<typeof sendInscriptionsSchema>;
+export type SendInscriptionsRequestMessage = v.InferOutput<
+  typeof sendInscriptionsRequestMessageSchema
+>;
 
 export type SendInscriptions = MethodParamsAndResult<
   SendInscriptionsParams,
