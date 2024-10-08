@@ -26,7 +26,7 @@
     ]
   },
   "dependencies": {
-    "@secretkeylabs/xverse-core": "24.2.0-55ca742",
+    "@secretkeylabs/xverse-core": "24.2.0-1fb2dee",
     "axios": "1.7.4",
     "bitcoin-address-validation": "2.2.3",
     "buffer": "6.0.3",
