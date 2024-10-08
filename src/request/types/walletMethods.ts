@@ -12,13 +12,10 @@ import { addressSchema } from '../../addresses';
  */
 export const permissionTemplate = v.variant('type', [
   v.object({
-    ...v.omit(permissions.resources.account.accountPermissionSchema, ['clientId', 'actions'])
-      .entries,
-    actions: v.partial(permissions.resources.account.accountActionsSchema),
+    ...v.omit(permissions.resources.account.accountPermissionSchema, ['clientId']).entries,
   }),
   v.object({
     ...v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']).entries,
-    actions: v.partial(permissions.resources.wallet.walletActionsSchema),
   }),
 ]);
 export type PermissionWithoutClientId = v.InferOutput<typeof permissionTemplate>;
