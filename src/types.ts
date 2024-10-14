@@ -42,7 +42,7 @@ export const rpcRequestMessageSchema = v.object({
       v.null(),
     ])
   ),
-  id: RpcIdSchema,
+  id: v.unwrap(RpcIdSchema),
 });
 export type RpcRequestMessage = v.InferOutput<typeof rpcRequestMessageSchema>;
 
