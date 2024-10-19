@@ -55,6 +55,8 @@ export interface WalletRequests {
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;
   wallet_getWalletType: WalletMethods.GetWalletType;
   wallet_getCurrentPermissions: WalletMethods.GetCurrentPermissions;
+  wallet_connect: WalletMethods.Connect;
+  wallet_disconnect: WalletMethods.Disconnect;
 }
 
 export type Requests = BtcRequests &
