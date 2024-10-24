@@ -1,8 +1,8 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
-import { permissions } from '@secretkeylabs/xverse-core';
-import { addressSchema } from '../../addresses';
+import { permissions } from './permissions';
+import { AddressPurpose, addressSchema } from '../../addresses';
 
 /**
  * Permissions with the clientId field omitted and optional actions. Used for
@@ -144,8 +144,13 @@ export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
   v.object({
     permissions: v.optional(v.array(permissionTemplate)),
+    addresses: v.optional(v.array(v.enum(AddressPurpose))),
+    message: v.optional(
+      v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
+    ),
   })
 );
+
 export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
 export const connectResultSchema = getAccountResultSchema;
 export type ConnectResult = v.InferOutput<typeof connectResultSchema>;
