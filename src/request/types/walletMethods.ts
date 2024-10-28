@@ -1,8 +1,27 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
-import { permissions } from './permissions';
 import { AddressPurpose, addressSchema } from '../../addresses';
+
+export const accountActionsSchema = v.object({
+  read: v.optional(v.boolean()),
+});
+
+export const walletActionsSchema = v.object({});
+
+export const accountPermissionSchema = v.object({
+  type: v.literal('account'),
+  resourceId: v.string(),
+  clientId: v.string(),
+  actions: accountActionsSchema,
+});
+
+export const walletPermissionSchema = v.object({
+  type: v.literal('wallet'),
+  resourceId: v.string(),
+  clientId: v.string(),
+  actions: walletActionsSchema,
+});
 
 /**
  * Permissions with the clientId field omitted and optional actions. Used for
@@ -10,18 +29,21 @@ import { AddressPurpose, addressSchema } from '../../addresses';
  * client's tab origin and should not rely on the client authenticating
  * themselves.
  */
-export const permissionTemplate = v.variant('type', [
+export const PermissionRequestParams = v.variant('type', [
   v.object({
-    ...v.omit(permissions.resources.account.accountPermissionSchema, ['clientId']).entries,
+    ...v.omit(accountPermissionSchema, ['clientId']).entries,
   }),
   v.object({
-    ...v.omit(permissions.resources.wallet.walletPermissionSchema, ['clientId']).entries,
+    ...v.omit(walletPermissionSchema, ['clientId']).entries,
   }),
 ]);
-export type PermissionWithoutClientId = v.InferOutput<typeof permissionTemplate>;
+
+export const permission = v.variant('type', [accountPermissionSchema, walletPermissionSchema]);
+
+export type PermissionWithoutClientId = v.InferOutput<typeof PermissionRequestParams>;
 
 export const requestPermissionsMethodName = 'wallet_requestPermissions';
-export const requestPermissionsParamsSchema = v.nullish(v.array(permissionTemplate));
+export const requestPermissionsParamsSchema = v.nullish(v.array(PermissionRequestParams));
 export type RequestPermissionsParams = v.InferOutput<typeof requestPermissionsParamsSchema>;
 export const requestPermissionsResultSchema = v.literal(true);
 export type RequestPermissionsResult = v.InferOutput<typeof requestPermissionsResultSchema>;
@@ -102,7 +124,7 @@ export type GetWalletType = MethodParamsAndResult<GetWalletTypeParams, GetWallet
 export const getCurrentPermissionsMethodName = 'wallet_getCurrentPermissions';
 export const getCurrentPermissionsParamsSchema = v.nullish(v.null());
 export type GetCurrentPermissionsParams = v.InferOutput<typeof getCurrentPermissionsParamsSchema>;
-export const getCurrentPermissionsResultSchema = v.array(permissions.store.permission);
+export const getCurrentPermissionsResultSchema = v.array(permission);
 export type GetCurrentPermissionsResult = v.InferOutput<typeof getCurrentPermissionsResultSchema>;
 export const getCurrentPermissionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
@@ -124,7 +146,7 @@ export const getAccountMethodName = 'wallet_getAccount';
 export const getAccountParamsSchema = v.nullish(v.null());
 export type GetAccountParams = v.InferOutput<typeof getAccountParamsSchema>;
 export const getAccountResultSchema = v.object({
-  id: permissions.utils.account.accountIdSchema,
+  id: v.string(),
   addresses: v.array(addressSchema),
   walletType: walletTypeSchema,
 });
@@ -143,7 +165,7 @@ export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResul
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
   v.object({
-    permissions: v.optional(v.array(permissionTemplate)),
+    permissions: v.optional(v.array(PermissionRequestParams)),
     addresses: v.optional(v.array(v.enum(AddressPurpose))),
     message: v.optional(
       v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
