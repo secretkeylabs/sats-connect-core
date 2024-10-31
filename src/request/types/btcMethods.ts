@@ -130,61 +130,76 @@ export type SignMessage = MethodParamsAndResult<
   v.InferOutput<typeof signMessageResultSchema>
 >;
 
-type Recipient = {
-  /**
-   * The recipient's address.
-   **/
-  address: string;
-  /**
-   * The amount to send to the recipient in satoshis.
-   */
-  amount: number;
-};
-
-export type SendTransferParams = {
+export const sendTransferMethodName = 'sendTransfer';
+export const sendTransferParamsSchema = v.object({
   /**
    * Array of recipients to send to.
    * The amount to send to each recipient is in satoshis.
    */
-  recipients: Array<Recipient>;
-};
-type SendTransferResult = {
+  recipients: v.array(
+    v.object({
+      address: v.string(),
+      amount: v.number(),
+    })
+  ),
+});
+export type SendTransferParams = v.InferOutput<typeof sendTransferParamsSchema>;
+export const sendTransferResultSchema = v.object({
   /**
    * The transaction id as a hex-encoded string.
    */
-  txid: string;
-};
-
+  txid: v.string(),
+});
+export type SendTransferResult = v.InferOutput<typeof sendTransferResultSchema>;
+export const sendTransferRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(sendTransferMethodName),
+    params: sendTransferParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type SendTransferRequestMessage = v.InferOutput<typeof sendTransferRequestMessageSchema>;
 export type SendTransfer = MethodParamsAndResult<SendTransferParams, SendTransferResult>;
 
-export type SignPsbtParams = {
+export const signPsbtMethodName = 'signPsbt';
+export const signPsbtParamsSchema = v.object({
   /**
    * The base64 encoded PSBT to sign.
    */
-  psbt: string;
+  psbt: v.string(),
   /**
    * The inputs to sign.
    * The key is the address and the value is an array of indexes of the inputs to sign.
    */
-  signInputs: Record<string, number[]>;
+  signInputs: v.record(v.string(), v.array(v.number())),
   /**
    * Whether to broadcast the transaction after signing.
    **/
-  broadcast?: boolean;
-};
-
-export type SignPsbtResult = {
+  broadcast: v.optional(v.boolean()),
+});
+export type SignPsbtParams = v.InferOutput<typeof signPsbtParamsSchema>;
+export const signPsbtResultSchema = v.object({
   /**
    * The base64 encoded PSBT after signing.
    */
-  psbt: string;
+  psbt: v.string(),
   /**
    * The transaction id as a hex-encoded string.
    * This is only returned if the transaction was broadcast.
    **/
-  txid?: string;
-};
-
+  txid: v.optional(v.string()),
+});
+export type SignPsbtResult = v.InferOutput<typeof signPsbtResultSchema>;
+export const signPsbtRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(signPsbtMethodName),
+    params: signPsbtParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type SignPsbtRequestMessage = v.InferOutput<typeof signPsbtRequestMessageSchema>;
 export type SignPsbt = MethodParamsAndResult<SignPsbtParams, SignPsbtResult>;
 
 export const getAccountsMethodName = 'getAccounts';
@@ -226,6 +241,7 @@ export type GetAccounts = MethodParamsAndResult<
 
 export const getBalanceMethodName = 'getBalance';
 export const getBalanceParamsSchema = v.nullish(v.null());
+export type GetBalanceParams = v.InferOutput<typeof getBalanceParamsSchema>;
 export const getBalanceResultSchema = v.object({
   /**
    * The confirmed balance of the wallet in sats. Using a string due to chrome
@@ -248,6 +264,7 @@ export const getBalanceResultSchema = v.object({
    */
   total: v.string(),
 });
+export type GetBalanceResult = v.InferOutput<typeof getBalanceResultSchema>;
 export const getBalanceRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
@@ -255,7 +272,5 @@ export const getBalanceRequestMessageSchema = v.object({
     id: v.string(),
   }).entries,
 });
-export type GetBalance = MethodParamsAndResult<
-  v.InferOutput<typeof getBalanceParamsSchema>,
-  v.InferOutput<typeof getBalanceResultSchema>
->;
+export type GetBalanceRequestMessage = v.InferOutput<typeof getBalanceRequestMessageSchema>;
+export type GetBalance = MethodParamsAndResult<GetBalanceParams, GetBalanceResult>;

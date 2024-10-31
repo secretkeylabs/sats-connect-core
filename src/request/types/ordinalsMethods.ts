@@ -2,10 +2,13 @@ import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 
 export const getInscriptionsMethodName = 'ord_getInscriptions';
+
 export const getInscriptionsParamsSchema = v.object({
   offset: v.number(),
   limit: v.number(),
 });
+export type GetInscriptionsParams = v.InferOutput<typeof getInscriptionsParamsSchema>;
+
 export const getInscriptionsResultSchema = v.object({
   total: v.number(),
   limit: v.number(),
@@ -26,7 +29,9 @@ export const getInscriptionsResultSchema = v.object({
     })
   ),
 });
-export const getInscriptionsSchema = v.object({
+export type GetInscriptionsResult = v.InferOutput<typeof getInscriptionsResultSchema>;
+
+export const getInscriptionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(getInscriptionsMethodName),
@@ -34,13 +39,14 @@ export const getInscriptionsSchema = v.object({
     id: v.string(),
   }).entries,
 });
-
-export type GetInscriptions = MethodParamsAndResult<
-  v.InferOutput<typeof getInscriptionsParamsSchema>,
-  v.InferOutput<typeof getInscriptionsResultSchema>
+export type GetInscriptionsRequestMessage = v.InferOutput<
+  typeof getInscriptionsRequestMessageSchema
 >;
 
+export type GetInscriptions = MethodParamsAndResult<GetInscriptionsParams, GetInscriptionsResult>;
+
 export const sendInscriptionsMethodName = 'ord_sendInscriptions';
+
 export const sendInscriptionsParamsSchema = v.object({
   transfers: v.array(
     v.object({
@@ -49,10 +55,14 @@ export const sendInscriptionsParamsSchema = v.object({
     })
   ),
 });
+export type SendInscriptionsParams = v.InferOutput<typeof sendInscriptionsParamsSchema>;
+
 export const sendInscriptionsResultSchema = v.object({
   txid: v.string(),
 });
-export const sendInscriptionsSchema = v.object({
+export type SendInscriptionsResult = v.InferOutput<typeof sendInscriptionsResultSchema>;
+
+export const sendInscriptionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
     method: v.literal(sendInscriptionsMethodName),
@@ -60,8 +70,11 @@ export const sendInscriptionsSchema = v.object({
     id: v.string(),
   }).entries,
 });
+export type SendInscriptionsRequestMessage = v.InferOutput<
+  typeof sendInscriptionsRequestMessageSchema
+>;
 
 export type SendInscriptions = MethodParamsAndResult<
-  v.InferOutput<typeof sendInscriptionsParamsSchema>,
-  v.InferOutput<typeof sendInscriptionsResultSchema>
+  SendInscriptionsParams,
+  SendInscriptionsResult
 >;

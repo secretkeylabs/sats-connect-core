@@ -9,7 +9,7 @@ export interface StxRequests {
   stx_deployContract: StxMethods.StxDeployContract;
   stx_getAccounts: StxMethods.StxGetAccounts;
   stx_getAddresses: StxMethods.StxGetAddresses;
-  stx_signMessage: StxMethods.StxSignStxMessage;
+  stx_signMessage: StxMethods.StxSignMessage;
   stx_signStructuredMessage: StxMethods.StxSignStructuredMessage;
   stx_signTransaction: StxMethods.StxSignTransaction;
   stx_transferStx: StxMethods.StxTransferStx;
@@ -30,15 +30,15 @@ export interface BtcRequests {
 export type BtcRequestMethod = keyof BtcRequests;
 
 export interface RunesRequests {
-  runes_estimateMint: RunesMethods.EstimateRunesMint;
-  runes_mint: RunesMethods.MintRunes;
-  runes_estimateEtch: RunesMethods.EstimateRunesEtch;
-  runes_etch: RunesMethods.EtchRunes;
-  runes_getOrder: RunesMethods.GetOrder;
-  runes_estimateRbfOrder: RunesMethods.EstimateRbfOrder;
-  runes_rbfOrder: RunesMethods.RbfOrder;
-  runes_getBalance: RunesMethods.GetRunesBalance;
-  runes_transfer: RunesMethods.TransferRunes;
+  runes_estimateEtch: RunesMethods.RunesEstimateEtch;
+  runes_estimateMint: RunesMethods.RunesEstimateMint;
+  runes_estimateRbfOrder: RunesMethods.RunesEstimateRbfOrder;
+  runes_etch: RunesMethods.RunesEtch;
+  runes_getBalance: RunesMethods.RunesGetBalance;
+  runes_getOrder: RunesMethods.RunesGetOrder;
+  runes_mint: RunesMethods.RunesMint;
+  runes_rbfOrder: RunesMethods.RunesRbfOrder;
+  runes_transfer: RunesMethods.RunesTransfer;
 }
 
 export type RunesRequestMethod = keyof RunesRequests;
@@ -51,9 +51,13 @@ export interface OrdinalsRequests {
 export type OrdinalsRequestMethod = keyof OrdinalsRequests;
 
 export interface WalletRequests {
-  wallet_requestPermissions: WalletMethods.RequestPermissions;
-  wallet_renouncePermissions: WalletMethods.RenouncePermissions;
+  wallet_connect: WalletMethods.Connect;
+  wallet_disconnect: WalletMethods.Disconnect;
+  wallet_getAccount: WalletMethods.GetAccount;
+  wallet_getCurrentPermissions: WalletMethods.GetCurrentPermissions;
   wallet_getWalletType: WalletMethods.GetWalletType;
+  wallet_renouncePermissions: WalletMethods.RenouncePermissions;
+  wallet_requestPermissions: WalletMethods.RequestPermissions;
 }
 
 export type Requests = BtcRequests &
