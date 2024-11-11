@@ -135,15 +135,16 @@ class UnisatAdapter extends SatsConnectAdapter {
       autoFinalized: broadcast,
       toSignInputs: convertSignInputsToInputType(signInputs),
     });
+    const signedPsbtBase64 = Buffer.from(signedPsbt, 'hex').toString('base64');
+
+    let txid: string | undefined;
     if (broadcast) {
-      const txid = await window.unisat.pushPsbt(psbtHex);
-      return {
-        psbt: signedPsbt,
-        txid,
-      };
+      txid = await window.unisat.pushPsbt(signedPsbt);
     }
+
     return {
-      psbt: psbtHex,
+      psbt: signedPsbtBase64,
+      txid,
     };
   }
 
