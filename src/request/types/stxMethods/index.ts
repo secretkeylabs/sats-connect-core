@@ -5,4 +5,5 @@ export * from './getAddresses';
 export * from './signMessage';
 export * from './signStructuredMessage';
 export * from './signTransaction';
+export * from './signTransactions';
 export * from './transferStx';
