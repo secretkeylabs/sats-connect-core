@@ -6,21 +6,19 @@ export const stxSignTransactionsParamsSchema = v.object({
   /**
    * The transactions to sign as hex-encoded strings.
    */
-  transactions: v.array(
-    v.object({
-      transactionHex: v.string(),
+  transactions: v.array(v.string()),
 
-      /**
-       * Whether the transaction should be broadcast after signing. Defaults to `false`.
-       */
-      broadcast: v.optional(v.boolean()),
-    })
-  ),
+  /**
+   * Whether the signed transactions should be broadcast after signing. Defaults
+   * to `true`.
+   */
+  broadcast: v.optional(v.boolean()),
 });
 export type StxSignTransactionsParams = v.InferOutput<typeof stxSignTransactionsParamsSchema>;
 export const stxSignTransactionsResultSchema = v.object({
   /**
-   * The signed transactions as hex-encoded strings. In the same order as the sign request.
+   * The signed transactions as hex-encoded strings, in the same order as in the
+   * sign request.
    */
   transactions: v.array(v.string()),
 });
