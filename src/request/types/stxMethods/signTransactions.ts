@@ -1,3 +1,4 @@
+import { deserializeTransaction } from '@stacks/transactions';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
@@ -6,7 +7,17 @@ export const stxSignTransactionsParamsSchema = v.object({
   /**
    * The transactions to sign as hex-encoded strings.
    */
-  transactions: v.array(v.string()),
+  transactions: v.pipe(
+    v.array(
+      v.pipe(
+        v.string(),
+        v.check((hex) => {
+          return Boolean(deserializeTransaction(hex));
+        }, 'Invalid hex-encoded Stacks transaction.')
+      )
+    ),
+    v.minLength(1)
+  ),
 
   /**
    * Whether the signed transactions should be broadcast after signing. Defaults

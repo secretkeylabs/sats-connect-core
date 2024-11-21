@@ -32,6 +32,9 @@
     "jsontokens": "4.0.1",
     "valibot": "0.42.1"
   },
+  "peerDependencies": {
+    "@stacks/transactions": "^7.0.2"
+  },
   "devDependencies": {
     "@types/jest": "^29.2.6",
     "husky": "^8.0.3",
