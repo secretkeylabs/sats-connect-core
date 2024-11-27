@@ -23,14 +23,14 @@ export const stxCallContractParamsSchema = v.object({
    * The function's arguments. The arguments are expected to be hex-encoded
    * strings of Clarity values.
    *
-   * To convert Clarity values to their hex representation, the `cvToString`
+   * To convert Clarity values to their hex representation, the `cvToHex`
    * helper from the `@stacks/transactions` package may be helpful.
    *
    * ```js
-   * import { cvToString } from '@stacks/transactions';
+   * import { cvToHex } from '@stacks/transactions';
    *
    * const functionArgs = [someClarityValue1, someClarityValue2];
-   * const hexArgs = functionArgs.map(cvToString);
+   * const hexArgs = functionArgs.map(cvToHex);
    * ```
    */
   arguments: v.optional(v.array(v.string())),
