@@ -42,6 +42,7 @@ jobs:
         run: |
           echo "@sats-connect:registry=https://registry.npmjs.org/" > .npmrc
           echo "//registry.npmjs.org/:_authToken=$AUTH_TOKEN" >> .npmrc
-          npm publish --access=public
+          npm publish --access=public --tag pr-$PR_NUMBER
         env:
           AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_REGISTRY_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
