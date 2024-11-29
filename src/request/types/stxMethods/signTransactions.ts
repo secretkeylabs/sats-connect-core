@@ -1,4 +1,3 @@
-import { deserializeTransaction } from '@stacks/transactions';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
@@ -12,7 +11,10 @@ export const stxSignTransactionsParamsSchema = v.object({
       v.pipe(
         v.string(),
         v.check((hex) => {
-          return Boolean(deserializeTransaction(hex));
+          // NOTE: The following method is a `@stacks/transactions` v7 method,
+          // and is left here in preparation for when other libraries are also
+          // updated to v7. return Boolean(deserializeTransaction(hex));
+          return true;
         }, 'Invalid hex-encoded Stacks transaction.')
       )
     ),
