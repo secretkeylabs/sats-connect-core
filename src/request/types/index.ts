@@ -13,6 +13,7 @@ export interface StxRequests {
   stx_signStructuredMessage: StxMethods.StxSignStructuredMessage;
   stx_signTransaction: StxMethods.StxSignTransaction;
   stx_transferStx: StxMethods.StxTransferStx;
+  stx_signTransactions: StxMethods.StxSignTransactions;
 }
 
 export type StxRequestMethod = keyof StxRequests;
