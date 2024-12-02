@@ -13,7 +13,9 @@ export const stxSignTransactionsParamsSchema = v.object({
         v.check((hex) => {
           // NOTE: The following method is a `@stacks/transactions` v7 method,
           // and is left here in preparation for when other libraries are also
-          // updated to v7. return Boolean(deserializeTransaction(hex));
+          // updated to v7.
+          //
+          // return Boolean(deserializeTransaction(hex));
           return true;
         }, 'Invalid hex-encoded Stacks transaction.')
       )
