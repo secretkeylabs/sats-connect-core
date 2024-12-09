@@ -6,6 +6,7 @@ export enum BitcoinNetworkType {
   Mainnet = 'Mainnet',
   Testnet = 'Testnet',
   Signet = 'Signet',
+  Regtest = 'Regtest',
 }
 
 export interface BitcoinNetwork {

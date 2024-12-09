@@ -17,6 +17,7 @@ const urlNetworkSuffix = {
   [BitcoinNetworkType.Mainnet]: '',
   [BitcoinNetworkType.Testnet]: '-testnet',
   [BitcoinNetworkType.Signet]: '-signet',
+  [BitcoinNetworkType.Regtest]: '-signet',
 };
 export const ORDINALS_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
   `https://ordinals${urlNetworkSuffix[network]}.xverse.app/v1`;
