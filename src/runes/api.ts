@@ -18,8 +18,12 @@ const urlNetworkSuffix = {
   [BitcoinNetworkType.Testnet]: '-testnet',
   [BitcoinNetworkType.Signet]: '-signet',
 };
-export const ORDINALS_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) =>
-  `https://ordinals${urlNetworkSuffix[network]}.xverse.app/v1`;
+export const ORDINALS_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) => {
+  if (network === BitcoinNetworkType.Regtest) {
+    throw new Error('Ordinals API does not support regtest network');
+  }
+  return `https://ordinals${urlNetworkSuffix[network]}.xverse.app/v1`;
+};
 
 export class RunesApi {
   client: AxiosInstance;
