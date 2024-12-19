@@ -33,19 +33,19 @@
     "valibot": "0.42.1"
   },
   "devDependencies": {
-    "@types/jest": "^29.2.6",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
+    "@types/jest": "29.5.14",
+    "husky": "8.0.3",
+    "lint-staged": "13.3.0",
     "prettier": "3.3.3",
-    "process": "^0.11.10",
-    "rimraf": "^3.0.2",
-    "stream-browserify": "^3.0.0",
-    "ts-jest": "^29.0.5",
-    "ts-loader": "^9.4.1",
-    "tsup": "^8.0.2",
+    "process": "0.11.10",
+    "rimraf": "3.0.2",
+    "stream-browserify": "3.0.0",
+    "ts-jest": "29.2.5",
+    "ts-loader": "9.5.1",
+    "tsup": "8.3.0",
     "typescript": "5.4.5",
-    "util": "^0.12.4",
-    "vm-browserify": "^1.1.2"
+    "util": "0.12.5",
+    "vm-browserify": "1.1.2"
   },
   "repository": {
     "type": "git",
