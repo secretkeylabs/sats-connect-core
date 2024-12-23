@@ -13,14 +13,20 @@ const packageJson = require('../package.json');
 
 for (const packageName in packageJson.dependencies) {
   const installedPathKey = `node_modules/${packageName}`;
-  if (packageJson.dependencies.hasOwnProperty(packageName) && packageLock.packages[installedPathKey]) {
+  if (
+    packageJson.dependencies.hasOwnProperty(packageName) &&
+    packageLock.packages[installedPathKey]
+  ) {
     packageJson.dependencies[packageName] = packageLock.packages[installedPathKey].version;
   }
 }
 
 for (const packageName in packageJson.devDependencies) {
   const installedPathKey = `node_modules/${packageName}`;
-  if (packageJson.devDependencies.hasOwnProperty(packageName) && packageLock.packages[installedPathKey]) {
+  if (
+    packageJson.devDependencies.hasOwnProperty(packageName) &&
+    packageLock.packages[installedPathKey]
+  ) {
     packageJson.devDependencies[packageName] = packageLock.packages[installedPathKey].version;
   }
 }
