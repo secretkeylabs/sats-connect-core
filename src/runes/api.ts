@@ -19,8 +19,8 @@ const urlNetworkSuffix = {
   [BitcoinNetworkType.Signet]: '-signet',
 };
 export const ORDINALS_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) => {
-  if (network === BitcoinNetworkType.Regtest) {
-    throw new Error('Ordinals API does not support regtest network');
+  if (network === BitcoinNetworkType.Regtest || network === BitcoinNetworkType.Testnet4) {
+    throw new Error(`Ordinals API does not support ${network} network`);
   }
   return `https://ordinals${urlNetworkSuffix[network]}.xverse.app/v1`;
 };
