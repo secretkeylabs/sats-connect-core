@@ -3,6 +3,10 @@ import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
 
+// NOTE: These next 4 values are copied from xverse-core to avoid having it as a
+// dependency. It has side effects and doesn't support tree-shaking, and would
+// make sats-connect-core too heavy.
+
 export const accountActionsSchema = v.object({
   read: v.optional(v.boolean()),
 });
@@ -192,12 +196,15 @@ export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
+// NOTE: This next value is copied from xverse-core to avoid having it as a
+// dependency. It has side effects and doesn't support tree-shaking, and would
+// make sats-connect-core too heavy.
+const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
 export const getNetworkResultSchema = v.object({
   bitcoin: v.object({
-    name: v.enum(BitcoinNetworkType),
+    name: v.picklist(networkType),
   }),
   stacks: v.object({
-    // TODO: do we have a list of Stacks network names somewhere?
     name: v.string(),
   }),
 });
