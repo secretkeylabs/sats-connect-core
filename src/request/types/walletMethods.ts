@@ -1,4 +1,4 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
@@ -7,7 +7,9 @@ export const accountActionsSchema = v.object({
   read: v.optional(v.boolean()),
 });
 
-export const walletActionsSchema = v.object({});
+export const walletActionsSchema = v.object({
+  readNetwork: v.optional(v.boolean()),
+});
 
 export const accountPermissionSchema = v.object({
   type: v.literal('account'),
@@ -186,3 +188,27 @@ export const connectRequestMessageSchema = v.object({
 });
 export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSchema>;
 export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
+
+export const getNetworkMethodName = 'wallet_getNetwork';
+export const getNetworkParamsSchema = v.nullish(v.null());
+export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
+export const getNetworkResultSchema = v.object({
+  bitcoin: v.object({
+    name: v.enum(BitcoinNetworkType),
+  }),
+  stacks: v.object({
+    // TODO: do we have a list of Stacks network names somewhere?
+    name: v.string(),
+  }),
+});
+export type GetNetworkResult = v.InferOutput<typeof getNetworkResultSchema>;
+export const getNetworkRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getNetworkMethodName),
+    params: getNetworkParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
+export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
