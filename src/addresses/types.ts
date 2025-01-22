@@ -1,5 +1,6 @@
 import * as v from 'valibot';
 import type { RequestOptions, RequestPayload } from '../types';
+import { walletTypeSchema } from '../request';
 
 export enum AddressPurpose {
   Ordinals = 'ordinals',
@@ -26,6 +27,7 @@ export const addressSchema = v.object({
   publicKey: v.string(),
   purpose: v.enum(AddressPurpose),
   addressType: v.enum(AddressType),
+  walletType: walletTypeSchema,
 });
 export type Address = v.InferOutput<typeof addressSchema>;
 

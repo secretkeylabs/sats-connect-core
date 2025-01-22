@@ -154,7 +154,6 @@ export type GetAccountParams = v.InferOutput<typeof getAccountParamsSchema>;
 export const getAccountResultSchema = v.object({
   id: v.string(),
   addresses: v.array(addressSchema),
-  walletType: walletTypeSchema,
 });
 export type GetAccountResult = v.InferOutput<typeof getAccountResultSchema>;
 export const getAccountRequestMessageSchema = v.object({

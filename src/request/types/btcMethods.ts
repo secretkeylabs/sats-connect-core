@@ -219,9 +219,6 @@ export type GetAccountsParams = v.InferOutput<typeof getAccountsParamsSchema>;
 export const getAccountsResultSchema = v.array(
   v.object({
     ...addressSchema.entries,
-    ...v.object({
-      walletType: walletTypeSchema,
-    }).entries,
   })
 );
 export type GetAccountsResult = v.InferOutput<typeof getAccountsResultSchema>;
