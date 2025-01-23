@@ -168,31 +168,6 @@ export const getAccountRequestMessageSchema = v.object({
 export type GetAccountRequestMessage = v.InferOutput<typeof getAccountRequestMessageSchema>;
 export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResult>;
 
-export const connectMethodName = 'wallet_connect';
-export const connectParamsSchema = v.nullish(
-  v.object({
-    permissions: v.optional(v.array(PermissionRequestParams)),
-    addresses: v.optional(v.array(v.enum(AddressPurpose))),
-    message: v.optional(
-      v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
-    ),
-  })
-);
-
-export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
-export const connectResultSchema = getAccountResultSchema;
-export type ConnectResult = v.InferOutput<typeof connectResultSchema>;
-export const connectRequestMessageSchema = v.object({
-  ...rpcRequestMessageSchema.entries,
-  ...v.object({
-    method: v.literal(connectMethodName),
-    params: connectParamsSchema,
-    id: v.string(),
-  }).entries,
-});
-export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSchema>;
-export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
-
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
@@ -219,3 +194,32 @@ export const getNetworkRequestMessageSchema = v.object({
 });
 export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
 export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
+
+export const connectMethodName = 'wallet_connect';
+export const connectParamsSchema = v.nullish(
+  v.object({
+    permissions: v.optional(v.array(PermissionRequestParams)),
+    addresses: v.optional(v.array(v.enum(AddressPurpose))),
+    message: v.optional(
+      v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
+    ),
+  })
+);
+export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
+export const connectResultSchema = v.object({
+  id: v.string(),
+  addresses: v.array(addressSchema),
+  walletType: walletTypeSchema,
+  network: getNetworkResultSchema,
+});
+export type ConnectResult = v.InferOutput<typeof connectResultSchema>;
+export const connectRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(connectMethodName),
+    params: connectParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSchema>;
+export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
