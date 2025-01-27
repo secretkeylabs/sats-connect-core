@@ -1,6 +1,6 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
-import { networkInfoSchema, walletTypeSchema } from './common';
+import { networkType, walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
 
 // NOTE: These next 4 values are copied from xverse-core to avoid having it as a
@@ -171,7 +171,14 @@ export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResul
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
-export const getNetworkResultSchema = networkInfoSchema;
+export const getNetworkResultSchema = v.object({
+  bitcoin: v.object({
+    name: v.picklist(networkType),
+  }),
+  stacks: v.object({
+    name: v.string(),
+  }),
+});
 export type GetNetworkResult = v.InferOutput<typeof getNetworkResultSchema>;
 export const getNetworkRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
