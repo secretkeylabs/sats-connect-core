@@ -1,6 +1,5 @@
 import {
   BtcRequestMethod,
-  networkType,
   OrdinalsRequestMethod,
   Params,
   Requests,
@@ -27,7 +26,17 @@ export const accountChangeSchema = v.object({
 export type AccountChangeEvent = v.InferOutput<typeof accountChangeSchema>;
 
 // networkChange
+
 export const networkChangeEventName = 'networkChange';
+// NOTE1: This next value is copied from xverse-core to avoid having it as a
+// dependency. It has side effects and doesn't support tree-shaking, and would
+// make sats-connect-core too heavy.
+//
+// NOTE2: The version of Webpack currently being used in the extension is unable
+// to properly handle imports. As such, this value may be defined more than once
+// in different files, and should remain this way until the extension's build
+// system has been updated.
+export const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
 export const networkChangeSchema = v.object({
   type: v.literal(networkChangeEventName),
   bitcoin: v.object({
