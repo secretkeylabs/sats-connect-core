@@ -1,6 +1,6 @@
-import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
-import { walletTypeSchema } from './common';
+import { networkInfoSchema, walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
 
 // NOTE: These next 4 values are copied from xverse-core to avoid having it as a
@@ -171,18 +171,7 @@ export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResul
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
-// NOTE: This next value is copied from xverse-core to avoid having it as a
-// dependency. It has side effects and doesn't support tree-shaking, and would
-// make sats-connect-core too heavy.
-const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
-export const getNetworkResultSchema = v.object({
-  bitcoin: v.object({
-    name: v.picklist(networkType),
-  }),
-  stacks: v.object({
-    name: v.string(),
-  }),
-});
+export const getNetworkResultSchema = networkInfoSchema;
 export type GetNetworkResult = v.InferOutput<typeof getNetworkResultSchema>;
 export const getNetworkRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,

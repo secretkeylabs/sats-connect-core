@@ -1,6 +1,6 @@
 import {
   BtcRequestMethod,
-  getNetworkResultSchema,
+  networkInfoSchema,
   OrdinalsRequestMethod,
   Params,
   Requests,
@@ -29,16 +29,8 @@ export type AccountChangeEvent = v.InferOutput<typeof accountChangeSchema>;
 // networkChange
 export const networkChangeEventName = 'networkChange';
 export const networkChangeSchema = v.object({
-  ...getNetworkResultSchema.entries,
-  ...v.object({
-    type: v.literal(networkChangeEventName),
-  }).entries,
-  // bitcoin: v.object({
-  //   name: v.string(),
-  // }),
-  // stacks: v.object({
-  //   name: v.string(),
-  // }),
+  ...networkInfoSchema.entries,
+  type: v.literal(networkChangeEventName),
 });
 export type NetworkChangeEvent = v.InferOutput<typeof networkChangeSchema>;
 
