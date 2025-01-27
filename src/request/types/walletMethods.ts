@@ -1,4 +1,4 @@
-import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
@@ -168,37 +168,17 @@ export const getAccountRequestMessageSchema = v.object({
 export type GetAccountRequestMessage = v.InferOutput<typeof getAccountRequestMessageSchema>;
 export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResult>;
 
-export const connectMethodName = 'wallet_connect';
-export const connectParamsSchema = v.nullish(
-  v.object({
-    permissions: v.optional(v.array(PermissionRequestParams)),
-    addresses: v.optional(v.array(v.enum(AddressPurpose))),
-    message: v.optional(
-      v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
-    ),
-  })
-);
-
-export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
-export const connectResultSchema = getAccountResultSchema;
-export type ConnectResult = v.InferOutput<typeof connectResultSchema>;
-export const connectRequestMessageSchema = v.object({
-  ...rpcRequestMessageSchema.entries,
-  ...v.object({
-    method: v.literal(connectMethodName),
-    params: connectParamsSchema,
-    id: v.string(),
-  }).entries,
-});
-export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSchema>;
-export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
-
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
-// NOTE: This next value is copied from xverse-core to avoid having it as a
+// NOTE1: This next value is copied from xverse-core to avoid having it as a
 // dependency. It has side effects and doesn't support tree-shaking, and would
 // make sats-connect-core too heavy.
+//
+// NOTE2: The version of Webpack currently being used in the extension is unable
+// to properly handle imports. As such, this value may be defined more than once
+// in different files, and should remain this way until the extension's build
+// system has been updated.
 const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
 export const getNetworkResultSchema = v.object({
   bitcoin: v.object({
@@ -219,3 +199,32 @@ export const getNetworkRequestMessageSchema = v.object({
 });
 export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
 export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
+
+export const connectMethodName = 'wallet_connect';
+export const connectParamsSchema = v.nullish(
+  v.object({
+    permissions: v.optional(v.array(PermissionRequestParams)),
+    addresses: v.optional(v.array(v.enum(AddressPurpose))),
+    message: v.optional(
+      v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
+    ),
+  })
+);
+export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
+export const connectResultSchema = v.object({
+  id: v.string(),
+  addresses: v.array(addressSchema),
+  walletType: walletTypeSchema,
+  network: getNetworkResultSchema,
+});
+export type ConnectResult = v.InferOutput<typeof connectResultSchema>;
+export const connectRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(connectMethodName),
+    params: connectParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSchema>;
+export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
