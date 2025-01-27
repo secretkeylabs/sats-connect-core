@@ -30,7 +30,9 @@ export type AccountChangeEvent = v.InferOutput<typeof accountChangeSchema>;
 export const networkChangeEventName = 'networkChange';
 export const networkChangeSchema = v.object({
   ...getNetworkResultSchema.entries,
-  type: v.literal(networkChangeEventName),
+  ...v.object({
+    type: v.literal(networkChangeEventName),
+  }).entries,
   // bitcoin: v.object({
   //   name: v.string(),
   // }),
