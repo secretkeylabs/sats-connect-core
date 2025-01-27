@@ -179,7 +179,7 @@ export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
 // to properly handle imports. As such, this value may be defined more than once
 // in different files, and should remain this way until the extension's build
 // system has been updated.
-export const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
+const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
 export const getNetworkResultSchema = v.object({
   bitcoin: v.object({
     name: v.picklist(networkType),
