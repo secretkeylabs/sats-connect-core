@@ -77,12 +77,14 @@ class UnisatAdapter extends SatsConnectAdapter {
       publicKey: pk,
       addressType,
       purpose: AddressPurpose.Payment,
+      walletType: 'software',
     };
     const ordinalsAddress: Address = {
       address,
       publicKey: pk,
       addressType,
       purpose: AddressPurpose.Ordinals,
+      walletType: 'software',
     };
     const response: Return<'getAccounts'> = [];
     if (purposes.includes(AddressPurpose.Payment)) {
