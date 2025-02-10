@@ -36,24 +36,7 @@ class FordefiAdapter extends SatsConnectAdapter {
       throw new Error('A wallet method is required');
     }
 
-    try {
-      const response = await provider.request(method, params);
-
-      return {
-        status: 'success',
-        result: response as Return<Method>,
-      };
-    } catch (error) {
-      console.error('Error calling the method', error);
-      return {
-        status: 'error',
-        error: {
-          code: error.code === 4001 ? RpcErrorCode.USER_REJECTION : RpcErrorCode.INTERNAL_ERROR,
-          message: error.message ? error.message : 'Wallet method call error',
-          data: error,
-        },
-      };
-    }
+    return await provider.request(method, params);
   };
 
   public addListener: AddListener = (eventName, cb) => {
