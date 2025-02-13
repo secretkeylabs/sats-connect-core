@@ -16,10 +16,11 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 const urlNetworkSuffix = {
   [BitcoinNetworkType.Mainnet]: '',
   [BitcoinNetworkType.Testnet]: '-testnet',
+  [BitcoinNetworkType.Testnet4]: '-testnet4',
   [BitcoinNetworkType.Signet]: '-signet',
 };
 export const ORDINALS_API_BASE_URL = (network: BitcoinNetworkType = BitcoinNetworkType.Mainnet) => {
-  if (network === BitcoinNetworkType.Regtest || network === BitcoinNetworkType.Testnet4) {
+  if (network === BitcoinNetworkType.Regtest) {
     throw new Error(`Ordinals API does not support ${network} network`);
   }
   return `https://ordinals${urlNetworkSuffix[network]}.xverse.app/v1`;
