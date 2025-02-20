@@ -2,6 +2,7 @@ import { XverseAdapter } from './xverse';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { UnisatAdapter } from './unisat';
 import { Provider } from '../provider';
+import { FordefiAdapter } from './fordefi';
 
 export const DefaultAdaptersInfo: Record<string, Provider> = {
   fordefi: {
@@ -31,6 +32,7 @@ export const DefaultAdaptersInfo: Record<string, Provider> = {
 };
 
 export const defaultAdapters: Record<string, new () => SatsConnectAdapter> = {
+  [DefaultAdaptersInfo.fordefi.id]: FordefiAdapter,
   [DefaultAdaptersInfo.xverse.id]: XverseAdapter,
   [DefaultAdaptersInfo.unisat.id]: UnisatAdapter,
 };
