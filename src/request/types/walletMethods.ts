@@ -1,4 +1,4 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
@@ -151,18 +151,9 @@ export type GetCurrentPermissions = MethodParamsAndResult<
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
-// NOTE1: This next value is copied from xverse-core to avoid having it as a
-// dependency. It has side effects and doesn't support tree-shaking, and would
-// make sats-connect-core too heavy.
-//
-// NOTE2: The version of Webpack currently being used in the extension is unable
-// to properly handle imports. As such, this value may be defined more than once
-// in different files, and should remain this way until the extension's build
-// system has been updated.
-const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
 export const getNetworkResultSchema = v.object({
   bitcoin: v.object({
-    name: v.picklist(networkType),
+    name: v.enum(BitcoinNetworkType),
   }),
   stacks: v.object({
     name: v.string(),
