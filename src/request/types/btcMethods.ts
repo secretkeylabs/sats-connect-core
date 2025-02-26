@@ -6,6 +6,7 @@ import * as v from 'valibot';
 import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import { walletTypeSchema } from './common';
+import { getNetworkResultSchema } from './walletMethods';
 
 export const getInfoMethodName = 'getInfo';
 export const getInfoParamsSchema = v.nullish(v.null());
@@ -59,6 +60,7 @@ export const getAddressesResultSchema = v.object({
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
+  network: getNetworkResultSchema,
 });
 export type GetAddressesResult = v.InferOutput<typeof getAddressesResultSchema>;
 export const getAddressesRequestMessageSchema = v.object({
