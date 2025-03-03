@@ -171,6 +171,26 @@ export const getNetworkRequestMessageSchema = v.object({
 export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
 export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
 
+export const changeNetworkMethodName = 'wallet_changeNetwork';
+export const changeNetworkParamsSchema = v.nullish(
+  v.object({
+    name: v.enum(BitcoinNetworkType),
+  })
+);
+export type ChangeNetworkParams = v.InferOutput<typeof changeNetworkParamsSchema>;
+export const changeNetworkResultSchema = v.nullish(v.null());
+export type ChangeNetworkResult = v.InferOutput<typeof changeNetworkResultSchema>;
+export const changeNetworkRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(changeNetworkMethodName),
+    params: changeNetworkParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type ChangeNetworkRequestMessage = v.InferOutput<typeof changeNetworkRequestMessageSchema>;
+export type ChangeNetwork = MethodParamsAndResult<ChangeNetworkParams, ChangeNetworkResult>;
+
 export const getAccountMethodName = 'wallet_getAccount';
 export const getAccountParamsSchema = v.nullish(v.null());
 export type GetAccountParams = v.InferOutput<typeof getAccountParamsSchema>;
