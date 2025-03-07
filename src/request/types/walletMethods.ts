@@ -1,4 +1,4 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
 import { walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
@@ -148,41 +148,12 @@ export type GetCurrentPermissions = MethodParamsAndResult<
   GetCurrentPermissionsResult
 >;
 
-export const getAccountMethodName = 'wallet_getAccount';
-export const getAccountParamsSchema = v.nullish(v.null());
-export type GetAccountParams = v.InferOutput<typeof getAccountParamsSchema>;
-export const getAccountResultSchema = v.object({
-  id: v.string(),
-  addresses: v.array(addressSchema),
-  walletType: walletTypeSchema,
-});
-export type GetAccountResult = v.InferOutput<typeof getAccountResultSchema>;
-export const getAccountRequestMessageSchema = v.object({
-  ...rpcRequestMessageSchema.entries,
-  ...v.object({
-    method: v.literal(getAccountMethodName),
-    params: getAccountParamsSchema,
-    id: v.string(),
-  }).entries,
-});
-export type GetAccountRequestMessage = v.InferOutput<typeof getAccountRequestMessageSchema>;
-export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResult>;
-
 export const getNetworkMethodName = 'wallet_getNetwork';
 export const getNetworkParamsSchema = v.nullish(v.null());
 export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
-// NOTE1: This next value is copied from xverse-core to avoid having it as a
-// dependency. It has side effects and doesn't support tree-shaking, and would
-// make sats-connect-core too heavy.
-//
-// NOTE2: The version of Webpack currently being used in the extension is unable
-// to properly handle imports. As such, this value may be defined more than once
-// in different files, and should remain this way until the extension's build
-// system has been updated.
-const networkType = ['Mainnet', 'Testnet', 'Testnet4', 'Signet', 'Regtest'] as const;
 export const getNetworkResultSchema = v.object({
   bitcoin: v.object({
-    name: v.picklist(networkType),
+    name: v.enum(BitcoinNetworkType),
   }),
   stacks: v.object({
     name: v.string(),
@@ -199,6 +170,45 @@ export const getNetworkRequestMessageSchema = v.object({
 });
 export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
 export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
+
+export const changeNetworkMethodName = 'wallet_changeNetwork';
+export const changeNetworkParamsSchema = v.object({
+  name: v.enum(BitcoinNetworkType),
+});
+export type ChangeNetworkParams = v.InferOutput<typeof changeNetworkParamsSchema>;
+export const changeNetworkResultSchema = v.nullish(v.null());
+export type ChangeNetworkResult = v.InferOutput<typeof changeNetworkResultSchema>;
+export const changeNetworkRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(changeNetworkMethodName),
+    params: changeNetworkParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type ChangeNetworkRequestMessage = v.InferOutput<typeof changeNetworkRequestMessageSchema>;
+export type ChangeNetwork = MethodParamsAndResult<ChangeNetworkParams, ChangeNetworkResult>;
+
+export const getAccountMethodName = 'wallet_getAccount';
+export const getAccountParamsSchema = v.nullish(v.null());
+export type GetAccountParams = v.InferOutput<typeof getAccountParamsSchema>;
+export const getAccountResultSchema = v.object({
+  id: v.string(),
+  addresses: v.array(addressSchema),
+  walletType: walletTypeSchema,
+  network: getNetworkResultSchema,
+});
+export type GetAccountResult = v.InferOutput<typeof getAccountResultSchema>;
+export const getAccountRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getAccountMethodName),
+    params: getAccountParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetAccountRequestMessage = v.InferOutput<typeof getAccountRequestMessageSchema>;
+export type GetAccount = MethodParamsAndResult<GetAccountParams, GetAccountResult>;
 
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
