@@ -172,11 +172,9 @@ export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMes
 export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
 
 export const changeNetworkMethodName = 'wallet_changeNetwork';
-export const changeNetworkParamsSchema = v.nullish(
-  v.object({
-    name: v.enum(BitcoinNetworkType),
-  })
-);
+export const changeNetworkParamsSchema = v.object({
+  name: v.enum(BitcoinNetworkType),
+});
 export type ChangeNetworkParams = v.InferOutput<typeof changeNetworkParamsSchema>;
 export const changeNetworkResultSchema = v.nullish(v.null());
 export type ChangeNetworkResult = v.InferOutput<typeof changeNetworkResultSchema>;
