@@ -17,6 +17,16 @@ export const stxDeployContractParamsSchema = v.object({
    * The version of the Clarity contract.
    */
   clarityVersion: v.optional(v.string()),
+
+  /**
+   * The post conditions to apply to the contract call.
+   */
+  postConditions: v.optional(v.array(v.string())),
+
+  /**
+   * The mode to apply to the post conditions.
+   */
+  postConditionMode: v.optional(v.union([v.literal('allow'), v.literal('deny')])),
 });
 export type StxDeployContractParams = v.InferOutput<typeof stxDeployContractParamsSchema>;
 export const stxDeployContractResultSchema = v.object({
