@@ -20,6 +20,11 @@ export const stxCallContractParamsSchema = v.object({
   functionName: v.string(),
 
   /**
+   * @deprecated in favor of `functionArgs` for @stacks/connect compatibility
+   */
+  arguments: v.optional(v.array(v.string())),
+
+  /**
    * The function's arguments. The arguments are expected to be hex-encoded
    * strings of Clarity values.
    *
@@ -33,7 +38,7 @@ export const stxCallContractParamsSchema = v.object({
    * const hexArgs = functionArgs.map(cvToHex);
    * ```
    */
-  arguments: v.optional(v.array(v.string())),
+  functionArgs: v.optional(v.array(v.string())),
 
   /**
    * The post conditions to apply to the contract call.
