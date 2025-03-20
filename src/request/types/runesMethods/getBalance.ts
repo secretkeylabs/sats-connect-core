@@ -1,5 +1,5 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 
 export const runesGetBalanceMethodName = 'runes_getBalance';
 
@@ -14,6 +14,7 @@ export const runesGetBalanceResultSchema = v.object({
       divisibility: v.number(),
       symbol: v.string(),
       inscriptionId: v.nullish(v.string()),
+      spendableBalance: v.string(),
     })
   ),
 });
