@@ -12,7 +12,7 @@ export const stxSignMessageParamsSchema = v.object({
   /**
    * The public key to sign the message with.
    */
-  publicKey: v.string(),
+  publicKey: v.optional(v.string()),
 
   /**
    * The format version of the parameter.
