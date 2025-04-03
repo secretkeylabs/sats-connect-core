@@ -8,16 +8,6 @@ export const stxSignMessageParamsSchema = v.object({
    * The message to sign.
    */
   message: v.string(),
-
-  /**
-   * The public key to sign the message with.
-   */
-  publicKey: v.optional(v.string()),
-
-  /**
-   * The format version of the parameter.
-   */
-  parameterFormatVersion: v.optional(v.number()),
 });
 export type StxSignMessageParams = v.InferOutput<typeof stxSignMessageParamsSchema>;
 
