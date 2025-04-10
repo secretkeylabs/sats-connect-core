@@ -15,11 +15,6 @@ export const stxSignStructuredMessageParamsSchema = v.object({
   message: v.string(),
 
   /**
-   * The format version of the parameter.
-   */
-  parameterFormatVersion: v.optional(v.number()),
-
-  /**
    * The public key to sign the message with.
    */
   publicKey: v.optional(v.string()),
