@@ -1,7 +1,7 @@
-import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import * as v from 'valibot';
-import { walletTypeSchema } from './common';
 import { AddressPurpose, addressSchema } from '../../addresses';
+import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import { walletTypeSchema } from './common';
 
 // NOTE: These next 4 values are copied from xverse-core to avoid having it as a
 // dependency. It has side effects and doesn't support tree-shaking, and would
@@ -218,6 +218,7 @@ export const connectParamsSchema = v.nullish(
     message: v.optional(
       v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
     ),
+    network: v.optional(v.enum(BitcoinNetworkType)),
   })
 );
 export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
