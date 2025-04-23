@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 import type { RequestOptions, RequestPayload } from '../types';
-import { walletTypeSchema } from '../request';
+import { walletTypeSchema } from '../request/types/common';
 
 export enum AddressPurpose {
   Ordinals = 'ordinals',
