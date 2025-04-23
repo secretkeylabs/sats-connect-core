@@ -6,7 +6,7 @@ import {
   RunesRequestMethod,
   StxRequestMethod,
 } from '../request';
-import type { GetAddressResponse } from '../addresses';
+import { addressSchema, GetAddressResponse } from '../addresses';
 import type { GetCapabilitiesResponse } from '../capabilities';
 import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
 import type { SignMessageResponse } from '../messages';
@@ -22,6 +22,7 @@ import * as v from 'valibot';
 export const accountChangeEventName = 'accountChange';
 export const accountChangeSchema = v.object({
   type: v.literal(accountChangeEventName),
+  addresses: v.optional(v.array(addressSchema)),
 });
 export type AccountChangeEvent = v.InferOutput<typeof accountChangeSchema>;
 
