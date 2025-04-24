@@ -1,3 +1,8 @@
+import * as v from 'valibot';
+import { addressSchema, GetAddressResponse } from '../addresses';
+import type { GetCapabilitiesResponse } from '../capabilities';
+import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
+import type { SignMessageResponse } from '../messages';
 import {
   BtcRequestMethod,
   OrdinalsRequestMethod,
@@ -6,17 +11,12 @@ import {
   RunesRequestMethod,
   StxRequestMethod,
 } from '../request';
-import { addressSchema, GetAddressResponse } from '../addresses';
-import type { GetCapabilitiesResponse } from '../capabilities';
-import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
-import type { SignMessageResponse } from '../messages';
 import type {
   SendBtcTransactionResponse,
   SignMultipleTransactionsResponse,
   SignTransactionResponse,
 } from '../transactions';
 import { BitcoinNetworkType, RpcResponse } from '../types';
-import * as v from 'valibot';
 
 // accountChange
 export const accountChangeEventName = 'accountChange';
@@ -36,6 +36,7 @@ export const networkChangeSchema = v.object({
   stacks: v.object({
     name: v.string(),
   }),
+  addresses: v.optional(v.array(addressSchema)),
 });
 export type NetworkChangeEvent = v.InferOutput<typeof networkChangeSchema>;
 
