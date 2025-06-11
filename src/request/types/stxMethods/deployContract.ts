@@ -1,5 +1,5 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 
 export const stxDeployContractMethodName = 'stx_deployContract';
 export const stxDeployContractParamsSchema = v.object({
@@ -16,7 +16,7 @@ export const stxDeployContractParamsSchema = v.object({
   /**
    * The version of the Clarity contract.
    */
-  clarityVersion: v.optional(v.string()),
+  clarityVersion: v.optional(v.number()),
 
   /**
    * The post conditions to apply to the contract call.
