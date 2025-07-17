@@ -45,8 +45,11 @@ declare global {
   }
 }
 
-function convertSignInputsToInputType(signInputs: Record<string, number[]>): InputType {
+function convertSignInputsToInputType(signInputs?: Record<string, number[]>): InputType {
   let result: InputType = [];
+  if (!signInputs) {
+    return result;
+  }
   for (let address in signInputs) {
     let indexes = signInputs[address];
     for (let index of indexes) {
