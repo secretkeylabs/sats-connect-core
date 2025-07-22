@@ -29,8 +29,7 @@
     "axios": "1.8.4",
     "bitcoin-address-validation": "2.2.3",
     "buffer": "6.0.3",
-    "jsontokens": "4.0.1",
-    "valibot": "0.42.1"
+    "jsontokens": "4.0.1"
   },
   "devDependencies": {
     "@types/jest": "29.5.14",
@@ -46,6 +45,9 @@
     "typescript": "5.4.5",
     "util": "0.12.5",
     "vm-browserify": "1.1.2"
+  },
+  "peerDependencies": {
+    "valibot": "1.1.0"
   },
   "repository": {
     "type": "git",
