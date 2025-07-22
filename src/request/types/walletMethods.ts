@@ -1,6 +1,12 @@
 import * as v from 'valibot';
 import { AddressPurpose, addressSchema } from '../../addresses';
-import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
+import {
+  BitcoinNetworkType,
+  MethodParamsAndResult,
+  rpcRequestMessageSchema,
+  StacksNetworkType,
+  StarknetNetworkType,
+} from '../../types';
 import { walletTypeSchema } from './common';
 
 // NOTE: These next 4 values are copied from xverse-core to avoid having it as a
@@ -239,3 +245,43 @@ export const connectRequestMessageSchema = v.object({
 });
 export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSchema>;
 export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
+
+export const addNetworkMethodName = 'wallet_addNetwork';
+export const addNetworkParamsSchema = v.variant('chain', [
+  v.object({
+    chain: v.literal('bitcoin'),
+    networkType: v.enum(BitcoinNetworkType),
+    name: v.string(),
+    rpcUrl: v.string(),
+    rpcFallbackUrl: v.optional(v.string()),
+    indexerUrl: v.string(),
+    blockExplorerUrl: v.optional(v.string()),
+  }),
+  v.object({
+    chain: v.literal('stacks'),
+    name: v.string(),
+    networkType: v.enum(StacksNetworkType),
+    rpcUrl: v.string(),
+    blockExplorerUrl: v.optional(v.string()),
+  }),
+  v.object({
+    chain: v.literal('starknet'),
+    name: v.string(),
+    networkType: v.enum(StarknetNetworkType),
+    rpcUrl: v.string(),
+    blockExplorerUrl: v.optional(v.string()),
+  }),
+]);
+export type AddNetworkParams = v.InferOutput<typeof addNetworkParamsSchema>;
+export const addNetworkRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(addNetworkMethodName),
+    params: addNetworkParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type AddNetworkRequestMessage = v.InferOutput<typeof addNetworkRequestMessageSchema>;
+export const addNetworkResultSchema = v.nullish(v.null());
+export type AddNetworkResult = v.InferOutput<typeof addNetworkResultSchema>;
+export type AddNetwork = MethodParamsAndResult<AddNetworkParams, AddNetworkResult>;
