@@ -254,7 +254,7 @@ export const addNetworkParamsSchema = v.variant('chain', [
     name: v.string(),
     rpcUrl: v.string(),
     rpcFallbackUrl: v.optional(v.string()),
-    indexerUrl: v.string(),
+    indexerUrl: v.optional(v.string()),
     blockExplorerUrl: v.optional(v.string()),
   }),
   v.object({
