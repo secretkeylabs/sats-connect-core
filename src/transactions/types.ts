@@ -34,13 +34,13 @@ export interface InputToSign {
 
 export type PsbtPayload = {
   psbtBase64: string;
-  inputsToSign: InputToSign[];
+  inputsToSign?: InputToSign[];
   broadcast?: boolean;
 };
 
 export type SignMultiplePsbtPayload = {
   psbtBase64: string;
-  inputsToSign: InputToSign[];
+  inputsToSign?: InputToSign[];
 };
 
 export interface SignTransactionPayload extends RequestPayload, PsbtPayload {
