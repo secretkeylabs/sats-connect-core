@@ -250,7 +250,7 @@ export const addNetworkMethodName = 'wallet_addNetwork';
 export const addNetworkParamsSchema = v.variant('chain', [
   v.object({
     chain: v.literal('bitcoin'),
-    networkType: v.enum(BitcoinNetworkType),
+    type: v.enum(BitcoinNetworkType),
     name: v.string(),
     rpcUrl: v.string(),
     rpcFallbackUrl: v.optional(v.string()),
@@ -260,14 +260,14 @@ export const addNetworkParamsSchema = v.variant('chain', [
   v.object({
     chain: v.literal('stacks'),
     name: v.string(),
-    networkType: v.enum(StacksNetworkType),
+    type: v.enum(StacksNetworkType),
     rpcUrl: v.string(),
     blockExplorerUrl: v.optional(v.string()),
   }),
   v.object({
     chain: v.literal('starknet'),
     name: v.string(),
-    networkType: v.enum(StarknetNetworkType),
+    type: v.enum(StarknetNetworkType),
     rpcUrl: v.string(),
     blockExplorerUrl: v.optional(v.string()),
   }),
