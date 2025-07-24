@@ -52,15 +52,16 @@ export interface OrdinalsRequests {
 export type OrdinalsRequestMethod = keyof OrdinalsRequests;
 
 export interface WalletRequests {
+  wallet_addNetwork: WalletMethods.AddNetwork;
+  wallet_changeNetwork: WalletMethods.ChangeNetwork;
   wallet_connect: WalletMethods.Connect;
   wallet_disconnect: WalletMethods.Disconnect;
   wallet_getAccount: WalletMethods.GetAccount;
   wallet_getCurrentPermissions: WalletMethods.GetCurrentPermissions;
+  wallet_getNetwork: WalletMethods.GetNetwork;
   wallet_getWalletType: WalletMethods.GetWalletType;
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;
   wallet_requestPermissions: WalletMethods.RequestPermissions;
-  wallet_getNetwork: WalletMethods.GetNetwork;
-  wallet_changeNetwork: WalletMethods.ChangeNetwork;
 }
 
 export type Requests = BtcRequests &

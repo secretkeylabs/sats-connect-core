@@ -10,6 +10,16 @@ export enum BitcoinNetworkType {
   Regtest = 'Regtest',
 }
 
+export enum StacksNetworkType {
+  Mainnet = 'mainnet',
+  Testnet = 'testnet',
+}
+
+export enum StarknetNetworkType {
+  Mainnet = 'mainnet',
+  Sepolia = 'sepolia',
+}
+
 export interface BitcoinNetwork {
   type: BitcoinNetworkType;
   address?: string;
