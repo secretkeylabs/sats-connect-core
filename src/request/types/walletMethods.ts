@@ -256,6 +256,8 @@ export const addNetworkParamsSchema = v.variant('chain', [
     rpcFallbackUrl: v.optional(v.string()),
     indexerUrl: v.optional(v.string()),
     blockExplorerUrl: v.optional(v.string()),
+
+    switch: v.optional(v.boolean()),
   }),
   v.object({
     chain: v.literal('stacks'),
@@ -263,6 +265,8 @@ export const addNetworkParamsSchema = v.variant('chain', [
     type: v.enum(StacksNetworkType),
     rpcUrl: v.string(),
     blockExplorerUrl: v.optional(v.string()),
+
+    switch: v.optional(v.boolean()),
   }),
   v.object({
     chain: v.literal('starknet'),
@@ -270,6 +274,8 @@ export const addNetworkParamsSchema = v.variant('chain', [
     type: v.enum(StarknetNetworkType),
     rpcUrl: v.string(),
     blockExplorerUrl: v.optional(v.string()),
+
+    switch: v.optional(v.boolean()),
   }),
 ]);
 export type AddNetworkParams = v.InferOutput<typeof addNetworkParamsSchema>;
