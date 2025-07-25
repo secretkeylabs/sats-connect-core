@@ -195,7 +195,6 @@ export const changeNetworkRequestMessageSchema = v.object({
 export type ChangeNetworkRequestMessage = v.InferOutput<typeof changeNetworkRequestMessageSchema>;
 export type ChangeNetwork = MethodParamsAndResult<ChangeNetworkParams, ChangeNetworkResult>;
 
-// wallet_changeNetworkById
 export const changeNetworkByIdMethodName = 'wallet_changeNetworkById';
 export const changeNetworkByIdParamsSchema = v.object({
   id: v.string(),
