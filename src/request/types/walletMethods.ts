@@ -288,6 +288,8 @@ export const addNetworkRequestMessageSchema = v.object({
   }).entries,
 });
 export type AddNetworkRequestMessage = v.InferOutput<typeof addNetworkRequestMessageSchema>;
-export const addNetworkResultSchema = v.nullish(v.null());
+export const addNetworkResultSchema = v.object({
+  id: v.string(),
+});
 export type AddNetworkResult = v.InferOutput<typeof addNetworkResultSchema>;
 export type AddNetwork = MethodParamsAndResult<AddNetworkParams, AddNetworkResult>;
