@@ -54,6 +54,7 @@ export type OrdinalsRequestMethod = keyof OrdinalsRequests;
 export interface WalletRequests {
   wallet_addNetwork: WalletMethods.AddNetwork;
   wallet_changeNetwork: WalletMethods.ChangeNetwork;
+  wallet_changeNetworkById: WalletMethods.ChangeNetworkById;
   wallet_connect: WalletMethods.Connect;
   wallet_disconnect: WalletMethods.Disconnect;
   wallet_getAccount: WalletMethods.GetAccount;
