@@ -195,6 +195,29 @@ export const changeNetworkRequestMessageSchema = v.object({
 export type ChangeNetworkRequestMessage = v.InferOutput<typeof changeNetworkRequestMessageSchema>;
 export type ChangeNetwork = MethodParamsAndResult<ChangeNetworkParams, ChangeNetworkResult>;
 
+export const changeNetworkByIdMethodName = 'wallet_changeNetworkById';
+export const changeNetworkByIdParamsSchema = v.object({
+  id: v.string(),
+});
+export type ChangeNetworkByIdParams = v.InferOutput<typeof changeNetworkByIdParamsSchema>;
+export const changeNetworkByIdResultSchema = v.nullish(v.null());
+export type ChangeNetworkByIdResult = v.InferOutput<typeof changeNetworkByIdResultSchema>;
+export const changeNetworkByIdRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(changeNetworkByIdMethodName),
+    params: changeNetworkByIdParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type ChangeNetworkByIdRequestMessage = v.InferOutput<
+  typeof changeNetworkByIdRequestMessageSchema
+>;
+export type ChangeNetworkById = MethodParamsAndResult<
+  ChangeNetworkByIdParams,
+  ChangeNetworkByIdResult
+>;
+
 export const getAccountMethodName = 'wallet_getAccount';
 export const getAccountParamsSchema = v.nullish(v.null());
 export type GetAccountParams = v.InferOutput<typeof getAccountParamsSchema>;
@@ -256,6 +279,8 @@ export const addNetworkParamsSchema = v.variant('chain', [
     rpcFallbackUrl: v.optional(v.string()),
     indexerUrl: v.optional(v.string()),
     blockExplorerUrl: v.optional(v.string()),
+
+    switch: v.optional(v.boolean()),
   }),
   v.object({
     chain: v.literal('stacks'),
@@ -263,6 +288,8 @@ export const addNetworkParamsSchema = v.variant('chain', [
     type: v.enum(StacksNetworkType),
     rpcUrl: v.string(),
     blockExplorerUrl: v.optional(v.string()),
+
+    switch: v.optional(v.boolean()),
   }),
   v.object({
     chain: v.literal('starknet'),
@@ -270,6 +297,8 @@ export const addNetworkParamsSchema = v.variant('chain', [
     type: v.enum(StarknetNetworkType),
     rpcUrl: v.string(),
     blockExplorerUrl: v.optional(v.string()),
+
+    switch: v.optional(v.boolean()),
   }),
 ]);
 export type AddNetworkParams = v.InferOutput<typeof addNetworkParamsSchema>;
@@ -282,6 +311,8 @@ export const addNetworkRequestMessageSchema = v.object({
   }).entries,
 });
 export type AddNetworkRequestMessage = v.InferOutput<typeof addNetworkRequestMessageSchema>;
-export const addNetworkResultSchema = v.nullish(v.null());
+export const addNetworkResultSchema = v.object({
+  id: v.string(),
+});
 export type AddNetworkResult = v.InferOutput<typeof addNetworkResultSchema>;
 export type AddNetwork = MethodParamsAndResult<AddNetworkParams, AddNetworkResult>;
