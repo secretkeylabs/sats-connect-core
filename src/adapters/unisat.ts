@@ -1,6 +1,6 @@
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
 import { Buffer } from 'buffer';
-import { AddListener } from 'src/provider/types';
+import { AddListener, NetworkChangeEvent } from 'src/provider/types';
 import { DefaultAdaptersInfo } from '.';
 import { Address, AddressPurpose } from '../addresses';
 import { MessageSigningProtocols, Params, Requests, Return } from '../request';
@@ -214,11 +214,11 @@ class UnisatAdapter extends SatsConnectAdapter {
     }
   };
 
-  public addListener: AddListener = (eventName, cb) => {
+  public addListener: AddListener = ({ eventName, cb }) => {
     switch (eventName) {
       case 'accountChange': {
         const handler = () => {
-          (cb as (event: { type: 'accountChange' }) => void)({ type: 'accountChange' });
+          cb({ type: 'accountChange' });
         };
         window.unisat.on('accountsChanged', handler);
 
@@ -228,7 +228,12 @@ class UnisatAdapter extends SatsConnectAdapter {
       }
       case 'networkChange': {
         const handler = () => {
-          (cb as (event: { type: 'networkChange' }) => void)({ type: 'networkChange' });
+          // The type is being incorrectly forced here to make it work as part
+          // of an unrelated refactor, since unisat support is no longer
+          // actively maintained. Consider removing unisat support.
+          //
+          // https://linear.app/xverseapp/issue/ENG-7924
+          cb({ type: 'networkChange' } as NetworkChangeEvent);
         };
         window.unisat.on('networkChanged', handler);
 
