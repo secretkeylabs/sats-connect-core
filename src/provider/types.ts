@@ -55,10 +55,25 @@ export const walletEventSchema = v.variant('type', [
 
 export type WalletEvent = v.InferOutput<typeof walletEventSchema>;
 
-export type AddListener = <const WalletEventName extends WalletEvent['type']>(
-  eventName: WalletEventName,
-  cb: (event: Extract<WalletEvent, { type: WalletEventName }>) => void
-) => () => void;
+export type AccountChangeCallback = (e: AccountChangeEvent) => void;
+export type DisconnectCallback = (e: DisconnectEvent) => void;
+export type NetworkChangeCallback = (e: NetworkChangeEvent) => void;
+
+export type ListenerInfo =
+  | {
+      eventName: typeof accountChangeEventName;
+      cb: AccountChangeCallback;
+    }
+  | {
+      eventName: typeof disconnectEventName;
+      cb: DisconnectCallback;
+    }
+  | {
+      eventName: typeof networkChangeEventName;
+      cb: NetworkChangeCallback;
+    };
+
+export type AddListener = (arg: ListenerInfo) => () => void;
 
 interface BaseBitcoinProvider {
   request: <Method extends keyof Requests>(

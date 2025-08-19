@@ -1,4 +1,4 @@
-import { AddListener, getProviderById } from '../provider';
+import { AddListener, ListenerInfo, getProviderById } from '../provider';
 import {
   RpcErrorCode,
   RpcResult,
@@ -56,8 +56,7 @@ export const request = async <Method extends keyof Requests>(
 };
 
 export const addListener = (
-  event: Parameters<AddListener>[0],
-  cb: Parameters<AddListener>[1],
+  listenerInfo: ListenerInfo,
   providerId?: string
 ): ReturnType<AddListener> => {
   let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
@@ -79,7 +78,7 @@ export const addListener = (
     return () => {};
   }
 
-  return provider.addListener(event, cb);
+  return provider.addListener(listenerInfo);
 };
 
 export * from './types';

@@ -1,7 +1,7 @@
 import { AddListener } from '../provider/types';
 import { DefaultAdaptersInfo } from '.';
-import { Params, Requests, Return, StxRequests } from '../request';
-import { RpcErrorCode, RpcResult } from '../types';
+import { Params, Requests, Return } from '../request';
+import { RpcResult } from '../types';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 import { getProviderById } from '../provider';
 
@@ -39,7 +39,7 @@ class FordefiAdapter extends SatsConnectAdapter {
     return await provider.request(method, params);
   };
 
-  public addListener: AddListener = (eventName, cb) => {
+  public addListener: AddListener = ({ eventName, cb }) => {
     const provider = getProviderById(this.id);
 
     if (!provider) {
@@ -53,10 +53,7 @@ class FordefiAdapter extends SatsConnectAdapter {
       return () => {};
     }
 
-    return provider.addListener(
-      eventName as Parameters<AddListener>[0],
-      cb as Parameters<AddListener>[1]
-    );
+    return provider.addListener(eventName, cb);
   };
 }
 
