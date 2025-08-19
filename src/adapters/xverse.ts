@@ -15,14 +15,8 @@ class XverseAdapter extends SatsConnectAdapter {
     return request(method, params, this.id);
   };
 
-  addListener: AddListener = (event, cb) => {
-    return addListener(
-      event,
-      // The types of the `addListener` function being called here are not
-      // entirely accurate.
-      cb as any,
-      this.id
-    );
+  addListener: AddListener = (listenerInfo) => {
+    return addListener(listenerInfo, this.id);
   };
 }
 
