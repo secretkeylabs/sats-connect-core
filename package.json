@@ -8,7 +8,6 @@
     "dist"
   ],
   "scripts": {
-    "test": "jest",
     "build": "tsup",
     "build:watch": "tsup --watch",
     "check-types": "tsc --noEmit",
@@ -32,14 +31,12 @@
     "jsontokens": "4.0.1"
   },
   "devDependencies": {
-    "@types/jest": "30.0.0",
     "husky": "9.1.7",
     "lint-staged": "16.1.5",
     "prettier": "3.6.2",
     "process": "0.11.10",
     "rimraf": "6.0.1",
     "stream-browserify": "3.0.0",
-    "ts-jest": "29.4.1",
     "ts-loader": "9.5.4",
     "tsup": "8.5.0",
     "typescript": "5.9.2",
