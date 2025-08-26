@@ -55,10 +55,62 @@ export const request = async <Method extends keyof Requests>(
   };
 };
 
+type CurrentArgs = [ListenerInfo, string | undefined];
+
+/**
+ * Adds an event listener.
+ *
+ * Currently expects 2 arguments, although is also capable of handling legacy
+ * calls with 3 arguments consisting of:
+ *
+ * - event name (string)
+ * - callback (function)
+ * - provider ID (optional string)
+ */
 export const addListener = (
-  listenerInfo: ListenerInfo,
-  providerId?: string
+  // listenerInfo: ListenerInfo,
+  // providerId?: string
+  ...rawArgs: unknown[]
 ): ReturnType<AddListener> => {
+  const [listenerInfo, providerId]: CurrentArgs = (() => {
+    // When only 1 argument, must necessarily be a call using the current API.
+    if (rawArgs.length === 1) {
+      return [rawArgs[0], undefined] as CurrentArgs;
+    }
+
+    // When 2 arguments are present, may be either a call using the legacy API
+    // or a call using the current API (which allows the 3rd argument to be
+    // omitted).
+    if (rawArgs.length === 2) {
+      // Should only be a call using the legacy API
+      if (typeof rawArgs[1] === 'function') {
+        return [
+          {
+            eventName: rawArgs[0],
+            cb: rawArgs[1],
+          },
+          undefined,
+        ] as CurrentArgs;
+      } else {
+        return rawArgs as CurrentArgs;
+      }
+    }
+
+    if (rawArgs.length === 3) {
+      return [
+        {
+          eventName: rawArgs[0],
+          cb: rawArgs[1],
+        },
+        rawArgs[2],
+      ] as CurrentArgs;
+    }
+
+    throw new Error('Unexpected number of arguments. Expecting 2 (or 3 for legacy requests).', {
+      cause: rawArgs,
+    });
+  })();
+
   let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
   if (providerId) {
     provider = getProviderById(providerId);
