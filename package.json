@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
@@ -8,7 +8,6 @@
     "dist"
   ],
   "scripts": {
-    "test": "jest",
     "build": "tsup",
     "build:watch": "tsup --watch",
     "check-types": "tsc --noEmit",
@@ -27,22 +26,20 @@
   },
   "dependencies": {
     "axios": "1.11.0",
-    "bitcoin-address-validation": "2.2.3",
+    "bitcoin-address-validation": "3.0.0",
     "buffer": "6.0.3",
     "jsontokens": "4.0.1"
   },
   "devDependencies": {
-    "@types/jest": "29.5.14",
-    "husky": "8.0.3",
-    "lint-staged": "13.3.0",
-    "prettier": "3.3.3",
+    "husky": "9.1.7",
+    "lint-staged": "16.1.5",
+    "prettier": "3.6.2",
     "process": "0.11.10",
-    "rimraf": "3.0.2",
+    "rimraf": "6.0.1",
     "stream-browserify": "3.0.0",
-    "ts-jest": "29.2.5",
-    "ts-loader": "9.5.1",
-    "tsup": "8.3.0",
-    "typescript": "5.4.5",
+    "ts-loader": "9.5.4",
+    "tsup": "8.5.0",
+    "typescript": "5.9.2",
     "util": "0.12.5",
     "vm-browserify": "1.1.2"
   },
