@@ -163,7 +163,7 @@ export const getNetworkResultSchema = v.object({
     name: v.enum(BitcoinNetworkType),
   }),
   stacks: v.object({
-    name: v.string(),
+    name: v.enum(StacksNetworkType),
   }),
   spark: v.object({
     name: v.enum(SparkNetworkType),
