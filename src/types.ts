@@ -20,6 +20,11 @@ export enum StarknetNetworkType {
   Sepolia = 'sepolia',
 }
 
+export enum SparkNetworkType {
+  Mainnet = 'mainnet',
+  Regtest = 'regtest',
+}
+
 export interface BitcoinNetwork {
   type: BitcoinNetworkType;
   address?: string;
