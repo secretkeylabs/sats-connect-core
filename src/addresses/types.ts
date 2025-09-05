@@ -26,14 +26,31 @@ export enum AddressType {
   spark = 'spark',
 }
 
+// for internal address type use below
+type AddressWithPublicKey =
+  | AddressPurpose.Payment
+  | AddressPurpose.Ordinals
+  | AddressPurpose.Stacks;
+type AddressWithoutPublicKey = Exclude<AddressPurpose, AddressWithPublicKey>;
+
 export const addressSchema = v.object({
   address: v.string(),
-  publicKey: v.string(),
+  publicKey: v.optional(v.string()),
   purpose: v.enum(AddressPurpose),
   addressType: v.enum(AddressType),
   walletType: walletTypeSchema,
 });
-export type Address = v.InferOutput<typeof addressSchema>;
+export type Address = v.InferOutput<typeof addressSchema> &
+  (
+    | {
+        purpose: AddressWithPublicKey;
+        publicKey: string;
+      }
+    | {
+        purpose: AddressWithoutPublicKey;
+        publicKey?: undefined;
+      }
+  );
 
 export interface GetAddressResponse {
   addresses: Address[];
