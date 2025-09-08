@@ -33,6 +33,7 @@ export const addressSchema = v.object({
   addressType: v.enum(AddressType),
   walletType: walletTypeSchema,
 });
+
 export type Address = v.InferOutput<typeof addressSchema>;
 
 export interface GetAddressResponse {
