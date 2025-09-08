@@ -17,6 +17,7 @@ export const sparkGetBalanceResultSchema = v.object({
       /* The address balance of the token in string form as it can overflow a js number */
       balance: v.string(),
       tokenMetadata: v.object({
+        tokenIdentifier: v.string(),
         tokenPublicKey: v.string(),
         tokenName: v.string(),
         tokenTicker: v.string(),
