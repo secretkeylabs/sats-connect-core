@@ -22,7 +22,7 @@ export type StxRequestMethod = keyof StxRequests;
 export type SparkRequests = {
   [SparkMethods.sparkGetAddressesMethodName]: SparkMethods.SparkGetAddresses;
   [SparkMethods.sparkGetBalanceMethodName]: SparkMethods.SparkGetBalance;
-  [SparkMethods.sparkTransferMethodName]: SparkMethods.SparkGetBalance;
+  [SparkMethods.sparkTransferMethodName]: SparkMethods.SparkTransfer;
   [SparkMethods.sparkTransferTokenMethodName]: SparkMethods.SparkTransferToken;
 };
 
