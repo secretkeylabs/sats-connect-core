@@ -40,7 +40,7 @@ export const addressSchema = v.object({
   addressType: v.enum(AddressType),
   walletType: walletTypeSchema,
 });
-export type Address = v.InferOutput<typeof addressSchema> &
+export type Address = Exclude<v.InferOutput<typeof addressSchema>, 'purpose' | 'publicKey'> &
   (
     | {
         purpose: AddressWithPublicKey;
