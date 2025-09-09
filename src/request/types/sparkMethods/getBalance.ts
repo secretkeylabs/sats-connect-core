@@ -18,7 +18,6 @@ export const sparkGetBalanceResultSchema = v.object({
       balance: v.string(),
       tokenMetadata: v.object({
         tokenIdentifier: v.string(),
-        tokenPublicKey: v.string(),
         tokenName: v.string(),
         tokenTicker: v.string(),
         decimals: v.number(),
