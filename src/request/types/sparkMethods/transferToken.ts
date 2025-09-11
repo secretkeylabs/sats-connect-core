@@ -9,9 +9,9 @@ export const sparkTransferTokenParamsSchema = v.object({
    */
   tokenAmount: v.union([v.number(), v.string()]),
   /**
-   * The token identifier.
+   * The unique token address.
    */
-  tokenIdentifier: v.string(),
+  tokenAddress: v.string(),
   /**
    * The recipient's spark address.
    */
