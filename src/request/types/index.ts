@@ -1,10 +1,11 @@
 import type * as BtcMethods from './btcMethods';
 import { GetInscriptions, SendInscriptions } from './ordinalsMethods';
 import type * as RunesMethods from './runesMethods';
+import type * as SparkMethods from './sparkMethods';
 import type * as StxMethods from './stxMethods';
 import type * as WalletMethods from './walletMethods';
 
-export interface StxRequests {
+export type StxRequests = {
   stx_callContract: StxMethods.StxCallContract;
   stx_deployContract: StxMethods.StxDeployContract;
   stx_getAccounts: StxMethods.StxGetAccounts;
@@ -14,11 +15,20 @@ export interface StxRequests {
   stx_signTransaction: StxMethods.StxSignTransaction;
   stx_transferStx: StxMethods.StxTransferStx;
   stx_signTransactions: StxMethods.StxSignTransactions;
-}
+};
 
 export type StxRequestMethod = keyof StxRequests;
 
-export interface BtcRequests {
+export type SparkRequests = {
+  [SparkMethods.sparkGetAddressesMethodName]: SparkMethods.SparkGetAddresses;
+  [SparkMethods.sparkGetBalanceMethodName]: SparkMethods.SparkGetBalance;
+  [SparkMethods.sparkTransferMethodName]: SparkMethods.SparkTransfer;
+  [SparkMethods.sparkTransferTokenMethodName]: SparkMethods.SparkTransferToken;
+};
+
+export type SparkRequestMethod = keyof SparkRequests;
+
+export type BtcRequests = {
   getInfo: BtcMethods.GetInfo;
   getAddresses: BtcMethods.GetAddresses;
   getAccounts: BtcMethods.GetAccounts;
@@ -26,11 +36,11 @@ export interface BtcRequests {
   signMessage: BtcMethods.SignMessage;
   sendTransfer: BtcMethods.SendTransfer;
   signPsbt: BtcMethods.SignPsbt;
-}
+};
 
 export type BtcRequestMethod = keyof BtcRequests;
 
-export interface RunesRequests {
+export type RunesRequests = {
   runes_estimateEtch: RunesMethods.RunesEstimateEtch;
   runes_estimateMint: RunesMethods.RunesEstimateMint;
   runes_estimateRbfOrder: RunesMethods.RunesEstimateRbfOrder;
@@ -40,18 +50,18 @@ export interface RunesRequests {
   runes_mint: RunesMethods.RunesMint;
   runes_rbfOrder: RunesMethods.RunesRbfOrder;
   runes_transfer: RunesMethods.RunesTransfer;
-}
+};
 
 export type RunesRequestMethod = keyof RunesRequests;
 
-export interface OrdinalsRequests {
+export type OrdinalsRequests = {
   ord_getInscriptions: GetInscriptions;
   ord_sendInscriptions: SendInscriptions;
-}
+};
 
 export type OrdinalsRequestMethod = keyof OrdinalsRequests;
 
-export interface WalletRequests {
+export type WalletRequests = {
   wallet_addNetwork: WalletMethods.AddNetwork;
   wallet_changeNetwork: WalletMethods.ChangeNetwork;
   wallet_changeNetworkById: WalletMethods.ChangeNetworkById;
@@ -63,10 +73,11 @@ export interface WalletRequests {
   wallet_getWalletType: WalletMethods.GetWalletType;
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;
   wallet_requestPermissions: WalletMethods.RequestPermissions;
-}
+};
 
 export type Requests = BtcRequests &
   StxRequests &
+  SparkRequests &
   RunesRequests &
   WalletRequests &
   OrdinalsRequests;
@@ -74,9 +85,10 @@ export type Requests = BtcRequests &
 export type Return<Method> = Method extends keyof Requests ? Requests[Method]['result'] : never;
 export type Params<Method> = Method extends keyof Requests ? Requests[Method]['params'] : never;
 
-export * from './stxMethods';
 export * from './btcMethods';
-export * from './walletMethods';
-export * from './runesMethods';
-export * from './ordinalsMethods';
 export * from './common';
+export * from './ordinalsMethods';
+export * from './runesMethods';
+export * from './sparkMethods';
+export * from './stxMethods';
+export * from './walletMethods';

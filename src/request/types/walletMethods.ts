@@ -4,6 +4,7 @@ import {
   BitcoinNetworkType,
   MethodParamsAndResult,
   rpcRequestMessageSchema,
+  SparkNetworkType,
   StacksNetworkType,
   StarknetNetworkType,
 } from '../../types';
@@ -162,7 +163,10 @@ export const getNetworkResultSchema = v.object({
     name: v.enum(BitcoinNetworkType),
   }),
   stacks: v.object({
-    name: v.string(),
+    name: v.enum(StacksNetworkType),
+  }),
+  spark: v.object({
+    name: v.enum(SparkNetworkType),
   }),
 });
 export type GetNetworkResult = v.InferOutput<typeof getNetworkResultSchema>;

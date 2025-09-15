@@ -1,5 +1,5 @@
-import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 
 export const stxTransferStxMethodName = 'stx_transferStx';
 
@@ -18,7 +18,7 @@ export const stxTransferStxParamsSchema = v.object({
    */
   amount: v.union([v.number(), v.string()]),
   /**
-   * The recipeint's principal.
+   * The recipient's principal.
    */
   recipient: v.string(),
   /**
