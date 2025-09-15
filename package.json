@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
@@ -14,7 +14,7 @@
     "check-format": "prettier --check .",
     "format": "prettier --write .",
     "ci": "npm run check-types && npm run check-format && npm run build",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -25,7 +25,7 @@
     ]
   },
   "dependencies": {
-    "axios": "1.11.0",
+    "axios": "1.12.0",
     "bitcoin-address-validation": "3.0.0",
     "buffer": "6.0.3",
     "jsontokens": "4.0.1"
