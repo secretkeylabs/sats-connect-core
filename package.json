@@ -14,7 +14,7 @@
     "check-format": "prettier --check .",
     "format": "prettier --write .",
     "ci": "npm run check-types && npm run check-format && npm run build",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
