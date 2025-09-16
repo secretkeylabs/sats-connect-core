@@ -13,6 +13,10 @@ export const sparkSignMessageResultSchema = v.object({
    * The signature for the message in hex format
    */
   signature: v.string(),
+  /**
+   * The address that signed the message
+   */
+  address: v.string(),
 });
 export type SparkSignMessageResult = v.InferOutput<typeof sparkSignMessageResultSchema>;
 
