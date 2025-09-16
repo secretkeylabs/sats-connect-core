@@ -147,12 +147,14 @@ This table provides a comprehensive comparison between the SIP-030 specification
 **Our Implementation**:
 
 - ❌ Missing 4 SIP-030 methods
+
   - `stx_getNetworks` ---> wallet_getNetwork
   - `stx_updateProfile` ---> No Need to add since Gaia is Deprecated
   - `stx_transferSip10Ft`
   - `stx_transferSip10Ft`
 
 - ❌ Different default values
+
   - `stx_signTransaction` broadcast flag default to false in the Spec but defaults to true in our implementation
 
 - ❌ No network parameter support
