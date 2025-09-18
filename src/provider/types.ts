@@ -76,6 +76,7 @@ export type ListenerInfo =
 export type AddListener = (arg: ListenerInfo) => () => void;
 
 interface BaseBitcoinProvider {
+  version?: number;
   request: <Method extends keyof Requests>(
     method: Method,
     options: Params<Method>,
