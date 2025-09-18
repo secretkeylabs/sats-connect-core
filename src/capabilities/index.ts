@@ -28,6 +28,7 @@ const extractOrValidateCapabilities = (
   };
 
   const capabilityMap: CapabilityMap = {
+    version: validateCapability('version'),
     request: validateCapability('request'),
     connect: validateCapability('connect'),
     signMessage: validateCapability('signMessage'),
