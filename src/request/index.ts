@@ -1,3 +1,4 @@
+import * as v from 'valibot';
 import { AddListener, ListenerInfo, getProviderById } from '../provider';
 import {
   RpcErrorCode,
@@ -5,7 +6,7 @@ import {
   rpcErrorResponseMessageSchema,
   rpcSuccessResponseMessageSchema,
 } from '../types';
-import * as v from 'valibot';
+import { sanitizeRequest } from './sanitizeRequest';
 import { Params, Requests, Return } from './types';
 
 export const request = async <Method extends keyof Requests>(
@@ -29,7 +30,18 @@ export const request = async <Method extends keyof Requests>(
     throw new Error('A wallet method is required');
   }
 
-  const response = await provider.request(method, params);
+  const providerVersion = provider.version ?? 0;
+  const {
+    method: sanitizedMethod,
+    params: sanitizedParams,
+    overrideResponse,
+  } = sanitizeRequest(method, params, providerVersion);
+
+  if (overrideResponse) {
+    return overrideResponse;
+  }
+
+  const response = await provider.request(sanitizedMethod, sanitizedParams);
 
   if (v.is(rpcErrorResponseMessageSchema, response)) {
     return {

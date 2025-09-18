@@ -76,6 +76,7 @@ export type ListenerInfo =
 export type AddListener = (arg: ListenerInfo) => () => void;
 
 interface BaseBitcoinProvider {
+  version?: number;
   request: <Method extends keyof Requests>(
     method: Method,
     options: Params<Method>,
@@ -94,6 +95,8 @@ interface BaseBitcoinProvider {
 export type Capability = keyof BaseBitcoinProvider;
 
 export interface BitcoinProvider extends BaseBitcoinProvider {
+  // bump by 1 when making breaking changes and add relevant code to sanitizeRequest function
+  version: 1;
   getCapabilities?: (request: string) => Promise<GetCapabilitiesResponse>;
 }
 
