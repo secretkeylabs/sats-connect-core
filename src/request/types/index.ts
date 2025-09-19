@@ -24,6 +24,9 @@ export type SparkRequests = {
   [SparkMethods.sparkGetBalanceMethodName]: SparkMethods.SparkGetBalance;
   [SparkMethods.sparkTransferMethodName]: SparkMethods.SparkTransfer;
   [SparkMethods.sparkTransferTokenMethodName]: SparkMethods.SparkTransferToken;
+
+  [SparkMethods.sparkFlashnetGetJwtMethodName]: SparkMethods.SparkFlashnetGetJwt;
+  [SparkMethods.sparkFlashnetSignIntentMethodName]: SparkMethods.SparkFlashnetSignIntent;
 };
 
 export type SparkRequestMethod = keyof SparkRequests;
