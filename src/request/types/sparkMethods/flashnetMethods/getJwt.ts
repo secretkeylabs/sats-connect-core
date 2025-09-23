@@ -3,14 +3,7 @@ import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../../type
 
 export const sparkFlashnetGetJwtMethodName = 'spark_flashnet_getJwt';
 
-export const sparkFlashnetGetJwtParamsSchema = v.nullish(
-  v.object({
-    /**
-     * A message to be displayed to the user in the request prompt.
-     */
-    message: v.optional(v.string()),
-  })
-);
+export const sparkFlashnetGetJwtParamsSchema = v.null();
 export type SparkFlashnetGetJwtParams = v.InferOutput<typeof sparkFlashnetGetJwtParamsSchema>;
 
 export const sparkFlashnetGetJwtResultSchema = v.object({
