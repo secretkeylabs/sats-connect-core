@@ -1,34 +1,23 @@
-import { AddListener, ListenerInfo, getProviderById } from '../provider';
+import * as v from 'valibot';
+import { AddListener, BitcoinProvider, ListenerInfo, getProviderById } from '../provider';
 import {
   RpcErrorCode,
   RpcResult,
   rpcErrorResponseMessageSchema,
   rpcSuccessResponseMessageSchema,
 } from '../types';
-import * as v from 'valibot';
-import { Params, Requests, Return } from './types';
+import { sanitizeRequest } from './sanitizeRequest';
+import { GetInfoResult, Params, Requests, Return } from './types';
 
-export const request = async <Method extends keyof Requests>(
+const cache: {
+  providerInfo?: GetInfoResult;
+} = {};
+
+const requestInternal = async <Method extends keyof Requests>(
+  provider: BitcoinProvider,
   method: Method,
-  params: Params<Method>,
-  /**
-   * The providerId is the object path to the provider in the window object.
-   * E.g., a provider available at `window.Foo.BarProvider` would have a
-   * providerId of `Foo.BarProvider`.
-   */
-  providerId?: string
+  params: Params<Method>
 ): Promise<RpcResult<Method>> => {
-  let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
-  if (providerId) {
-    provider = await getProviderById(providerId);
-  }
-  if (!provider) {
-    throw new Error('no wallet provider was found');
-  }
-  if (!method) {
-    throw new Error('A wallet method is required');
-  }
-
   const response = await provider.request(method, params);
 
   if (v.is(rpcErrorResponseMessageSchema, response)) {
@@ -53,6 +42,55 @@ export const request = async <Method extends keyof Requests>(
       data: response,
     },
   };
+};
+
+export const request = async <Method extends keyof Requests>(
+  method: Method,
+  params: Params<Method>,
+  /**
+   * The providerId is the object path to the provider in the window object.
+   * E.g., a provider available at `window.Foo.BarProvider` would have a
+   * providerId of `Foo.BarProvider`.
+   */
+  providerId?: string
+): Promise<RpcResult<Method>> => {
+  let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
+  if (providerId) {
+    provider = await getProviderById(providerId);
+  }
+  if (!provider) {
+    throw new Error('no wallet provider was found');
+  }
+  if (!method) {
+    throw new Error('A wallet method is required');
+  }
+
+  if (!cache.providerInfo) {
+    const infoResult = await requestInternal(provider, 'getInfo', null);
+    if (infoResult.status === 'success') {
+      cache.providerInfo = infoResult.result;
+    }
+  }
+
+  if (cache.providerInfo) {
+    if (method === 'getInfo') {
+      return {
+        status: 'success',
+        result: cache.providerInfo as Return<Method>,
+      };
+    }
+
+    const sanitized = sanitizeRequest(method, params, cache.providerInfo);
+
+    if (sanitized.overrideResponse) {
+      return sanitized.overrideResponse;
+    }
+
+    method = sanitized.method;
+    params = sanitized.params;
+  }
+
+  return requestInternal(provider, method, params);
 };
 
 type CurrentArgs = [ListenerInfo, string | undefined];
