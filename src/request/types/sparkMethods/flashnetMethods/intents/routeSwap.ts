@@ -8,8 +8,8 @@ export const sparkFlashnetRouteSwapIntentSchema = v.object({
     hops: v.array(
       v.object({
         poolId: v.string(),
-        assetInAddress: v.string(),
-        assetOutAddress: v.string(),
+        inputAssetAddress: v.string(),
+        outputAssetAddress: v.string(),
         hopIntegratorFeeRateBps: v.optional(v.number()),
       })
     ),
