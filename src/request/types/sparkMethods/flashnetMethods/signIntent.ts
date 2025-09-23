@@ -1,12 +1,27 @@
 import * as v from 'valibot';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../../types';
-import { sparkFlashnetRouteSwapIntentSchema, sparkFlashnetSwapIntentSchema } from './intents';
+import {
+  sparkFlashnetAddLiquidityIntentSchema,
+  sparkFlashnetClawbackIntentSchema,
+  sparkFlashnetConfirmInitialDepositIntentSchema,
+  sparkFlashnetCreateConstantProductPoolIntentSchema,
+  sparkFlashnetCreateSingleSidedPoolIntentSchema,
+  sparkFlashnetRemoveLiquidityIntentSchema,
+  sparkFlashnetRouteSwapIntentSchema,
+  sparkFlashnetSwapIntentSchema,
+} from './intents';
 
 export const sparkFlashnetSignIntentMethodName = 'spark_flashnet_signIntent';
 
 export const sparkFlashnetSignIntentParamsSchema = v.union([
   sparkFlashnetSwapIntentSchema,
   sparkFlashnetRouteSwapIntentSchema,
+  sparkFlashnetAddLiquidityIntentSchema,
+  sparkFlashnetClawbackIntentSchema,
+  sparkFlashnetConfirmInitialDepositIntentSchema,
+  sparkFlashnetCreateConstantProductPoolIntentSchema,
+  sparkFlashnetCreateSingleSidedPoolIntentSchema,
+  sparkFlashnetRemoveLiquidityIntentSchema,
 ]);
 export type SparkFlashnetSignIntentParams = v.InferOutput<
   typeof sparkFlashnetSignIntentParamsSchema
