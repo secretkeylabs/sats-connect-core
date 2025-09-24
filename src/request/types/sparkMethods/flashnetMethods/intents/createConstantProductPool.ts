@@ -7,7 +7,7 @@ export const sparkFlashnetCreateConstantProductPoolIntentSchema = v.object({
     assetAAddress: v.string(),
     assetBAddress: v.string(),
     lpFeeRateBps: v.number(),
-    totalHostFeeRateBps: v.number(),
+    totalHostFeeRateBps: v.union([v.number(), v.string()]),
     nonce: v.string(),
   }),
 });

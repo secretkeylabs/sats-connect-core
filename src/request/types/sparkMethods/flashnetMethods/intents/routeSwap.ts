@@ -10,13 +10,13 @@ export const sparkFlashnetRouteSwapIntentSchema = v.object({
         poolId: v.string(),
         inputAssetAddress: v.string(),
         outputAssetAddress: v.string(),
-        hopIntegratorFeeRateBps: v.optional(v.number()),
+        hopIntegratorFeeRateBps: v.optional(v.union([v.number(), v.string()])),
       })
     ),
     inputAmount: v.string(),
-    maxRouteSlippageBps: v.number(),
+    maxRouteSlippageBps: v.union([v.number(), v.string()]),
     minAmountOut: v.string(),
-    defaultIntegratorFeeRateBps: v.optional(v.number()),
+    defaultIntegratorFeeRateBps: v.optional(v.union([v.number(), v.string()])),
     nonce: v.string(),
   }),
 });

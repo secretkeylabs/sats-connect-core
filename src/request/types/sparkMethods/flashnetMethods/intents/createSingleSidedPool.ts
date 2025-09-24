@@ -10,7 +10,7 @@ export const sparkFlashnetCreateSingleSidedPoolIntentSchema = v.object({
     virtualReserveB: v.union([v.number(), v.string()]),
     threshold: v.union([v.number(), v.string()]),
     lpFeeRateBps: v.number(),
-    totalHostFeeRateBps: v.number(),
+    totalHostFeeRateBps: v.union([v.number(), v.string()]),
     poolOwnerPublicKey: v.string(),
     nonce: v.string(),
   }),

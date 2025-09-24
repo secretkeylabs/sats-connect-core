@@ -9,9 +9,9 @@ export const sparkFlashnetSwapIntentSchema = v.object({
     assetInAddress: v.string(),
     assetOutAddress: v.string(),
     amountIn: v.string(),
-    maxSlippageBps: v.number(),
+    maxSlippageBps: v.union([v.number(), v.string()]),
     minAmountOut: v.string(),
-    totalIntegratorFeeRateBps: v.optional(v.number()),
+    totalIntegratorFeeRateBps: v.optional(v.union([v.number(), v.string()])),
     nonce: v.string(),
   }),
 });
