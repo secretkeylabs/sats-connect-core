@@ -6,7 +6,7 @@ export const sparkFlashnetCreateConstantProductPoolIntentSchema = v.object({
     poolOwnerPublicKey: v.string(),
     assetAAddress: v.string(),
     assetBAddress: v.string(),
-    lpFeeRateBps: v.number(),
+    lpFeeRateBps: v.union([v.number(), v.string()]),
     totalHostFeeRateBps: v.union([v.number(), v.string()]),
     nonce: v.string(),
   }),
