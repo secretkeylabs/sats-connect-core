@@ -9,6 +9,12 @@ import {
   StarknetNetworkType,
 } from '../../types';
 import { walletTypeSchema } from './common';
+import {
+  bitcoinNetworkSchema,
+  sparkNetworkSchema,
+  stacksNetworkSchema,
+  starknetNetworkSchema,
+} from './walletMethods/utils';
 
 // NOTE: These next 4 values are copied from xverse-core to avoid having it as a
 // dependency. It has side effects and doesn't support tree-shaking, and would
@@ -181,6 +187,47 @@ export const getNetworkRequestMessageSchema = v.object({
 export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
 export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
 
+export const getNetworksMethodName = 'wallet_getNetworks';
+export const getNetworksParamsSchema = v.nullish(v.null());
+export type GetNetworksParams = v.InferOutput<typeof getNetworksParamsSchema>;
+// NOTE: This schema is expected to be identical to the one in xverse-core
+// except for the active networks, which should have the actual network
+// objects instead of their IDs.
+//
+// See xverse-core for reference:
+// https://github.com/secretkeylabs/xverse-core-private/blob/7835712b0cf4af60e9636c25abc972497c38e0d8/persistentStoreManager/stores/walletOptions/index.ts#L83
+export const getNetworksResultSchema = v.object({
+  active: v.object({
+    bitcoin: bitcoinNetworkSchema,
+    stacks: stacksNetworkSchema,
+    spark: sparkNetworkSchema,
+    starknet: starknetNetworkSchema,
+  }),
+  builtin: v.object({
+    bitcoin: v.array(bitcoinNetworkSchema),
+    stacks: v.array(stacksNetworkSchema),
+    spark: v.array(sparkNetworkSchema),
+    starknet: v.array(starknetNetworkSchema),
+  }),
+  custom: v.object({
+    bitcoin: v.array(bitcoinNetworkSchema),
+    stacks: v.array(stacksNetworkSchema),
+    spark: v.array(sparkNetworkSchema),
+    starknet: v.array(starknetNetworkSchema),
+  }),
+});
+export type GetNetworksResult = v.InferOutput<typeof getNetworksResultSchema>;
+export const getNetworksRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getNetworksMethodName),
+    params: getNetworksParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetNetworksRequestMessage = v.InferOutput<typeof getNetworksRequestMessageSchema>;
+export type GetNetworks = MethodParamsAndResult<GetNetworksParams, GetNetworksResult>;
+
 export const changeNetworkMethodName = 'wallet_changeNetwork';
 export const changeNetworkParamsSchema = v.object({
   name: v.enum(BitcoinNetworkType),
@@ -274,37 +321,17 @@ export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSc
 export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
 
 export const addNetworkMethodName = 'wallet_addNetwork';
-export const addNetworkParamsSchema = v.variant('chain', [
-  v.object({
-    chain: v.literal('bitcoin'),
-    type: v.enum(BitcoinNetworkType),
-    name: v.string(),
-    rpcUrl: v.string(),
-    rpcFallbackUrl: v.optional(v.string()),
-    indexerUrl: v.optional(v.string()),
-    blockExplorerUrl: v.optional(v.string()),
-
-    switch: v.optional(v.boolean()),
-  }),
-  v.object({
-    chain: v.literal('stacks'),
-    name: v.string(),
-    type: v.enum(StacksNetworkType),
-    rpcUrl: v.string(),
-    blockExplorerUrl: v.optional(v.string()),
-
-    switch: v.optional(v.boolean()),
-  }),
-  v.object({
-    chain: v.literal('starknet'),
-    name: v.string(),
-    type: v.enum(StarknetNetworkType),
-    rpcUrl: v.string(),
-    blockExplorerUrl: v.optional(v.string()),
-
-    switch: v.optional(v.boolean()),
-  }),
+export const newNetworkDefinitionSchema = v.variant('chain', [
+  v.omit(bitcoinNetworkSchema, ['id']),
+  v.omit(sparkNetworkSchema, ['id']),
+  v.omit(stacksNetworkSchema, ['id']),
+  v.omit(starknetNetworkSchema, ['id']),
 ]);
+export type NewNetworkDefinition = v.InferOutput<typeof newNetworkDefinitionSchema>;
+export const addNetworkParamsSchema = v.object({
+  network: newNetworkDefinitionSchema,
+  isActive: v.optional(v.boolean()),
+});
 export type AddNetworkParams = v.InferOutput<typeof addNetworkParamsSchema>;
 export const addNetworkRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
