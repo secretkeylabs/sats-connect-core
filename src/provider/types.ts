@@ -16,7 +16,13 @@ import type {
   SignMultipleTransactionsResponse,
   SignTransactionResponse,
 } from '../transactions';
-import { BitcoinNetworkType, RpcResponse } from '../types';
+import { RpcResponse } from '../types';
+import {
+  bitcoinNetworkSchema,
+  sparkNetworkSchema,
+  stacksNetworkSchema,
+  starknetNetworkSchema,
+} from 'src/request/types/walletMethods/utils';
 
 // accountChange
 export const accountChangeEventName = 'accountChange';
@@ -30,11 +36,11 @@ export type AccountChangeEvent = v.InferOutput<typeof accountChangeSchema>;
 export const networkChangeEventName = 'networkChange';
 export const networkChangeSchema = v.object({
   type: v.literal(networkChangeEventName),
-  bitcoin: v.object({
-    name: v.enum(BitcoinNetworkType),
-  }),
-  stacks: v.object({
-    name: v.string(),
+  networks: v.object({
+    bitcoin: bitcoinNetworkSchema,
+    spark: sparkNetworkSchema,
+    stacks: stacksNetworkSchema,
+    starknet: starknetNetworkSchema,
   }),
   addresses: v.optional(v.array(addressSchema)),
 });

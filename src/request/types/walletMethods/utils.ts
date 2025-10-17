@@ -3,6 +3,7 @@
 // having xverse-core as a dependency, since it has side effects and doesn't
 // support tree-shaking, which would make sats-connect-core too heavy.
 
+import { ExactObject } from 'src/utils/exact';
 import * as v from 'valibot';
 
 export const commonNetworkSchema = v.object({
@@ -75,3 +76,24 @@ export const starknetNetworkSchema = v.object({
 });
 
 export type StarknetNetwork = v.InferOutput<typeof starknetNetworkSchema>;
+
+export const NetworkSchema = v.variant('chain', [
+  bitcoinNetworkSchema,
+  sparkNetworkSchema,
+  stacksNetworkSchema,
+  starknetNetworkSchema,
+]);
+
+export type Network = v.InferOutput<typeof NetworkSchema>;
+
+export type Chain = Network['chain'];
+
+export type ActiveNetworks = ExactObject<
+  Chain,
+  {
+    bitcoin: BitcoinNetwork;
+    spark: SparkNetwork;
+    stacks: StacksNetwork;
+    starknet: StarknetNetwork;
+  }
+>;
