@@ -321,11 +321,19 @@ export type ConnectRequestMessage = v.InferOutput<typeof connectRequestMessageSc
 export type Connect = MethodParamsAndResult<ConnectParams, ConnectResult>;
 
 export const addNetworkMethodName = 'wallet_addNetwork';
+export const bitcoinNetworkDefinitionSchema = v.omit(bitcoinNetworkSchema, ['id']);
+export const sparkNetworkDefinitionSchema = v.omit(sparkNetworkSchema, ['id']);
+export const stacksNetworkDefinitionSchema = v.omit(stacksNetworkSchema, ['id']);
+export const starknetNetworkDefinitionSchema = v.omit(starknetNetworkSchema, ['id']);
+export type BitcoinNetworkDefinition = v.InferOutput<typeof bitcoinNetworkDefinitionSchema>;
+export type SparkNetworkDefinition = v.InferOutput<typeof sparkNetworkDefinitionSchema>;
+export type StacksNetworkDefinition = v.InferOutput<typeof stacksNetworkDefinitionSchema>;
+export type StarknetNetworkDefinition = v.InferOutput<typeof starknetNetworkDefinitionSchema>;
 export const newNetworkDefinitionSchema = v.variant('chain', [
-  v.omit(bitcoinNetworkSchema, ['id']),
-  v.omit(sparkNetworkSchema, ['id']),
-  v.omit(stacksNetworkSchema, ['id']),
-  v.omit(starknetNetworkSchema, ['id']),
+  bitcoinNetworkDefinitionSchema,
+  sparkNetworkDefinitionSchema,
+  stacksNetworkDefinitionSchema,
+  starknetNetworkDefinitionSchema,
 ]);
 export type NewNetworkDefinition = v.InferOutput<typeof newNetworkDefinitionSchema>;
 export const addNetworkParamsSchema = v.object({
