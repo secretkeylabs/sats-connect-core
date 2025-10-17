@@ -23,7 +23,13 @@ export const commonNetworkSchema = v.object({
   mode: v.picklist([]),
 });
 
-export const bitcoinChainModeSchema = v.picklist(['mainnet', 'testnet4', 'signet', 'regtest']);
+export const bitcoinChainModeSchema = v.picklist([
+  'mainnet',
+  'testnet',
+  'testnet4',
+  'signet',
+  'regtest',
+]);
 
 export type BitcoinChainMode = v.InferOutput<typeof bitcoinChainModeSchema>;
 
