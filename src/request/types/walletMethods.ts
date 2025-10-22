@@ -6,7 +6,6 @@ import {
   rpcRequestMessageSchema,
   SparkNetworkType,
   StacksNetworkType,
-  StarknetNetworkType,
 } from '../../types';
 import { walletTypeSchema } from './common';
 import {
@@ -298,7 +297,7 @@ export const connectParamsSchema = v.nullish(
     message: v.optional(
       v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
     ),
-    network: v.optional(v.enum(BitcoinNetworkType)),
+    networkId: v.optional(v.string()),
   })
 );
 export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;

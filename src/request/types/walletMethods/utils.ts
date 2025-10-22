@@ -93,14 +93,14 @@ export const starknetNetworkSchema = v.object({
 
 export type StarknetNetwork = v.InferOutput<typeof starknetNetworkSchema>;
 
-export const NetworkSchema = v.variant('chain', [
+export const networkSchema = v.variant('chain', [
   bitcoinNetworkSchema,
   sparkNetworkSchema,
   stacksNetworkSchema,
   starknetNetworkSchema,
 ]);
 
-export type Network = v.InferOutput<typeof NetworkSchema>;
+export type Network = v.InferOutput<typeof networkSchema>;
 
 export type Chain = Network['chain'];
 
