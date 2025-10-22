@@ -21,6 +21,16 @@ export const commonNetworkSchema = v.object({
    * or more testnets, each which may have slightly different behavior.
    */
   mode: v.picklist([]),
+
+  /**
+   * URL to a block explorer for this network. The URL should expect to be
+   * concatenated with the path to a transaction, like `/<transaction_id>`.
+   *
+   * Note that although this field is not yet deprecated, it will most likely be
+   * removed in favor of a more robust explorer configuration in the future. See
+   * https://linear.app/xverseapp/issue/ENG-7808/explore-networks-refactor#comment-ebb3698e
+   */
+  blockExplorerUrl: v.optional(v.pipe(v.string(), v.url())),
 });
 
 export const bitcoinChainModeSchema = v.picklist([
