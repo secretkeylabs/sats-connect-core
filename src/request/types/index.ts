@@ -29,6 +29,8 @@ export type SparkRequests = {
   [SparkMethods.sparkFlashnetGetJwtMethodName]: SparkMethods.SparkFlashnetGetJwt;
   [SparkMethods.sparkFlashnetSignIntentMethodName]: SparkMethods.SparkFlashnetSignIntent;
   [SparkMethods.sparkFlashnetSignStructuredMessageMethodName]: SparkMethods.SparkFlashnetSignStructuredMessage;
+  [SparkMethods.sparkFlashnetExecuteSwapMethodName]: SparkMethods.SparkFlashnetExecuteSwap;
+  [SparkMethods.sparkFlashnetExecuteRouteSwapMethodName]: SparkMethods.SparkFlashnetExecuteRouteSwap;
 };
 
 export type SparkRequestMethod = keyof SparkRequests;
