@@ -6,7 +6,7 @@ import * as v from 'valibot';
 import { AddressPurpose, addressSchema } from '../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../types';
 import { walletTypeSchema } from './common';
-import { getNetworkResultSchema } from './walletMethods';
+import { bitcoinNetworkSchema } from './walletMethods/utils';
 
 export enum ProviderPlatform {
   Web = 'web',
@@ -70,7 +70,7 @@ export const getAddressesResultSchema = v.object({
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
-  network: getNetworkResultSchema,
+  network: bitcoinNetworkSchema,
 });
 export type GetAddressesResult = v.InferOutput<typeof getAddressesResultSchema>;
 export const getAddressesRequestMessageSchema = v.object({
