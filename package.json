@@ -1,15 +1,16 @@
 {
   "name": "@sats-connect/core",
   "version": "0.9.0",
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "build:watch": "tsup --watch",
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
     "check-types": "tsc --noEmit",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
@@ -38,8 +39,8 @@
     "rimraf": "6.0.1",
     "stream-browserify": "3.0.0",
     "ts-loader": "9.5.4",
-    "tsup": "8.5.0",
-    "typescript": "5.9.2",
+    "tsdown": "^0.15.9",
+    "typescript": "5.9.3",
     "util": "0.12.5",
     "vm-browserify": "1.1.2"
   },
