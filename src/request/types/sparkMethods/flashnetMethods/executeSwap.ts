@@ -9,7 +9,7 @@ export const sparkFlashnetExecuteSwapParamsSchema = v.object({
   assetOutAddress: v.string(),
   amountIn: v.string(),
   maxSlippageBps: v.number(),
-  minAmountOut: v.string(),
+  minAmountOut: v.optional(v.string()),
   integratorFeeRateBps: v.optional(v.number()),
   integratorPublicKey: v.optional(v.string()),
 });

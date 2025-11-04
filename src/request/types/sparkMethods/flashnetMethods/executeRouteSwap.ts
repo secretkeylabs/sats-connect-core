@@ -15,7 +15,7 @@ export const sparkFlashnetExecuteRouteSwapParamsSchema = v.object({
   initialAssetAddress: v.string(),
   inputAmount: v.string(),
   maxRouteSlippageBps: v.string(),
-  minAmountOut: v.string(),
+  minAmountOut: v.optional(v.string()),
   integratorFeeRateBps: v.optional(v.number()),
   integratorPublicKey: v.optional(v.string()),
 });
