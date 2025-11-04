@@ -1,3 +1,6 @@
+// export * from './executeClawback'; // TODO: add back when clawback is supported
+export * from './executeRouteSwap';
+export * from './executeSwap';
 export * from './getJwt';
 export * from './intents';
 export * from './signIntent';

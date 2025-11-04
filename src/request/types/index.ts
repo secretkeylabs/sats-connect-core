@@ -29,6 +29,9 @@ export type SparkRequests = {
   [SparkMethods.sparkFlashnetGetJwtMethodName]: SparkMethods.SparkFlashnetGetJwt;
   [SparkMethods.sparkFlashnetSignIntentMethodName]: SparkMethods.SparkFlashnetSignIntent;
   [SparkMethods.sparkFlashnetSignStructuredMessageMethodName]: SparkMethods.SparkFlashnetSignStructuredMessage;
+  [SparkMethods.sparkFlashnetExecuteSwapMethodName]: SparkMethods.SparkFlashnetExecuteSwap;
+  [SparkMethods.sparkFlashnetExecuteRouteSwapMethodName]: SparkMethods.SparkFlashnetExecuteRouteSwap;
+  // [SparkMethods.sparkFlashnetExecuteClawbackMethodName]: SparkMethods.SparkFlashnetExecuteClawback; // TODO: add back when clawback is supported
 };
 
 export type SparkRequestMethod = keyof SparkRequests;
