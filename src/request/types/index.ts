@@ -74,6 +74,7 @@ export type WalletRequests = {
   wallet_disconnect: WalletMethods.Disconnect;
   wallet_getAccount: WalletMethods.GetAccount;
   wallet_getCurrentPermissions: WalletMethods.GetCurrentPermissions;
+  wallet_getNetwork: WalletMethods.GetNetwork;
   wallet_getNetworks: WalletMethods.GetNetworks;
   wallet_getWalletType: WalletMethods.GetWalletType;
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;

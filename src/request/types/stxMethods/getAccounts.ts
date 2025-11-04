@@ -1,6 +1,6 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
-import { stacksNetworkSchema } from '../walletMethods/utils';
+import { getNetworkResultSchema } from '../walletMethods';
 
 export const stxGetAccountsMethodName = 'stx_getAccounts';
 export const stxGetAccountsParamsSchema = v.nullish(v.null());
@@ -17,7 +17,7 @@ export const stxGetAccountsResultSchema = v.object({
       gaiaAppKey: v.string(),
     })
   ),
-  network: stacksNetworkSchema,
+  network: getNetworkResultSchema,
 });
 export type StxGetAccountsResult = v.InferOutput<typeof stxGetAccountsResultSchema>;
 export const stxGetAccountsRequestMessageSchema = v.object({

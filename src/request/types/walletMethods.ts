@@ -160,32 +160,31 @@ export type GetCurrentPermissions = MethodParamsAndResult<
   GetCurrentPermissionsResult
 >;
 
-// TODO: what do we want to do with this method?
-// export const getNetworkMethodName = 'wallet_getNetwork';
-// export const getNetworkParamsSchema = v.nullish(v.null());
-// export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
-// export const getNetworkResultSchema = v.object({
-//   bitcoin: v.object({
-//     name: v.enum(BitcoinNetworkType),
-//   }),
-//   stacks: v.object({
-//     name: v.enum(StacksNetworkType),
-//   }),
-//   spark: v.object({
-//     name: v.enum(SparkNetworkType),
-//   }),
-// });
-// export type GetNetworkResult = v.InferOutput<typeof getNetworkResultSchema>;
-// export const getNetworkRequestMessageSchema = v.object({
-//   ...rpcRequestMessageSchema.entries,
-//   ...v.object({
-//     method: v.literal(getNetworkMethodName),
-//     params: getNetworkParamsSchema,
-//     id: v.string(),
-//   }).entries,
-// });
-// export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
-// export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
+export const getNetworkMethodName = 'wallet_getNetwork';
+export const getNetworkParamsSchema = v.nullish(v.null());
+export type GetNetworkParams = v.InferOutput<typeof getNetworkParamsSchema>;
+export const getNetworkResultSchema = v.object({
+  bitcoin: v.object({
+    name: v.enum(BitcoinNetworkType),
+  }),
+  stacks: v.object({
+    name: v.enum(StacksNetworkType),
+  }),
+  spark: v.object({
+    name: v.enum(SparkNetworkType),
+  }),
+});
+export type GetNetworkResult = v.InferOutput<typeof getNetworkResultSchema>;
+export const getNetworkRequestMessageSchema = v.object({
+  ...rpcRequestMessageSchema.entries,
+  ...v.object({
+    method: v.literal(getNetworkMethodName),
+    params: getNetworkParamsSchema,
+    id: v.string(),
+  }).entries,
+});
+export type GetNetworkRequestMessage = v.InferOutput<typeof getNetworkRequestMessageSchema>;
+export type GetNetwork = MethodParamsAndResult<GetNetworkParams, GetNetworkResult>;
 
 export const getNetworksMethodName = 'wallet_getNetworks';
 export const getNetworksParamsSchema = v.nullish(v.null());
