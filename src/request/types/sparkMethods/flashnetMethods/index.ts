@@ -1,4 +1,4 @@
-export * from './executeClawback';
+export * from './clawbackFunds';
 export * from './executeRouteSwap';
 export * from './executeSwap';
 export * from './getJwt';
