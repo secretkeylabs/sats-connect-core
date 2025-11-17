@@ -14,8 +14,9 @@ export type SparkFlashnetExecuteClawbackParams = v.InferOutput<
 export const sparkFlashnetExecuteClawbackResultSchema = v.object({
   requestId: v.string(),
   accepted: v.boolean(),
-  internalRequestId: v.string(),
-  sparkStatusTrackingId: v.string(),
+  internalRequestId: v.optional(v.string()),
+  sparkStatusTrackingId: v.optional(v.string()),
+  error: v.optional(v.string()),
 });
 export type SparkFlashnetExecuteClawbackResult = v.InferOutput<
   typeof sparkFlashnetExecuteClawbackResultSchema

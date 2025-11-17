@@ -1,4 +1,4 @@
-// export * from './executeClawback'; // TODO: add back when clawback is supported
+export * from './executeClawback';
 export * from './executeRouteSwap';
 export * from './executeSwap';
 export * from './getJwt';
