@@ -32,7 +32,7 @@ export type SparkRequests = {
   [SparkMethods.sparkFlashnetExecuteSwapMethodName]: SparkMethods.SparkFlashnetExecuteSwap;
   [SparkMethods.sparkFlashnetExecuteRouteSwapMethodName]: SparkMethods.SparkFlashnetExecuteRouteSwap;
   [SparkMethods.sparkFlashnetClawbackFundsMethodName]: SparkMethods.SparkFlashnetClawbackFunds;
-  [SparkMethods.sparkGetEligibleClawbackTransactionsMethodName]: SparkMethods.SparkGetEligibleClawbackTransactions;
+  [SparkMethods.sparkGetClawbackEligibleTransfersMethodName]: SparkMethods.SparkGetClawbackEligibleTransfers;
 };
 
 export type SparkRequestMethod = keyof SparkRequests;
