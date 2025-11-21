@@ -10,13 +10,15 @@ export type SparkGetClawbackEligibleTransfersParams = v.InferOutput<
   typeof sparkGetClawbackEligibleTransfersParamsSchema
 >;
 
-export const sparkGetClawbackEligibleTransfersResultSchema = v.array(
-  v.object({
-    txId: v.string(),
-    createdAt: v.string(),
-    lpIdentityPublicKey: v.string(),
-  })
-);
+export const sparkGetClawbackEligibleTransfersResultSchema = v.object({
+  eligibleTransfers: v.array(
+    v.object({
+      txId: v.string(),
+      createdAt: v.string(),
+      lpIdentityPublicKey: v.string(),
+    })
+  ),
+});
 export type SparkGetClawbackEligibleTransfersResult = v.InferOutput<
   typeof sparkGetClawbackEligibleTransfersResultSchema
 >;
