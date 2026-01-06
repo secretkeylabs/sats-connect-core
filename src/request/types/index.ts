@@ -82,6 +82,7 @@ export type WalletRequests = {
   wallet_getWalletType: WalletMethods.GetWalletType;
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;
   wallet_requestPermissions: WalletMethods.RequestPermissions;
+  wallet_openReceive: WalletMethods.OpenReceive;
 };
 
 export type Requests = BtcRequests &
