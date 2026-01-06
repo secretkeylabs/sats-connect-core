@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
@@ -44,7 +44,7 @@
     "vm-browserify": "1.1.2"
   },
   "peerDependencies": {
-    "valibot": "1.1.0"
+    "valibot": "1.2.0"
   },
   "repository": {
     "type": "git",
