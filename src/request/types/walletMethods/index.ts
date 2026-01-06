@@ -8,5 +8,6 @@ export * from './getAccount';
 export * from './getCurrentPermissions';
 export * from './getNetwork';
 export * from './getWalletType';
+export * from './openReceive';
 export * from './renouncePermissions';
 export * from './requestPermissions';
