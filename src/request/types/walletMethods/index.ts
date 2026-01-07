@@ -9,6 +9,7 @@ export * from './getCurrentPermissions';
 export * from './getNetwork';
 export * from './getWalletType';
 export * from './openBridge';
+export * from './openBuy';
 export * from './openReceive';
 export * from './renouncePermissions';
 export * from './requestPermissions';
