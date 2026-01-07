@@ -83,6 +83,7 @@ export type WalletRequests = {
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;
   wallet_requestPermissions: WalletMethods.RequestPermissions;
   wallet_openReceive: WalletMethods.OpenReceive;
+  wallet_openBridge: WalletMethods.OpenBridge;
 };
 
 export type Requests = BtcRequests &
