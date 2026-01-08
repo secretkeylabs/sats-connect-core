@@ -4,7 +4,6 @@ import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 export const openBuyMethodName = 'wallet_openBuy';
 export const openBuyParamsSchema = v.object({
   asset: v.string(),
-  chain: v.string(),
 });
 export type OpenBuyParams = v.InferOutput<typeof openBuyParamsSchema>;
 export const openBuyResultSchema = v.nullish(v.null());
