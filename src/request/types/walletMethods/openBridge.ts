@@ -3,16 +3,8 @@ import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 
 export const openBridgeMethodName = 'wallet_openBridge';
 export const openBridgeParamsSchema = v.object({
-  from: v.object({
-    asset: v.string(),
-    chain: v.string(),
-    network: v.string(),
-  }),
-  to: v.object({
-    asset: v.string(),
-    chain: v.string(),
-    network: v.string(),
-  }),
+  fromAsset: v.string(),
+  toAsset: v.string(),
 });
 export type OpenBridgeParams = v.InferOutput<typeof openBridgeParamsSchema>;
 export const openBridgeResultSchema = v.nullish(v.null());
