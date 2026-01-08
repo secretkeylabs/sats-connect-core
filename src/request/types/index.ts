@@ -38,13 +38,14 @@ export type SparkRequests = {
 export type SparkRequestMethod = keyof SparkRequests;
 
 export type BtcRequests = {
-  getInfo: BtcMethods.GetInfo;
-  getAddresses: BtcMethods.GetAddresses;
-  getAccounts: BtcMethods.GetAccounts;
-  getBalance: BtcMethods.GetBalance;
-  signMessage: BtcMethods.SignMessage;
-  sendTransfer: BtcMethods.SendTransfer;
-  signPsbt: BtcMethods.SignPsbt;
+  [BtcMethods.getInfoMethodName]: BtcMethods.GetInfo;
+  [BtcMethods.getAddressesMethodName]: BtcMethods.GetAddresses;
+  [BtcMethods.getAccountsMethodName]: BtcMethods.GetAccounts;
+  [BtcMethods.getBalanceMethodName]: BtcMethods.GetBalance;
+  [BtcMethods.signMessageMethodName]: BtcMethods.SignMessage;
+  [BtcMethods.signMultipleMessagesMethodName]: BtcMethods.SignMultipleMessages;
+  [BtcMethods.sendTransferMethodName]: BtcMethods.SendTransfer;
+  [BtcMethods.signPsbtMethodName]: BtcMethods.SignPsbt;
 };
 
 export type BtcRequestMethod = keyof BtcRequests;
