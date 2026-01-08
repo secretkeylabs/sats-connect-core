@@ -1,12 +1,8 @@
 import * as v from 'valibot';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
+import { MessageSigningProtocols } from './common';
 
 export const signMessageMethodName = 'signMessage';
-
-export enum MessageSigningProtocols {
-  ECDSA = 'ECDSA',
-  BIP322 = 'BIP322',
-}
 
 export const signMessageParamsSchema = v.object({
   /**
