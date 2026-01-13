@@ -15,7 +15,7 @@ export const signMultipleMessagesParamsSchema = v.array(
      **/
     message: v.string(),
     /**
-     * The protocol to used to sign the message.
+     * The protocol to use to sign the message.
      *
      * If not specified, defaults to ECDSA if signing with a P2WPKH or P2SH address,
      * and to BIP322 if signing with a taproot address.
@@ -43,7 +43,7 @@ export const signMultipleMessagesResultSchema = v.array(
      */
     address: v.string(),
     /**
-     * The protocol to use for signing the message.
+     * The protocol used for signing the message.
      */
     protocol: v.enum(MessageSigningProtocols),
   })
