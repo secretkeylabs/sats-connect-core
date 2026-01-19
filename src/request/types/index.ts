@@ -29,18 +29,23 @@ export type SparkRequests = {
   [SparkMethods.sparkFlashnetGetJwtMethodName]: SparkMethods.SparkFlashnetGetJwt;
   [SparkMethods.sparkFlashnetSignIntentMethodName]: SparkMethods.SparkFlashnetSignIntent;
   [SparkMethods.sparkFlashnetSignStructuredMessageMethodName]: SparkMethods.SparkFlashnetSignStructuredMessage;
+  [SparkMethods.sparkFlashnetExecuteSwapMethodName]: SparkMethods.SparkFlashnetExecuteSwap;
+  [SparkMethods.sparkFlashnetExecuteRouteSwapMethodName]: SparkMethods.SparkFlashnetExecuteRouteSwap;
+  [SparkMethods.sparkFlashnetClawbackFundsMethodName]: SparkMethods.SparkFlashnetClawbackFunds;
+  [SparkMethods.sparkGetClawbackEligibleTransfersMethodName]: SparkMethods.SparkGetClawbackEligibleTransfers;
 };
 
 export type SparkRequestMethod = keyof SparkRequests;
 
 export type BtcRequests = {
-  getInfo: BtcMethods.GetInfo;
-  getAddresses: BtcMethods.GetAddresses;
-  getAccounts: BtcMethods.GetAccounts;
-  getBalance: BtcMethods.GetBalance;
-  signMessage: BtcMethods.SignMessage;
-  sendTransfer: BtcMethods.SendTransfer;
-  signPsbt: BtcMethods.SignPsbt;
+  [BtcMethods.getInfoMethodName]: BtcMethods.GetInfo;
+  [BtcMethods.getAddressesMethodName]: BtcMethods.GetAddresses;
+  [BtcMethods.getAccountsMethodName]: BtcMethods.GetAccounts;
+  [BtcMethods.getBalanceMethodName]: BtcMethods.GetBalance;
+  [BtcMethods.signMessageMethodName]: BtcMethods.SignMessage;
+  [BtcMethods.signMultipleMessagesMethodName]: BtcMethods.SignMultipleMessages;
+  [BtcMethods.sendTransferMethodName]: BtcMethods.SendTransfer;
+  [BtcMethods.signPsbtMethodName]: BtcMethods.SignPsbt;
 };
 
 export type BtcRequestMethod = keyof BtcRequests;
@@ -79,6 +84,9 @@ export type WalletRequests = {
   wallet_getWalletType: WalletMethods.GetWalletType;
   wallet_renouncePermissions: WalletMethods.RenouncePermissions;
   wallet_requestPermissions: WalletMethods.RequestPermissions;
+  wallet_openReceive: WalletMethods.OpenReceive;
+  wallet_openBridge: WalletMethods.OpenBridge;
+  wallet_openBuy: WalletMethods.OpenBuy;
 };
 
 export type Requests = BtcRequests &
