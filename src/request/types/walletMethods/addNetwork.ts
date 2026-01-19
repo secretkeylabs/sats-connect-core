@@ -1,44 +1,32 @@
+import { rpcRequestMessageSchema, MethodParamsAndResult } from 'src/types';
 import * as v from 'valibot';
 import {
-  BitcoinNetworkType,
-  MethodParamsAndResult,
-  rpcRequestMessageSchema,
-  StacksNetworkType,
-  StarknetNetworkType,
-} from '../../../types';
+  bitcoinNetworkSchema,
+  sparkNetworkSchema,
+  stacksNetworkSchema,
+  starknetNetworkSchema,
+} from './utils';
 
 export const addNetworkMethodName = 'wallet_addNetwork';
-export const addNetworkParamsSchema = v.variant('chain', [
-  v.object({
-    chain: v.literal('bitcoin'),
-    type: v.enum(BitcoinNetworkType),
-    name: v.string(),
-    rpcUrl: v.string(),
-    rpcFallbackUrl: v.optional(v.string()),
-    indexerUrl: v.optional(v.string()),
-    blockExplorerUrl: v.optional(v.string()),
-
-    switch: v.optional(v.boolean()),
-  }),
-  v.object({
-    chain: v.literal('stacks'),
-    name: v.string(),
-    type: v.enum(StacksNetworkType),
-    rpcUrl: v.string(),
-    blockExplorerUrl: v.optional(v.string()),
-
-    switch: v.optional(v.boolean()),
-  }),
-  v.object({
-    chain: v.literal('starknet'),
-    name: v.string(),
-    type: v.enum(StarknetNetworkType),
-    rpcUrl: v.string(),
-    blockExplorerUrl: v.optional(v.string()),
-
-    switch: v.optional(v.boolean()),
-  }),
+export const bitcoinNetworkDefinitionSchema = v.omit(bitcoinNetworkSchema, ['id']);
+export const sparkNetworkDefinitionSchema = v.omit(sparkNetworkSchema, ['id']);
+export const stacksNetworkDefinitionSchema = v.omit(stacksNetworkSchema, ['id']);
+export const starknetNetworkDefinitionSchema = v.omit(starknetNetworkSchema, ['id']);
+export type BitcoinNetworkDefinition = v.InferOutput<typeof bitcoinNetworkDefinitionSchema>;
+export type SparkNetworkDefinition = v.InferOutput<typeof sparkNetworkDefinitionSchema>;
+export type StacksNetworkDefinition = v.InferOutput<typeof stacksNetworkDefinitionSchema>;
+export type StarknetNetworkDefinition = v.InferOutput<typeof starknetNetworkDefinitionSchema>;
+export const newNetworkDefinitionSchema = v.variant('chain', [
+  bitcoinNetworkDefinitionSchema,
+  sparkNetworkDefinitionSchema,
+  stacksNetworkDefinitionSchema,
+  starknetNetworkDefinitionSchema,
 ]);
+export type NewNetworkDefinition = v.InferOutput<typeof newNetworkDefinitionSchema>;
+export const addNetworkParamsSchema = v.object({
+  network: newNetworkDefinitionSchema,
+  isActive: v.optional(v.boolean()),
+});
 export type AddNetworkParams = v.InferOutput<typeof addNetworkParamsSchema>;
 export const addNetworkRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
