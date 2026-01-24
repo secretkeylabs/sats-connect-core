@@ -1,7 +1,7 @@
 import { addressSchema } from '../../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
-import { stacksNetworkSchema } from '../walletMethods/utils';
+import { stacksNetworkConfigurationSchema } from '../walletMethods/utils';
 
 export const stxGetAddressesMethodName = 'stx_getAddresses';
 export const stxGetAddressesParamsSchema = v.nullish(
@@ -18,7 +18,7 @@ export const stxGetAddressesResultSchema = v.object({
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
-  network: stacksNetworkSchema,
+  network: stacksNetworkConfigurationSchema,
 });
 export type StxGetAddressesResult = v.InferOutput<typeof stxGetAddressesResultSchema>;
 export const stxGetAddressesRequestMessageSchema = v.object({

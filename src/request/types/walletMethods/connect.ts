@@ -1,9 +1,9 @@
 import * as v from 'valibot';
 import { AddressPurpose, addressSchema } from '../../../addresses';
-import { BitcoinNetworkType, MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
+import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import { walletTypeSchema } from '../common';
 import { PermissionRequestParams } from './common';
-import { getNetworkResultSchema } from './getNetwork';
+import { getNetworksResultSchema } from '../walletMethods.gitignore';
 
 export const connectMethodName = 'wallet_connect';
 export const connectParamsSchema = v.nullish(
@@ -13,7 +13,7 @@ export const connectParamsSchema = v.nullish(
     message: v.optional(
       v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
     ),
-    network: v.optional(v.enum(BitcoinNetworkType)),
+    networkId: v.optional(v.string()),
   })
 );
 export type ConnectParams = v.InferOutput<typeof connectParamsSchema>;
@@ -21,7 +21,7 @@ export const connectResultSchema = v.object({
   id: v.string(),
   addresses: v.array(addressSchema),
   walletType: walletTypeSchema,
-  network: getNetworkResultSchema,
+  networks: getNetworksResultSchema,
 });
 export type ConnectResult = v.InferOutput<typeof connectResultSchema>;
 export const connectRequestMessageSchema = v.object({

@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import { addressSchema } from '../../../addresses';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
-import { sparkNetworkSchema } from '../walletMethods/utils';
+import { sparkNetworkConfigurationSchema } from '../walletMethods/utils';
 
 export const sparkGetAddressesMethodName = 'spark_getAddresses';
 export const sparkGetAddressesParamsSchema = v.nullish(
@@ -18,7 +18,7 @@ export const sparkGetAddressesResultSchema = v.object({
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
-  network: sparkNetworkSchema,
+  network: sparkNetworkConfigurationSchema,
 });
 export type SparkGetAddressesResult = v.InferOutput<typeof sparkGetAddressesResultSchema>;
 export const sparkGetAddressesRequestMessageSchema = v.object({

@@ -1,30 +1,47 @@
 import { rpcRequestMessageSchema, MethodParamsAndResult } from 'src/types';
 import * as v from 'valibot';
 import {
-  bitcoinNetworkSchema,
-  sparkNetworkSchema,
-  stacksNetworkSchema,
-  starknetNetworkSchema,
+  bitcoinNetworkConfigurationSchema,
+  sparkNetworkConfigurationSchema,
+  stacksNetworkConfigurationSchema,
+  starknetNetworkConfigurationSchema,
 } from './utils';
 
 export const addNetworkMethodName = 'wallet_addNetwork';
-export const bitcoinNetworkDefinitionSchema = v.omit(bitcoinNetworkSchema, ['id']);
-export const sparkNetworkDefinitionSchema = v.omit(sparkNetworkSchema, ['id']);
-export const stacksNetworkDefinitionSchema = v.omit(stacksNetworkSchema, ['id']);
-export const starknetNetworkDefinitionSchema = v.omit(starknetNetworkSchema, ['id']);
-export type BitcoinNetworkDefinition = v.InferOutput<typeof bitcoinNetworkDefinitionSchema>;
-export type SparkNetworkDefinition = v.InferOutput<typeof sparkNetworkDefinitionSchema>;
-export type StacksNetworkDefinition = v.InferOutput<typeof stacksNetworkDefinitionSchema>;
-export type StarknetNetworkDefinition = v.InferOutput<typeof starknetNetworkDefinitionSchema>;
-export const newNetworkDefinitionSchema = v.variant('chain', [
-  bitcoinNetworkDefinitionSchema,
-  sparkNetworkDefinitionSchema,
-  stacksNetworkDefinitionSchema,
-  starknetNetworkDefinitionSchema,
+export const bitcoinNetworkConfigurationOptionsSchema = v.omit(bitcoinNetworkConfigurationSchema, [
+  'id',
 ]);
-export type NewNetworkDefinition = v.InferOutput<typeof newNetworkDefinitionSchema>;
+export const sparkNetworkConfigurationOptionsSchema = v.omit(sparkNetworkConfigurationSchema, [
+  'id',
+]);
+export const stacksNetworkConfigurationOptionsSchema = v.omit(stacksNetworkConfigurationSchema, [
+  'id',
+]);
+export const starknetNetworkConfigurationOptionsSchema = v.omit(
+  starknetNetworkConfigurationSchema,
+  ['id']
+);
+export type BitcoinNetworkConfigurationOptions = v.InferOutput<
+  typeof bitcoinNetworkConfigurationOptionsSchema
+>;
+export type SparkNetworkConfigurationOptions = v.InferOutput<
+  typeof sparkNetworkConfigurationOptionsSchema
+>;
+export type StacksNetworkConfigurationOptions = v.InferOutput<
+  typeof stacksNetworkConfigurationOptionsSchema
+>;
+export type StarknetNetworkConfigurationOptions = v.InferOutput<
+  typeof starknetNetworkConfigurationOptionsSchema
+>;
+export const networkConfigurationOptionsSchema = v.variant('chain', [
+  bitcoinNetworkConfigurationOptionsSchema,
+  sparkNetworkConfigurationOptionsSchema,
+  stacksNetworkConfigurationOptionsSchema,
+  starknetNetworkConfigurationOptionsSchema,
+]);
+export type NetworkConfigurationOptions = v.InferOutput<typeof networkConfigurationOptionsSchema>;
 export const addNetworkParamsSchema = v.object({
-  network: newNetworkDefinitionSchema,
+  network: networkConfigurationOptionsSchema,
   isActive: v.optional(v.boolean()),
 });
 export type AddNetworkParams = v.InferOutput<typeof addNetworkParamsSchema>;

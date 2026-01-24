@@ -1,9 +1,9 @@
 import * as v from 'valibot';
 import {
-  bitcoinNetworkSchema,
-  sparkNetworkSchema,
-  stacksNetworkSchema,
-  starknetNetworkSchema,
+  bitcoinNetworkConfigurationSchema,
+  sparkNetworkConfigurationSchema,
+  stacksNetworkConfigurationSchema,
+  starknetNetworkConfigurationSchema,
 } from './utils';
 import { rpcRequestMessageSchema, MethodParamsAndResult } from 'src/types';
 
@@ -18,22 +18,22 @@ export type GetNetworksParams = v.InferOutput<typeof getNetworksParamsSchema>;
 // https://github.com/secretkeylabs/xverse-core-private/blob/7835712b0cf4af60e9636c25abc972497c38e0d8/persistentStoreManager/stores/walletOptions/index.ts#L83
 export const getNetworksResultSchema = v.object({
   active: v.object({
-    bitcoin: bitcoinNetworkSchema,
-    stacks: stacksNetworkSchema,
-    spark: sparkNetworkSchema,
-    starknet: starknetNetworkSchema,
+    bitcoin: bitcoinNetworkConfigurationSchema,
+    stacks: stacksNetworkConfigurationSchema,
+    spark: sparkNetworkConfigurationSchema,
+    starknet: starknetNetworkConfigurationSchema,
   }),
   builtin: v.object({
-    bitcoin: v.array(bitcoinNetworkSchema),
-    stacks: v.array(stacksNetworkSchema),
-    spark: v.array(sparkNetworkSchema),
-    starknet: v.array(starknetNetworkSchema),
+    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
+    stacks: v.array(stacksNetworkConfigurationSchema),
+    spark: v.array(sparkNetworkConfigurationSchema),
+    starknet: v.array(starknetNetworkConfigurationSchema),
   }),
   custom: v.object({
-    bitcoin: v.array(bitcoinNetworkSchema),
-    stacks: v.array(stacksNetworkSchema),
-    spark: v.array(sparkNetworkSchema),
-    starknet: v.array(starknetNetworkSchema),
+    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
+    stacks: v.array(stacksNetworkConfigurationSchema),
+    spark: v.array(sparkNetworkConfigurationSchema),
+    starknet: v.array(starknetNetworkConfigurationSchema),
   }),
 });
 export type GetNetworksResult = v.InferOutput<typeof getNetworksResultSchema>;

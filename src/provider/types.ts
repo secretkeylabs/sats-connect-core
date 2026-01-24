@@ -18,10 +18,10 @@ import type {
 } from '../transactions';
 import { RpcResponse } from '../types';
 import {
-  bitcoinNetworkSchema,
-  sparkNetworkSchema,
-  stacksNetworkSchema,
-  starknetNetworkSchema,
+  bitcoinNetworkConfigurationSchema,
+  sparkNetworkConfigurationSchema,
+  stacksNetworkConfigurationSchema,
+  starknetNetworkConfigurationSchema,
 } from 'src/request/types/walletMethods/utils';
 
 // accountChange
@@ -37,10 +37,10 @@ export const networkChangeEventName = 'networkChange';
 export const networkChangeSchema = v.object({
   type: v.literal(networkChangeEventName),
   networks: v.object({
-    bitcoin: bitcoinNetworkSchema,
-    spark: sparkNetworkSchema,
-    stacks: stacksNetworkSchema,
-    starknet: starknetNetworkSchema,
+    bitcoin: bitcoinNetworkConfigurationSchema,
+    spark: sparkNetworkConfigurationSchema,
+    stacks: stacksNetworkConfigurationSchema,
+    starknet: starknetNetworkConfigurationSchema,
   }),
   addresses: v.optional(v.array(addressSchema)),
 });
