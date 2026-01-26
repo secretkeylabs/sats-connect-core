@@ -1,6 +1,8 @@
 import { BitcoinNetworkType, MethodParamsAndResult } from '../../../types';
 import { EstimateEtchOrderRequest, EstimateOrderResponse } from '../../../runes/types';
 
+export const runesEstimateEtchMethodName = 'runes_estimateEtch';
+
 export interface RunesEstimateEtchParams extends EstimateEtchOrderRequest {
   network?: BitcoinNetworkType;
 }

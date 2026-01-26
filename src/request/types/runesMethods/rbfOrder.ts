@@ -1,6 +1,8 @@
 import { BitcoinNetworkType, MethodParamsAndResult } from '../../../types';
 import { RBFOrderRequest } from '../../../runes/types';
 
+export const runesRbfOrderMethodName = 'runes_rbfOrder';
+
 interface RunesRbfOrderParams extends RBFOrderRequest {
   network?: BitcoinNetworkType;
 }

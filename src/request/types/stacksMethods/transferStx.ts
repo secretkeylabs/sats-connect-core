@@ -1,9 +1,9 @@
 import * as v from 'valibot';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 
-export const stxTransferStxMethodName = 'stx_transferStx';
+export const stacksTransferStxMethodName = 'stx_transferStx';
 
-export const stxTransferStxParamsSchema = v.object({
+export const stacksTransferStxParamsSchema = v.object({
   /**
    * Amount of STX tokens to transfer in microstacks as a string. Anything
    * parseable by `BigInt` is acceptable.
@@ -52,9 +52,9 @@ export const stxTransferStxParamsSchema = v.object({
    */
   pubkey: v.optional(v.string()),
 });
-export type StxTransferStxParams = v.InferOutput<typeof stxTransferStxParamsSchema>;
+export type StacksTransferStxParams = v.InferOutput<typeof stacksTransferStxParamsSchema>;
 
-export const stxTransferStxResultSchema = v.object({
+export const stacksTransferStxResultSchema = v.object({
   /**
    * The ID of the transaction.
    */
@@ -65,16 +65,21 @@ export const stxTransferStxResultSchema = v.object({
    */
   transaction: v.string(),
 });
-export type StxTransferStxResult = v.InferOutput<typeof stxTransferStxResultSchema>;
+export type StacksTransferStxResult = v.InferOutput<typeof stacksTransferStxResultSchema>;
 
-export const stxTransferStxRequestMessageSchema = v.object({
+export const stacksTransferStxRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(stxTransferStxMethodName),
-    params: stxTransferStxParamsSchema,
+    method: v.literal(stacksTransferStxMethodName),
+    params: stacksTransferStxParamsSchema,
     id: v.string(),
   }).entries,
 });
-export type StxTransferStxRequestMessage = v.InferOutput<typeof stxTransferStxRequestMessageSchema>;
+export type StacksTransferStxRequestMessage = v.InferOutput<
+  typeof stacksTransferStxRequestMessageSchema
+>;
 
-export type StxTransferStx = MethodParamsAndResult<StxTransferStxParams, StxTransferStxResult>;
+export type StacksTransferStx = MethodParamsAndResult<
+  StacksTransferStxParams,
+  StacksTransferStxResult
+>;

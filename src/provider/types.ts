@@ -4,19 +4,19 @@ import type { GetCapabilitiesResponse } from '../capabilities';
 import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
 import type { SignMessageResponse } from '../messages';
 import {
-  BtcRequestMethod,
+  BitcoinRequestMethod,
   OrdinalsRequestMethod,
   Params,
   Requests,
   RunesRequestMethod,
-  StxRequestMethod,
+  StacksRequestMethod,
 } from '../request';
 import type {
   SendBtcTransactionResponse,
   SignMultipleTransactionsResponse,
   SignTransactionResponse,
 } from '../transactions';
-import { RpcResponse } from '../types';
+import { BitcoinNetworkType, RpcResponse } from '../types';
 import {
   bitcoinNetworkConfigurationSchema,
   sparkNetworkConfigurationSchema,
@@ -36,6 +36,19 @@ export type AccountChangeEvent = v.InferOutput<typeof accountChangeSchema>;
 export const networkChangeEventName = 'networkChange';
 export const networkChangeSchema = v.object({
   type: v.literal(networkChangeEventName),
+  bitcoin: v.object({
+    name: v.enum(BitcoinNetworkType),
+  }),
+  stacks: v.object({
+    name: v.string(),
+  }),
+  addresses: v.optional(v.array(addressSchema)),
+});
+export type NetworkChangeEvent = v.InferOutput<typeof networkChangeSchema>;
+
+export const networkChangeEventNameV2 = 'networkChangeV2';
+export const networkChangeV2Schema = v.object({
+  type: v.literal(networkChangeEventName),
   networks: v.object({
     bitcoin: bitcoinNetworkConfigurationSchema,
     spark: sparkNetworkConfigurationSchema,
@@ -44,7 +57,7 @@ export const networkChangeSchema = v.object({
   }),
   addresses: v.optional(v.array(addressSchema)),
 });
-export type NetworkChangeEvent = v.InferOutput<typeof networkChangeSchema>;
+export type NetworkChangeEventV2 = v.InferOutput<typeof networkChangeSchema>;
 
 // disconnect
 export const disconnectEventName = 'disconnect';
@@ -112,7 +125,12 @@ export interface Provider {
   mozillaAddOnsUrl?: string;
   googlePlayStoreUrl?: string;
   iOSAppStoreUrl?: string;
-  methods?: (StxRequestMethod | BtcRequestMethod | RunesRequestMethod | OrdinalsRequestMethod)[];
+  methods?: (
+    | StacksRequestMethod
+    | BitcoinRequestMethod
+    | RunesRequestMethod
+    | OrdinalsRequestMethod
+  )[];
 }
 
 export interface SupportedWallet extends Provider {

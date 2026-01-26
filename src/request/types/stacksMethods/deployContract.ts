@@ -1,8 +1,8 @@
 import * as v from 'valibot';
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 
-export const stxDeployContractMethodName = 'stx_deployContract';
-export const stxDeployContractParamsSchema = v.object({
+export const stacksDeployContractMethodName = 'stx_deployContract';
+export const stacksDeployContractParamsSchema = v.object({
   /**
    * Name of the contract.
    */
@@ -28,8 +28,8 @@ export const stxDeployContractParamsSchema = v.object({
    */
   postConditionMode: v.optional(v.union([v.literal('allow'), v.literal('deny')])),
 });
-export type StxDeployContractParams = v.InferOutput<typeof stxDeployContractParamsSchema>;
-export const stxDeployContractResultSchema = v.object({
+export type StacksDeployContractParams = v.InferOutput<typeof stacksDeployContractParamsSchema>;
+export const stacksDeployContractResultSchema = v.object({
   /**
    * The ID of the transaction.
    */
@@ -40,19 +40,19 @@ export const stxDeployContractResultSchema = v.object({
    */
   transaction: v.string(),
 });
-export type StxDeployContractResult = v.InferOutput<typeof stxDeployContractResultSchema>;
-export const stxDeployContractRequestMessageSchema = v.object({
+export type StacksDeployContractResult = v.InferOutput<typeof stacksDeployContractResultSchema>;
+export const stacksDeployContractRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(stxDeployContractMethodName),
-    params: stxDeployContractParamsSchema,
+    method: v.literal(stacksDeployContractMethodName),
+    params: stacksDeployContractParamsSchema,
     id: v.string(),
   }).entries,
 });
-export type StxDeployContractRequestMessage = v.InferOutput<
-  typeof stxDeployContractRequestMessageSchema
+export type StacksDeployContractRequestMessage = v.InferOutput<
+  typeof stacksDeployContractRequestMessageSchema
 >;
-export type StxDeployContract = MethodParamsAndResult<
-  StxDeployContractParams,
-  StxDeployContractResult
+export type StacksDeployContract = MethodParamsAndResult<
+  StacksDeployContractParams,
+  StacksDeployContractResult
 >;

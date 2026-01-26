@@ -1,26 +1,32 @@
-import type * as BtcMethods from './btcMethods';
-import { GetInscriptions, SendInscriptions } from './ordinalsMethods';
+import type * as BitcoinMethods from './bitcoinMethods';
+import {
+  GetInscriptions,
+  SendInscriptions,
+  getInscriptionsMethodName,
+  sendInscriptionsMethodName,
+} from './ordinalsMethods';
 import type * as RunesMethods from './runesMethods';
 import type * as SparkMethods from './sparkMethods';
-import type * as StxMethods from './stxMethods';
+import type * as StacksMethods from './stacksMethods';
 import type * as WalletMethods from './walletMethods';
 
-export type StxRequests = {
-  stx_callContract: StxMethods.StxCallContract;
-  stx_deployContract: StxMethods.StxDeployContract;
-  stx_getAccounts: StxMethods.StxGetAccounts;
-  stx_getAddresses: StxMethods.StxGetAddresses;
-  stx_signMessage: StxMethods.StxSignMessage;
-  stx_signStructuredMessage: StxMethods.StxSignStructuredMessage;
-  stx_signTransaction: StxMethods.StxSignTransaction;
-  stx_transferStx: StxMethods.StxTransferStx;
-  stx_signTransactions: StxMethods.StxSignTransactions;
+export type StacksRequests = {
+  [StacksMethods.stacksCallContractMethodName]: StacksMethods.StacksCallContract;
+  [StacksMethods.stacksDeployContractMethodName]: StacksMethods.StacksDeployContract;
+  [StacksMethods.stacksGetAccountsMethodName]: StacksMethods.StacksGetAccounts;
+  [StacksMethods.stacksGetAddressesMethodName]: StacksMethods.StacksGetAddresses;
+  [StacksMethods.stacksGetAddressesV2MethodName]: StacksMethods.StacksGetAddressesV2;
+  [StacksMethods.stacksSignMessageMethodName]: StacksMethods.StacksSignMessage;
+  [StacksMethods.stacksSignStructuredMessageMethodName]: StacksMethods.StacksSignStructuredMessage;
+  [StacksMethods.stacksSignTransactionMethodName]: StacksMethods.StacksSignTransaction;
+  [StacksMethods.stacksSignTransactionsMethodName]: StacksMethods.StacksSignTransactions;
+  [StacksMethods.stacksTransferStxMethodName]: StacksMethods.StacksTransferStx;
 };
 
-export type StxRequestMethod = keyof StxRequests;
+export type StacksRequestMethod = keyof StacksRequests;
 
 export type SparkRequests = {
-  [SparkMethods.sparkGetAddressesMethodName]: SparkMethods.SparkGetAddresses;
+  [SparkMethods.sparkGetAddressesV2MethodName]: SparkMethods.SparkGetAddressesV2;
   [SparkMethods.sparkGetBalanceMethodName]: SparkMethods.SparkGetBalance;
   [SparkMethods.sparkTransferMethodName]: SparkMethods.SparkTransfer;
   [SparkMethods.sparkTransferTokenMethodName]: SparkMethods.SparkTransferToken;
@@ -37,60 +43,72 @@ export type SparkRequests = {
 
 export type SparkRequestMethod = keyof SparkRequests;
 
-export type BtcRequests = {
-  [BtcMethods.getInfoMethodName]: BtcMethods.GetInfo;
-  [BtcMethods.getAddressesMethodName]: BtcMethods.GetAddresses;
-  [BtcMethods.getAccountsMethodName]: BtcMethods.GetAccounts;
-  [BtcMethods.getBalanceMethodName]: BtcMethods.GetBalance;
-  [BtcMethods.signMessageMethodName]: BtcMethods.SignMessage;
-  [BtcMethods.signMultipleMessagesMethodName]: BtcMethods.SignMultipleMessages;
-  [BtcMethods.sendTransferMethodName]: BtcMethods.SendTransfer;
-  [BtcMethods.signPsbtMethodName]: BtcMethods.SignPsbt;
+export type BitcoinRequests = {
+  [BitcoinMethods.bitcoinGetAccountsV2MethodName]: BitcoinMethods.BitcoinGetAccountsV2;
+  [BitcoinMethods.bitcoinGetAddressesV2MethodName]: BitcoinMethods.BitcoinGetAddressesV2;
+  [BitcoinMethods.bitcoinGetBalanceV2MethodName]: BitcoinMethods.BitcoinGetBalanceV2;
+  [BitcoinMethods.bitcoinGetInfoV2MethodName]: BitcoinMethods.BitcoinGetInfoV2;
+  [BitcoinMethods.bitcoinSendTransferV2MethodName]: BitcoinMethods.BitcoinSendTransferV2;
+  [BitcoinMethods.bitcoinSignMessageV2MethodName]: BitcoinMethods.BitcoinSignMessageV2;
+  [BitcoinMethods.bitcoinSignMultipleMessagesV2MethodName]: BitcoinMethods.BitcoinSignMultipleMessagesV2;
+  [BitcoinMethods.bitcoinSignPsbtV2MethodName]: BitcoinMethods.BitcoinSignPsbtV2;
+
+  [BitcoinMethods.getAccountsMethodName]: BitcoinMethods.GetAccounts;
+  [BitcoinMethods.getAddressesMethodName]: BitcoinMethods.GetAddresses;
+  [BitcoinMethods.getBalanceMethodName]: BitcoinMethods.GetBalance;
+  [BitcoinMethods.getInfoMethodName]: BitcoinMethods.GetInfo;
+  [BitcoinMethods.sendTransferMethodName]: BitcoinMethods.SendTransfer;
+  [BitcoinMethods.signMessageMethodName]: BitcoinMethods.SignMessage;
+  [BitcoinMethods.signMultipleMessagesMethodName]: BitcoinMethods.SignMultipleMessages;
+  [BitcoinMethods.signPsbtMethodName]: BitcoinMethods.SignPsbt;
 };
 
-export type BtcRequestMethod = keyof BtcRequests;
+export type BitcoinRequestMethod = keyof BitcoinRequests;
 
 export type RunesRequests = {
-  runes_estimateEtch: RunesMethods.RunesEstimateEtch;
-  runes_estimateMint: RunesMethods.RunesEstimateMint;
-  runes_estimateRbfOrder: RunesMethods.RunesEstimateRbfOrder;
-  runes_etch: RunesMethods.RunesEtch;
-  runes_getBalance: RunesMethods.RunesGetBalance;
-  runes_getOrder: RunesMethods.RunesGetOrder;
-  runes_mint: RunesMethods.RunesMint;
-  runes_rbfOrder: RunesMethods.RunesRbfOrder;
-  runes_transfer: RunesMethods.RunesTransfer;
+  [RunesMethods.runesEstimateEtchMethodName]: RunesMethods.RunesEstimateEtch;
+  [RunesMethods.runesEstimateMintMethodName]: RunesMethods.RunesEstimateMint;
+  [RunesMethods.runesEstimateRbfOrderMethodName]: RunesMethods.RunesEstimateRbfOrder;
+  [RunesMethods.runesEtchMethodName]: RunesMethods.RunesEtch;
+  [RunesMethods.runesGetBalanceMethodName]: RunesMethods.RunesGetBalance;
+  [RunesMethods.runesGetOrderMethodName]: RunesMethods.RunesGetOrder;
+  [RunesMethods.runesMintMethodName]: RunesMethods.RunesMint;
+  [RunesMethods.runesRbfOrderMethodName]: RunesMethods.RunesRbfOrder;
+  [RunesMethods.runesTransferMethodName]: RunesMethods.RunesTransfer;
 };
 
 export type RunesRequestMethod = keyof RunesRequests;
 
 export type OrdinalsRequests = {
-  ord_getInscriptions: GetInscriptions;
-  ord_sendInscriptions: SendInscriptions;
+  [getInscriptionsMethodName]: GetInscriptions;
+  [sendInscriptionsMethodName]: SendInscriptions;
 };
 
 export type OrdinalsRequestMethod = keyof OrdinalsRequests;
 
 export type WalletRequests = {
-  wallet_addNetwork: WalletMethods.AddNetwork;
-  wallet_changeNetwork: WalletMethods.ChangeNetwork;
-  wallet_changeNetworkById: WalletMethods.ChangeNetworkById;
-  wallet_connect: WalletMethods.Connect;
-  wallet_disconnect: WalletMethods.Disconnect;
-  wallet_getAccount: WalletMethods.GetAccount;
-  wallet_getCurrentPermissions: WalletMethods.GetCurrentPermissions;
-  wallet_getNetwork: WalletMethods.GetNetwork;
-  wallet_getNetworks: WalletMethods.GetNetworks;
-  wallet_getWalletType: WalletMethods.GetWalletType;
-  wallet_renouncePermissions: WalletMethods.RenouncePermissions;
-  wallet_requestPermissions: WalletMethods.RequestPermissions;
-  wallet_openReceive: WalletMethods.OpenReceive;
-  wallet_openBridge: WalletMethods.OpenBridge;
-  wallet_openBuy: WalletMethods.OpenBuy;
+  [WalletMethods.addNetworkMethodName]: WalletMethods.AddNetwork;
+  [WalletMethods.addNetworkV2MethodName]: WalletMethods.AddNetworkV2;
+  [WalletMethods.changeNetworkByIdMethodName]: WalletMethods.ChangeNetworkById;
+  [WalletMethods.changeNetworkMethodName]: WalletMethods.ChangeNetwork;
+  [WalletMethods.connectMethodName]: WalletMethods.Connect;
+  [WalletMethods.connectV2MethodName]: WalletMethods.ConnectV2;
+  [WalletMethods.disconnectMethodName]: WalletMethods.Disconnect;
+  [WalletMethods.getAccountMethodName]: WalletMethods.GetAccount;
+  [WalletMethods.getAccountV2MethodName]: WalletMethods.GetAccountV2;
+  [WalletMethods.getCurrentPermissionsMethodName]: WalletMethods.GetCurrentPermissions;
+  [WalletMethods.getNetworkMethodName]: WalletMethods.GetNetwork;
+  [WalletMethods.getNetworksMethodName]: WalletMethods.GetNetworks;
+  [WalletMethods.getWalletTypeMethodName]: WalletMethods.GetWalletType;
+  [WalletMethods.openBridgeMethodName]: WalletMethods.OpenBridge;
+  [WalletMethods.openBuyMethodName]: WalletMethods.OpenBuy;
+  [WalletMethods.openReceiveMethodName]: WalletMethods.OpenReceive;
+  [WalletMethods.renouncePermissionsMethodName]: WalletMethods.RenouncePermissions;
+  [WalletMethods.requestPermissionsMethodName]: WalletMethods.RequestPermissions;
 };
 
-export type Requests = BtcRequests &
-  StxRequests &
+export type Requests = BitcoinRequests &
+  StacksRequests &
   SparkRequests &
   RunesRequests &
   WalletRequests &
@@ -99,10 +117,10 @@ export type Requests = BtcRequests &
 export type Return<Method> = Method extends keyof Requests ? Requests[Method]['result'] : never;
 export type Params<Method> = Method extends keyof Requests ? Requests[Method]['params'] : never;
 
-export * from './btcMethods';
+export * from './bitcoinMethods';
 export * from './common';
 export * from './ordinalsMethods';
 export * from './runesMethods';
 export * from './sparkMethods';
-export * from './stxMethods';
+export * from './stacksMethods';
 export * from './walletMethods';

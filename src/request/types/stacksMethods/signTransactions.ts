@@ -1,8 +1,8 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
-export const stxSignTransactionsMethodName = 'stx_signTransactions';
-export const stxSignTransactionsParamsSchema = v.object({
+export const stacksSignTransactionsMethodName = 'stx_signTransactions';
+export const stacksSignTransactionsParamsSchema = v.object({
   /**
    * The transactions to sign as hex-encoded strings.
    */
@@ -29,27 +29,27 @@ export const stxSignTransactionsParamsSchema = v.object({
    */
   broadcast: v.optional(v.boolean()),
 });
-export type StxSignTransactionsParams = v.InferOutput<typeof stxSignTransactionsParamsSchema>;
-export const stxSignTransactionsResultSchema = v.object({
+export type StacksSignTransactionsParams = v.InferOutput<typeof stacksSignTransactionsParamsSchema>;
+export const stacksSignTransactionsResultSchema = v.object({
   /**
    * The signed transactions as hex-encoded strings, in the same order as in the
    * sign request.
    */
   transactions: v.array(v.string()),
 });
-export type StxSignTransactionsResult = v.InferOutput<typeof stxSignTransactionsResultSchema>;
-export const stxSignTransactionsRequestMessageSchema = v.object({
+export type StacksSignTransactionsResult = v.InferOutput<typeof stacksSignTransactionsResultSchema>;
+export const stacksSignTransactionsRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(stxSignTransactionsMethodName),
-    params: stxSignTransactionsParamsSchema,
+    method: v.literal(stacksSignTransactionsMethodName),
+    params: stacksSignTransactionsParamsSchema,
     id: v.string(),
   }).entries,
 });
-export type StxSignTransactionsRequestMessage = v.InferOutput<
-  typeof stxSignTransactionsRequestMessageSchema
+export type StacksSignTransactionsRequestMessage = v.InferOutput<
+  typeof stacksSignTransactionsRequestMessageSchema
 >;
-export type StxSignTransactions = MethodParamsAndResult<
-  StxSignTransactionsParams,
-  StxSignTransactionsResult
+export type StacksSignTransactions = MethodParamsAndResult<
+  StacksSignTransactionsParams,
+  StacksSignTransactionsResult
 >;

@@ -1,9 +1,9 @@
 import { MethodParamsAndResult, rpcRequestMessageSchema } from '../../../types';
 import * as v from 'valibot';
 
-export const stxCallContractMethodName = 'stx_callContract';
+export const stacksCallContractMethodName = 'stx_callContract';
 
-export const stxCallContractParamsSchema = v.object({
+export const stacksCallContractParamsSchema = v.object({
   /**
    * The contract principal.
    *
@@ -50,9 +50,9 @@ export const stxCallContractParamsSchema = v.object({
    */
   postConditionMode: v.optional(v.union([v.literal('allow'), v.literal('deny')])),
 });
-export type StxCallContractParams = v.InferOutput<typeof stxCallContractParamsSchema>;
+export type StacksCallContractParams = v.InferOutput<typeof stacksCallContractParamsSchema>;
 
-export const stxCallContractResultSchema = v.object({
+export const stacksCallContractResultSchema = v.object({
   /**
    * The ID of the transaction.
    */
@@ -63,18 +63,21 @@ export const stxCallContractResultSchema = v.object({
    */
   transaction: v.string(),
 });
-export type StxCallContractResult = v.InferOutput<typeof stxCallContractResultSchema>;
+export type StacksCallContractResult = v.InferOutput<typeof stacksCallContractResultSchema>;
 
-export const stxCallContractRequestMessageSchema = v.object({
+export const stacksCallContractRequestMessageSchema = v.object({
   ...rpcRequestMessageSchema.entries,
   ...v.object({
-    method: v.literal(stxCallContractMethodName),
-    params: stxCallContractParamsSchema,
+    method: v.literal(stacksCallContractMethodName),
+    params: stacksCallContractParamsSchema,
     id: v.string(),
   }).entries,
 });
-export type StxCallContractRequestMessage = v.InferOutput<
-  typeof stxCallContractRequestMessageSchema
+export type StacksCallContractRequestMessage = v.InferOutput<
+  typeof stacksCallContractRequestMessageSchema
 >;
 
-export type StxCallContract = MethodParamsAndResult<StxCallContractParams, StxCallContractResult>;
+export type StacksCallContract = MethodParamsAndResult<
+  StacksCallContractParams,
+  StacksCallContractResult
+>;
