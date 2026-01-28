@@ -6,97 +6,67 @@ import {
   bitcoinGetAccountsRequestSchema,
   type BitcoinGetAccountsSuccessResponse,
   bitcoinGetAccountsSuccessResponseSchema,
-} from './methods/getAccounts';
-import {
   type BitcoinGetAccountsV2Request,
   bitcoinGetAccountsV2RequestSchema,
   type BitcoinGetAccountsV2SuccessResponse,
   bitcoinGetAccountsV2SuccessResponseSchema,
-} from './methods/getAccountsV2';
-import {
   type BitcoinGetAddressesRequest,
   bitcoinGetAddressesRequestSchema,
   type BitcoinGetAddressesSuccessResponse,
   bitcoinGetAddressesSuccessResponseSchema,
-} from './methods/getAddresses';
-import {
   type BitcoinGetAddressesV2Request,
   bitcoinGetAddressesV2RequestSchema,
   type BitcoinGetAddressesV2SuccessResponse,
   bitcoinGetAddressesV2SuccessResponseSchema,
-} from './methods/getAddressesV2';
-import {
   type BitcoinGetBalanceRequest,
   bitcoinGetBalanceRequestSchema,
   type BitcoinGetBalanceSuccessResponse,
   bitcoinGetBalanceSuccessResponseSchema,
-} from './methods/getBalance';
-import {
   type BitcoinGetBalanceV2Request,
   bitcoinGetBalanceV2RequestSchema,
   type BitcoinGetBalanceV2SuccessResponse,
   bitcoinGetBalanceV2SuccessResponseSchema,
-} from './methods/getBalanceV2';
-import {
   type BitcoinGetInfoRequest,
   bitcoinGetInfoRequestSchema,
   type BitcoinGetInfoSuccessResponse,
   bitcoinGetInfoSuccessResponseSchema,
-} from './methods/getInfo';
-import {
   type BitcoinGetInfoV2Request,
   bitcoinGetInfoV2RequestSchema,
   type BitcoinGetInfoV2SuccessResponse,
   bitcoinGetInfoV2SuccessResponseSchema,
-} from './methods/getInfoV2';
-import {
   type BitcoinSendTransferRequest,
   bitcoinSendTransferRequestSchema,
   type BitcoinSendTransferSuccessResponse,
   bitcoinSendTransferSuccessResponseSchema,
-} from './methods/sendTransfer';
-import {
   type BitcoinSendTransferV2Request,
   bitcoinSendTransferV2RequestSchema,
   type BitcoinSendTransferV2SuccessResponse,
   bitcoinSendTransferV2SuccessResponseSchema,
-} from './methods/sendTransferV2';
-import {
   type BitcoinSignMessageRequest,
   bitcoinSignMessageRequestSchema,
   type BitcoinSignMessageSuccessResponse,
   bitcoinSignMessageSuccessResponseSchema,
-} from './methods/signMessage';
-import {
   type BitcoinSignMessageV2Request,
   bitcoinSignMessageV2RequestSchema,
   type BitcoinSignMessageV2SuccessResponse,
   bitcoinSignMessageV2SuccessResponseSchema,
-} from './methods/signMessageV2';
-import {
   type BitcoinSignMultipleMessagesRequest,
   bitcoinSignMultipleMessagesRequestSchema,
   type BitcoinSignMultipleMessagesSuccessResponse,
   bitcoinSignMultipleMessagesSuccessResponseSchema,
-} from './methods/signMultipleMessages';
-import {
   type BitcoinSignMultipleMessagesV2Request,
   bitcoinSignMultipleMessagesV2RequestSchema,
   type BitcoinSignMultipleMessagesV2SuccessResponse,
   bitcoinSignMultipleMessagesV2SuccessResponseSchema,
-} from './methods/signMultipleMessagesV2';
-import {
   type BitcoinSignPsbtRequest,
   bitcoinSignPsbtRequestSchema,
   type BitcoinSignPsbtSuccessResponse,
   bitcoinSignPsbtSuccessResponseSchema,
-} from './methods/signPsbt';
-import {
   type BitcoinSignPsbtV2Request,
   bitcoinSignPsbtV2RequestSchema,
   type BitcoinSignPsbtV2SuccessResponse,
   bitcoinSignPsbtV2SuccessResponseSchema,
-} from './methods/signPsbtV2';
+} from './methods';
 
 export type BitcoinRequests = ExactObject<
   BitcoinMethod,

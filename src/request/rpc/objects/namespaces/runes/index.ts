@@ -6,55 +6,39 @@ import {
   runesEstimateEtchRequestSchema,
   type RunesEstimateEtchSuccessResponse,
   runesEstimateEtchSuccessResponseSchema,
-} from './methods/estimateEtch';
-import {
   type RunesEstimateMintRequest,
   runesEstimateMintRequestSchema,
   type RunesEstimateMintSuccessResponse,
   runesEstimateMintSuccessResponseSchema,
-} from './methods/estimateMint';
-import {
   type RunesEstimateRbfOrderRequest,
   runesEstimateRbfOrderRequestSchema,
   type RunesEstimateRbfOrderSuccessResponse,
   runesEstimateRbfOrderSuccessResponseSchema,
-} from './methods/estimateRbfOrder';
-import {
   type RunesEtchRequest,
   runesEtchRequestSchema,
   type RunesEtchSuccessResponse,
   runesEtchSuccessResponseSchema,
-} from './methods/etch';
-import {
   type RunesGetBalanceRequest,
   runesGetBalanceRequestSchema,
   type RunesGetBalanceSuccessResponse,
   runesGetBalanceSuccessResponseSchema,
-} from './methods/getBalance';
-import {
   type RunesGetOrderRequest,
   runesGetOrderRequestSchema,
   type RunesGetOrderSuccessResponse,
   runesGetOrderSuccessResponseSchema,
-} from './methods/getOrder';
-import {
   type RunesMintRequest,
   runesMintRequestSchema,
   type RunesMintSuccessResponse,
   runesMintSuccessResponseSchema,
-} from './methods/mint';
-import {
   type RunesRbfOrderRequest,
   runesRbfOrderRequestSchema,
   type RunesRbfOrderSuccessResponse,
   runesRbfOrderSuccessResponseSchema,
-} from './methods/rbfOrder';
-import {
   type RunesTransferRequest,
   runesTransferRequestSchema,
   type RunesTransferSuccessResponse,
   runesTransferSuccessResponseSchema,
-} from './methods/transfer';
+} from './methods';
 
 export type RunesRequests = ExactObject<
   RunesMethod,

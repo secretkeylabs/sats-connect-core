@@ -6,13 +6,11 @@ import {
   ordinalsGetInscriptionsRequestSchema,
   type OrdinalsGetInscriptionsSuccessResponse,
   ordinalsGetInscriptionsSuccessResponseSchema,
-} from './methods/getInscriptions';
-import {
   type OrdinalsSendInscriptionsRequest,
   ordinalsSendInscriptionsRequestSchema,
   type OrdinalsSendInscriptionsSuccessResponse,
   ordinalsSendInscriptionsSuccessResponseSchema,
-} from './methods/sendInscriptions';
+} from './methods';
 
 export type OrdinalsRequests = ExactObject<
   OrdinalsMethod,

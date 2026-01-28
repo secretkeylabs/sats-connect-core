@@ -6,109 +6,75 @@ import {
   walletAddNetworkRequestSchema,
   type WalletAddNetworkSuccessResponse,
   walletAddNetworkSuccessResponseSchema,
-} from './methods/addNetwork';
-import {
   type WalletAddNetworkV2Request,
   walletAddNetworkV2RequestSchema,
   type WalletAddNetworkV2SuccessResponse,
   walletAddNetworkV2SuccessResponseSchema,
-} from './methods/addNetworkV2';
-import {
-  type WalletChangeNetworkRequest,
-  walletChangeNetworkRequestSchema,
-  type WalletChangeNetworkSuccessResponse,
-  walletChangeNetworkSuccessResponseSchema,
-} from './methods/changeNetwork';
-import {
   type WalletChangeNetworkByIdRequest,
   walletChangeNetworkByIdRequestSchema,
   type WalletChangeNetworkByIdSuccessResponse,
   walletChangeNetworkByIdSuccessResponseSchema,
-} from './methods/changeNetworkById';
-import {
+  type WalletChangeNetworkRequest,
+  walletChangeNetworkRequestSchema,
+  type WalletChangeNetworkSuccessResponse,
+  walletChangeNetworkSuccessResponseSchema,
   type WalletConnectRequest,
   walletConnectRequestSchema,
   type WalletConnectSuccessResponse,
   walletConnectSuccessResponseSchema,
-} from './methods/connect';
-import {
   type WalletConnectV2Request,
   walletConnectV2RequestSchema,
   type WalletConnectV2SuccessResponse,
   walletConnectV2SuccessResponseSchema,
-} from './methods/connectV2';
-import {
   type WalletDisconnectRequest,
   walletDisconnectRequestSchema,
   type WalletDisconnectSuccessResponse,
   walletDisconnectSuccessResponseSchema,
-} from './methods/disconnect';
-import {
   type WalletGetAccountRequest,
   walletGetAccountRequestSchema,
   type WalletGetAccountSuccessResponse,
   walletGetAccountSuccessResponseSchema,
-} from './methods/getAccount';
-import {
   type WalletGetAccountV2Request,
   walletGetAccountV2RequestSchema,
   type WalletGetAccountV2SuccessResponse,
   walletGetAccountV2SuccessResponseSchema,
-} from './methods/getAccountV2';
-import {
   type WalletGetCurrentPermissionsRequest,
   walletGetCurrentPermissionsRequestSchema,
   type WalletGetCurrentPermissionsSuccessResponse,
   walletGetCurrentPermissionsSuccessResponseSchema,
-} from './methods/getCurrentPermissions';
-import {
   type WalletGetNetworkRequest,
   walletGetNetworkRequestSchema,
-  type WalletGetNetworkSuccessResponse,
-  walletGetNetworkSuccessResponseSchema,
-} from './methods/getNetwork';
-import {
   type WalletGetNetworksRequest,
   walletGetNetworksRequestSchema,
   type WalletGetNetworksSuccessResponse,
   walletGetNetworksSuccessResponseSchema,
-} from './methods/getNetworks';
-import {
+  type WalletGetNetworkSuccessResponse,
+  walletGetNetworkSuccessResponseSchema,
   type WalletGetWalletTypeRequest,
   walletGetWalletTypeRequestSchema,
   type WalletGetWalletTypeSuccessResponse,
   walletGetWalletTypeSuccessResponseSchema,
-} from './methods/getWalletType';
-import {
   type WalletOpenBridgeRequest,
   walletOpenBridgeRequestSchema,
   type WalletOpenBridgeSuccessResponse,
   walletOpenBridgeSuccessResponseSchema,
-} from './methods/openBridge';
-import {
   type WalletOpenBuyRequest,
   walletOpenBuyRequestSchema,
   type WalletOpenBuySuccessResponse,
   walletOpenBuySuccessResponseSchema,
-} from './methods/openBuy';
-import {
   type WalletOpenReceiveRequest,
   walletOpenReceiveRequestSchema,
   type WalletOpenReceiveSuccessResponse,
   walletOpenReceiveSuccessResponseSchema,
-} from './methods/openReceive';
-import {
   type WalletRenouncePermissionsRequest,
   walletRenouncePermissionsRequestSchema,
   type WalletRenouncePermissionsSuccessResponse,
   walletRenouncePermissionsSuccessResponseSchema,
-} from './methods/renouncePermissions';
-import {
   type WalletRequestPermissionsRequest,
   walletRequestPermissionsRequestSchema,
   type WalletRequestPermissionsSuccessResponse,
   walletRequestPermissionsSuccessResponseSchema,
-} from './methods/requestPermissions';
+} from './methods';
 
 export type WalletRequests = ExactObject<
   WalletMethod,

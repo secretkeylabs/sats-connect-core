@@ -6,61 +6,43 @@ import {
   stacksCallContractRequestSchema,
   type StacksCallContractSuccessResponse,
   stacksCallContractSuccessResponseSchema,
-} from './methods/callContract';
-import {
   type StacksDeployContractRequest,
   stacksDeployContractRequestSchema,
   type StacksDeployContractSuccessResponse,
   stacksDeployContractSuccessResponseSchema,
-} from './methods/deployContract';
-import {
   type StacksGetAccountsRequest,
   stacksGetAccountsRequestSchema,
   type StacksGetAccountsSuccessResponse,
   stacksGetAccountsSuccessResponseSchema,
-} from './methods/getAccounts';
-import {
   type StacksGetAddressesRequest,
   stacksGetAddressesRequestSchema,
   type StacksGetAddressesSuccessResponse,
   stacksGetAddressesSuccessResponseSchema,
-} from './methods/getAddresses';
-import {
   type StacksGetAddressesV2Request,
   stacksGetAddressesV2RequestSchema,
   type StacksGetAddressesV2SuccessResponse,
   stacksGetAddressesV2SuccessResponseSchema,
-} from './methods/getAddressesV2';
-import {
   type StacksSignMessageRequest,
   stacksSignMessageRequestSchema,
   type StacksSignMessageSuccessResponse,
   stacksSignMessageSuccessResponseSchema,
-} from './methods/signMessage';
-import {
   type StacksSignStructuredMessageRequest,
   stacksSignStructuredMessageRequestSchema,
   type StacksSignStructuredMessageSuccessResponse,
   stacksSignStructuredMessageSuccessResponseSchema,
-} from './methods/signStructuredMessage';
-import {
   type StacksSignTransactionRequest,
   stacksSignTransactionRequestSchema,
-  type StacksSignTransactionSuccessResponse,
-  stacksSignTransactionSuccessResponseSchema,
-} from './methods/signTransaction';
-import {
   type StacksSignTransactionsRequest,
   stacksSignTransactionsRequestSchema,
   type StacksSignTransactionsSuccessResponse,
   stacksSignTransactionsSuccessResponseSchema,
-} from './methods/signTransactions';
-import {
+  type StacksSignTransactionSuccessResponse,
+  stacksSignTransactionSuccessResponseSchema,
   type StacksTransferStxRequest,
   stacksTransferStxRequestSchema,
   type StacksTransferStxSuccessResponse,
   stacksTransferStxSuccessResponseSchema,
-} from './methods/transferStx';
+} from './methods';
 
 export type StacksRequests = ExactObject<
   StacksMethod,

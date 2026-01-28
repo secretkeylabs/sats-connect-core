@@ -6,79 +6,55 @@ import {
   sparkFlashnetClawbackFundsRequestSchema,
   type SparkFlashnetClawbackFundsSuccessResponse,
   sparkFlashnetClawbackFundsSuccessResponseSchema,
-} from './methods/flashnetClawbackFunds';
-import {
   type SparkFlashnetExecuteRouteSwapRequest,
   sparkFlashnetExecuteRouteSwapRequestSchema,
   type SparkFlashnetExecuteRouteSwapSuccessResponse,
   sparkFlashnetExecuteRouteSwapSuccessResponseSchema,
-} from './methods/flashnetExecuteRouteSwap';
-import {
   type SparkFlashnetExecuteSwapRequest,
   sparkFlashnetExecuteSwapRequestSchema,
   type SparkFlashnetExecuteSwapSuccessResponse,
   sparkFlashnetExecuteSwapSuccessResponseSchema,
-} from './methods/flashnetExecuteSwap';
-import {
-  type SparkGetClawbackEligibleTransfersRequest,
-  sparkGetClawbackEligibleTransfersRequestSchema,
-  type SparkGetClawbackEligibleTransfersSuccessResponse,
-  sparkGetClawbackEligibleTransfersSuccessResponseSchema,
-} from './methods/flashnetGetClawbackEligibleTransfers';
-import {
   type SparkFlashnetGetJwtRequest,
   sparkFlashnetGetJwtRequestSchema,
   type SparkFlashnetGetJwtSuccessResponse,
   sparkFlashnetGetJwtSuccessResponseSchema,
-} from './methods/flashnetGetJwt';
-import {
   type SparkFlashnetSignIntentRequest,
   sparkFlashnetSignIntentRequestSchema,
   type SparkFlashnetSignIntentSuccessResponse,
   sparkFlashnetSignIntentSuccessResponseSchema,
-} from './methods/flashnetSignIntent';
-import {
   type SparkFlashnetSignStructuredMessageRequest,
   sparkFlashnetSignStructuredMessageRequestSchema,
   type SparkFlashnetSignStructuredMessageSuccessResponse,
   sparkFlashnetSignStructuredMessageSuccessResponseSchema,
-} from './methods/flashnetSignStructuredMessage';
-import {
   type SparkGetAddressesRequest,
   sparkGetAddressesRequestSchema,
   type SparkGetAddressesSuccessResponse,
   sparkGetAddressesSuccessResponseSchema,
-} from './methods/getAddresses';
-import {
   type SparkGetAddressesV2Request,
   sparkGetAddressesV2RequestSchema,
   type SparkGetAddressesV2SuccessResponse,
   sparkGetAddressesV2SuccessResponseSchema,
-} from './methods/getAddressesV2';
-import {
   type SparkGetBalanceRequest,
   sparkGetBalanceRequestSchema,
   type SparkGetBalanceSuccessResponse,
   sparkGetBalanceSuccessResponseSchema,
-} from './methods/getBalance';
-import {
+  type SparkGetClawbackEligibleTransfersRequest,
+  sparkGetClawbackEligibleTransfersRequestSchema,
+  type SparkGetClawbackEligibleTransfersSuccessResponse,
+  sparkGetClawbackEligibleTransfersSuccessResponseSchema,
   type SparkSignMessageRequest,
   sparkSignMessageRequestSchema,
   type SparkSignMessageSuccessResponse,
   sparkSignMessageSuccessResponseSchema,
-} from './methods/signMessage';
-import {
   type SparkTransferRequest,
   sparkTransferRequestSchema,
   type SparkTransferSuccessResponse,
   sparkTransferSuccessResponseSchema,
-} from './methods/transfer';
-import {
   type SparkTransferTokenRequest,
   sparkTransferTokenRequestSchema,
   type SparkTransferTokenSuccessResponse,
   sparkTransferTokenSuccessResponseSchema,
-} from './methods/transferToken';
+} from './methods';
 
 export type SparkRequests = ExactObject<
   SparkMethod,

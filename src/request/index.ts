@@ -184,3 +184,5 @@ export const addListener = (
 
   return provider.addListener(listenerInfo);
 };
+
+export * from './rpc';
