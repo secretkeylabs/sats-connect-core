@@ -60,16 +60,16 @@ export type SpecSuccessWithExtensionsResponse = v.InferOutput<
   typeof specSuccessWithExtensionsResponseSchema
 >;
 
-export const specErrorObject = v.object({
+export const specErrorObjectSchema = v.object({
   code: v.number(),
   message: v.string(),
   data: v.optional(v.unknown()),
 });
-export type specErrorObject = v.InferOutput<typeof specErrorObject>;
+export type SpecErrorObject = v.InferOutput<typeof specErrorObjectSchema>;
 
 export const specErrorResponseSchema = v.object({
   jsonrpc: v.literal('2.0'),
-  error: specErrorObject,
+  error: specErrorObjectSchema,
   id: specIdSchema,
 });
 export type SpecErrorResponse = v.InferOutput<typeof specErrorResponseSchema>;
