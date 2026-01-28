@@ -62,7 +62,7 @@ export const methodSupport: Record<Method, SupportState> = {
   [sparkMethods.spark_flashnet_executeSwap]: active,
   [sparkMethods.spark_flashnet_executeRouteSwap]: active,
   [sparkMethods.spark_flashnet_clawbackFunds]: active,
-  [sparkMethods.spark_getClawbackEligibleTransfers]: active,
+  [sparkMethods.spark_flashnet_getClawbackEligibleTransfers]: active,
 
   // Runes methods
   [runesMethods.runes_estimateEtch]: active,

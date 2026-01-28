@@ -1,28 +1,29 @@
-import * as v from 'valibot';
-import { addressSchema, GetAddressResponse } from '../addresses';
-import type { GetCapabilitiesResponse } from '../capabilities';
-import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
-import type { SignMessageResponse } from '../messages';
-import {
-  BitcoinRequestMethod,
-  OrdinalsRequestMethod,
-  Params,
-  Requests,
-  RunesRequestMethod,
-  StacksRequestMethod,
-} from '../request';
-import type {
-  SendBtcTransactionResponse,
-  SignMultipleTransactionsResponse,
-  SignTransactionResponse,
-} from '../transactions';
-import { BitcoinNetworkType, RpcResponse } from '../types';
+import { RequestReturn } from 'src/request';
+import { Method } from 'src/request/methods';
 import {
   bitcoinNetworkConfigurationSchema,
   sparkNetworkConfigurationSchema,
   stacksNetworkConfigurationSchema,
   starknetNetworkConfigurationSchema,
-} from 'src/request/types/walletMethods/utils';
+} from 'src/request/rpc/objects/namespaces/wallet/shared/networks';
+import { RpcRequestParams } from 'src/request/rpc/requests';
+import {
+  BitcoinRequestMethod,
+  OrdinalsRequestMethod,
+  RunesRequestMethod,
+  StacksRequestMethod,
+} from 'src/request/types';
+import * as v from 'valibot';
+import { addressSchema, GetAddressResponse } from '../addresses';
+import type { GetCapabilitiesResponse } from '../capabilities';
+import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
+import type { SignMessageResponse } from '../messages';
+import type {
+  SendBtcTransactionResponse,
+  SignMultipleTransactionsResponse,
+  SignTransactionResponse,
+} from '../transactions';
+import { BitcoinNetworkType } from '../types';
 
 // accountChange
 export const accountChangeEventName = 'accountChange';
@@ -95,11 +96,11 @@ export type ListenerInfo =
 export type AddListener = (arg: ListenerInfo) => () => void;
 
 interface BaseBitcoinProvider {
-  request: <Method extends keyof Requests>(
-    method: Method,
-    options: Params<Method>,
+  request: <M extends Method>(
+    method: M,
+    options: RpcRequestParams<M>,
     providerId?: string
-  ) => Promise<RpcResponse<Method>>;
+  ) => Promise<RequestReturn<M>>;
   connect: (request: string) => Promise<GetAddressResponse>;
   signMessage: (request: string) => Promise<SignMessageResponse>;
   signTransaction: (request: string) => Promise<SignTransactionResponse>;

@@ -1,10 +1,10 @@
-import * as v from 'valibot';
 import type { GenericSchema } from 'valibot';
-import { rpcSuccessWithExtensionsResponseSchema } from './rpc';
+import * as v from 'valibot';
 import type { Method } from './methods';
+import { rpcSuccessWithExtensionsResponseSchema } from './rpc';
 
 export function createSuccessResponseSchema<
-  const M extends Method,
+  M extends Method,
   const ResultSchema extends GenericSchema,
 >({ method, resultSchema }: { method: M; resultSchema: ResultSchema }) {
   return v.object({

@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 
 export const rpcIdSchema = v.union([v.string(), v.number(), v.null()]);
+export type RpcId = v.InferOutput<typeof rpcIdSchema>;
 
 export const rpcRequestSchema = v.object({
   jsonrpc: v.literal('2.0'),
@@ -18,12 +19,14 @@ export const rpcRequestSchema = v.object({
   ),
   id: v.optional(rpcIdSchema),
 });
+export type RpcRequest = v.InferOutput<typeof rpcRequestSchema>;
 
 export const rpcSuccessResponseSchema = v.object({
   jsonrpc: v.literal('2.0'),
   result: v.unknown(),
   id: rpcIdSchema,
 });
+export type RpcSuccessResponse = v.InferOutput<typeof rpcSuccessResponseSchema>;
 
 const warningSchema = v.variant('code', [
   v.object({
@@ -32,6 +35,7 @@ const warningSchema = v.variant('code', [
     sunsetDate: v.pipe(v.string(), v.isoDate()),
   }),
 ]);
+export type Warning = v.InferOutput<typeof warningSchema>;
 
 /**
  * Extends the standard JSON RPC 2.0 with an additional field as a means of
@@ -52,15 +56,20 @@ export const rpcSuccessWithExtensionsResponseSchema = v.object({
     })
   ),
 });
+export type RpcSuccessWithExtensionsResponse = v.InferOutput<
+  typeof rpcSuccessWithExtensionsResponseSchema
+>;
 
 export const rpcErrorObject = v.object({
   code: v.number(),
   message: v.string(),
   data: v.optional(v.unknown()),
 });
+export type RpcErrorObject = v.InferOutput<typeof rpcErrorObject>;
 
 export const rpcErrorResponseSchema = v.object({
   jsonrpc: v.literal('2.0'),
   error: rpcErrorObject,
   id: rpcIdSchema,
 });
+export type RpcErrorResponse = v.InferOutput<typeof rpcErrorResponseSchema>;

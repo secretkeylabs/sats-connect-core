@@ -1,20 +1,32 @@
 import * as v from 'valibot';
-import type { Method } from '../methods';
 import type { ExactObject } from '../exact';
+import type { Method } from '../methods';
 
 // Import namespace-specific aggregated types and schemas
 import {
   type BitcoinSuccessResponses,
   bitcoinSuccessResponseSchemas,
-} from './methodSchemas/bitcoin';
-import { type StacksSuccessResponses, stacksSuccessResponseSchemas } from './methodSchemas/stacks';
-import { type SparkSuccessResponses, sparkSuccessResponseSchemas } from './methodSchemas/spark';
-import { type RunesSuccessResponses, runesSuccessResponseSchemas } from './methodSchemas/runes';
+} from './objects/namespaces/bitcoin';
 import {
   type OrdinalsSuccessResponses,
   ordinalsSuccessResponseSchemas,
-} from './methodSchemas/ordinals';
-import { type WalletSuccessResponses, walletSuccessResponseSchemas } from './methodSchemas/wallet';
+} from './objects/namespaces/ordinals';
+import {
+  type RunesSuccessResponses,
+  runesSuccessResponseSchemas,
+} from './objects/namespaces/runes';
+import {
+  type SparkSuccessResponses,
+  sparkSuccessResponseSchemas,
+} from './objects/namespaces/spark';
+import {
+  type StacksSuccessResponses,
+  stacksSuccessResponseSchemas,
+} from './objects/namespaces/stacks';
+import {
+  type WalletSuccessResponses,
+  walletSuccessResponseSchemas,
+} from './objects/namespaces/wallet';
 
 export type RpcSuccessResponses = ExactObject<
   Method,

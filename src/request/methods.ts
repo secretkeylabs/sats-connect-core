@@ -50,7 +50,7 @@ export const sparkMethods = {
   spark_flashnet_executeSwap: 'spark_flashnet_executeSwap',
   spark_flashnet_executeRouteSwap: 'spark_flashnet_executeRouteSwap',
   spark_flashnet_clawbackFunds: 'spark_flashnet_clawbackFunds',
-  spark_getClawbackEligibleTransfers: 'spark_getClawbackEligibleTransfers',
+  spark_flashnet_getClawbackEligibleTransfers: 'spark_flashnet_getClawbackEligibleTransfers',
 } as const;
 
 export type SparkMethod = (typeof sparkMethods)[keyof typeof sparkMethods];

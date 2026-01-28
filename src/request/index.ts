@@ -1,36 +1,40 @@
 import * as v from 'valibot';
-import { AddListener, BitcoinProvider, ListenerInfo, getProviderById } from '../provider';
+import { AddListener, BitcoinProvider, getProviderById, ListenerInfo } from '../provider';
+import { RpcErrorCode } from '../types';
+import { bitcoinMethods, Method } from './methods';
 import {
-  RpcErrorCode,
-  RpcResult,
-  rpcErrorResponseMessageSchema,
-  rpcSuccessResponseMessageSchema,
-} from '../types';
+  RpcErrorResponse,
+  rpcErrorResponseSchema,
+  rpcSuccessWithExtensionsResponseSchema,
+} from './rpc';
+import { RpcRequestParams } from './rpc/requests';
+import { RpcSuccessResponseResult } from './rpc/responses';
 import { sanitizeRequest } from './sanitizeRequest';
-import { GetInfoResult, Params, Requests, Return } from './types';
+
+type BitcoinGetInfoResult = RpcSuccessResponseResult<typeof bitcoinMethods.getInfo>;
 
 const cache: {
-  providerInfo?: GetInfoResult;
+  providerInfo?: BitcoinGetInfoResult;
 } = {};
 
-const requestInternal = async <Method extends keyof Requests>(
+const requestInternal = async <const M extends Method>(
   provider: BitcoinProvider,
-  method: Method,
-  params: Params<Method>
-): Promise<RpcResult<Method>> => {
+  method: M,
+  params: RpcRequestParams<M>
+): Promise<RequestReturn<M>> => {
   const response = await provider.request(method, params);
 
-  if (v.is(rpcErrorResponseMessageSchema, response)) {
+  if (v.is(rpcErrorResponseSchema, response)) {
     return {
       status: 'error',
       error: response.error,
     };
   }
 
-  if (v.is(rpcSuccessResponseMessageSchema, response)) {
+  if (v.is(rpcSuccessWithExtensionsResponseSchema, response)) {
     return {
       status: 'success',
-      result: response.result as Return<Method>,
+      result: response.result as RpcSuccessResponseResult<M>,
     };
   }
 
@@ -44,16 +48,26 @@ const requestInternal = async <Method extends keyof Requests>(
   };
 };
 
-export const request = async <Method extends keyof Requests>(
-  method: Method,
-  params: Params<Method>,
+export type RequestReturn<M extends Method> =
+  | {
+      result: RpcSuccessResponseResult<M>;
+      status: 'success';
+    }
+  | {
+      error: RpcErrorResponse['error'];
+      status: 'error';
+    };
+
+export const request = async <const M extends Method = Method>(
+  method: M,
+  params: RpcRequestParams<M>,
   /**
    * The providerId is the object path to the provider in the window object.
    * E.g., a provider available at `window.Foo.BarProvider` would have a
    * providerId of `Foo.BarProvider`.
    */
   providerId?: string
-): Promise<RpcResult<Method>> => {
+): Promise<RequestReturn<M>> => {
   let provider = window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
   if (providerId) {
     provider = await getProviderById(providerId);
@@ -76,7 +90,7 @@ export const request = async <Method extends keyof Requests>(
     if (method === 'getInfo') {
       return {
         status: 'success',
-        result: cache.providerInfo as Return<Method>,
+        result: cache.providerInfo as RpcSuccessResponseResult<M>,
       };
     }
 
@@ -171,4 +185,4 @@ export const addListener = (
   return provider.addListener(listenerInfo);
 };
 
-export * from './types';
+// export * from './types';

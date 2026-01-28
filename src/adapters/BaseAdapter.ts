@@ -1,8 +1,8 @@
-import { Params, Requests } from '../request';
-import { SatsConnectAdapter } from './satsConnectAdapter';
-import { request } from '../request';
-import { RpcResult } from '../types';
 import { AddListener } from 'src/provider';
+import { Method } from 'src/request/methods';
+import { RpcRequestParams } from 'src/request/rpc/requests';
+import { request, RequestReturn } from '../request';
+import { SatsConnectAdapter } from './satsConnectAdapter';
 
 class BaseAdapter extends SatsConnectAdapter {
   id = '';
@@ -12,10 +12,10 @@ class BaseAdapter extends SatsConnectAdapter {
     this.id = providerId;
   }
 
-  requestInternal = async <Method extends keyof Requests>(
-    method: Method,
-    params: Params<Method>
-  ): Promise<RpcResult<Method>> => {
+  requestInternal = async <M extends Method = Method>(
+    method: M,
+    params: RpcRequestParams<M>
+  ): Promise<RequestReturn<M>> => {
     return request(method, params, this.id);
   };
 
