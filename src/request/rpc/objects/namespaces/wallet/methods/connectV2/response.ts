@@ -1,7 +1,7 @@
-import * as v from 'valibot';
+import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
-import { addressSchema } from 'src/addresses';
+import * as v from 'valibot';
 
 const walletTypeSchema = v.picklist(['software', 'ledger']);
 
@@ -64,13 +64,17 @@ const getNetworksResultSchema = v.object({
   }),
 });
 
+export const walletConnectV2ResultSchema = v.object({
+  id: v.string(),
+  addresses: v.array(addressSchema),
+  walletType: walletTypeSchema,
+  networks: getNetworksResultSchema,
+});
+
+export type WalletConnectV2Result = v.InferOutput<typeof walletConnectV2ResultSchema>;
+
 export const walletConnectV2SuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    id: v.string(),
-    addresses: v.array(addressSchema),
-    walletType: walletTypeSchema,
-    networks: getNetworksResultSchema,
-  }),
+  resultSchema: walletConnectV2ResultSchema,
   method: walletMethods.wallet_connectV2,
 });
 

@@ -1,6 +1,6 @@
-import * as v from 'valibot';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
 
 const accountActionsSchema = v.object({
   read: v.optional(v.boolean()),
@@ -26,8 +26,14 @@ const walletPermissionSchema = v.object({
 
 const permissionSchema = v.variant('type', [accountPermissionSchema, walletPermissionSchema]);
 
+export const walletGetCurrentPermissionsResultSchema = v.array(permissionSchema);
+
+export type WalletGetCurrentPermissionsResult = v.InferOutput<
+  typeof walletGetCurrentPermissionsResultSchema
+>;
+
 export const walletGetCurrentPermissionsSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.array(permissionSchema),
+  resultSchema: walletGetCurrentPermissionsResultSchema,
   method: walletMethods.wallet_getCurrentPermissions,
 });
 

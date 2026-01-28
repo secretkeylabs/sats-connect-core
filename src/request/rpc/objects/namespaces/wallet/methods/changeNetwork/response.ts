@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const walletChangeNetworkResultSchema = v.nullish(v.null());
+
+export type WalletChangeNetworkResult = v.InferOutput<typeof walletChangeNetworkResultSchema>;
 
 export const walletChangeNetworkSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.nullish(v.null()),
+  resultSchema: walletChangeNetworkResultSchema,
   method: walletMethods.wallet_changeNetwork,
 });
 

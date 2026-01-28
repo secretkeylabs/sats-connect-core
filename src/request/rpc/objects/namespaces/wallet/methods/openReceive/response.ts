@@ -1,10 +1,14 @@
-import * as v from 'valibot';
+import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
-import { addressSchema } from 'src/addresses';
+import * as v from 'valibot';
+
+export const walletOpenReceiveResultSchema = addressSchema;
+
+export type WalletOpenReceiveResult = v.InferOutput<typeof walletOpenReceiveResultSchema>;
 
 export const walletOpenReceiveSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: addressSchema,
+  resultSchema: walletOpenReceiveResultSchema,
   method: walletMethods.wallet_openReceive,
 });
 

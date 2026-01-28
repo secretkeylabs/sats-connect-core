@@ -1,11 +1,15 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const walletOpenBuyParamsSchema = v.object({
+  asset: v.string(),
+});
+
+export type WalletOpenBuyParams = v.InferOutput<typeof walletOpenBuyParamsSchema>;
 
 export const walletOpenBuyRequestSchema = createRequestSchema({
-  paramsSchema: v.object({
-    asset: v.string(),
-  }),
+  paramsSchema: walletOpenBuyParamsSchema,
   method: walletMethods.wallet_openBuy,
 });
 

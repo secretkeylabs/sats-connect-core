@@ -1,7 +1,7 @@
-import * as v from 'valibot';
+import { AddressPurpose } from 'src/addresses';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
-import { AddressPurpose } from 'src/addresses';
+import * as v from 'valibot';
 
 // Permission request schemas
 const accountActionsSchema = v.object({
@@ -29,17 +29,21 @@ const permissionRequestParamsSchema = v.variant('type', [
   walletPermissionRequestSchema,
 ]);
 
+export const walletConnectV2ParamsSchema = v.nullish(
+  v.object({
+    permissions: v.optional(v.array(permissionRequestParamsSchema)),
+    addresses: v.optional(v.array(v.enum(AddressPurpose))),
+    message: v.optional(
+      v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
+    ),
+    networkId: v.optional(v.string()),
+  })
+);
+
+export type WalletConnectV2Params = v.InferOutput<typeof walletConnectV2ParamsSchema>;
+
 export const walletConnectV2RequestSchema = createRequestSchema({
-  paramsSchema: v.nullish(
-    v.object({
-      permissions: v.optional(v.array(permissionRequestParamsSchema)),
-      addresses: v.optional(v.array(v.enum(AddressPurpose))),
-      message: v.optional(
-        v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
-      ),
-      networkId: v.optional(v.string()),
-    })
-  ),
+  paramsSchema: walletConnectV2ParamsSchema,
   method: walletMethods.wallet_connectV2,
 });
 

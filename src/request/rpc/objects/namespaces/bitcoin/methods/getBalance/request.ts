@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { bitcoinMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const bitcoinGetBalanceParamsSchema = v.nullish(v.null());
+
+export type BitcoinGetBalanceParams = v.InferOutput<typeof bitcoinGetBalanceParamsSchema>;
 
 export const bitcoinGetBalanceRequestSchema = createRequestSchema({
-  paramsSchema: v.nullish(v.null()),
+  paramsSchema: bitcoinGetBalanceParamsSchema,
   method: bitcoinMethods.getBalance,
 });
 

@@ -3,24 +3,28 @@ import { bitcoinMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import { MessageSigningProtocols } from '../../shared';
 
+export const bitcoinSignMessageV2ParamsSchema = v.object({
+  /**
+   * The address used for signing.
+   **/
+  address: v.string(),
+  /**
+   * The message to sign.
+   **/
+  message: v.string(),
+  /**
+   * The protocol to use for signing the message.
+   *
+   * If not specified, defaults to ECDSA if signing with a P2WPKH or P2SH address,
+   * and to BIP322 if signing with a taproot address.
+   */
+  protocol: v.optional(v.enum(MessageSigningProtocols)),
+});
+
+export type BitcoinSignMessageV2Params = v.InferOutput<typeof bitcoinSignMessageV2ParamsSchema>;
+
 export const bitcoinSignMessageV2RequestSchema = createRequestSchema({
-  paramsSchema: v.object({
-    /**
-     * The address used for signing.
-     **/
-    address: v.string(),
-    /**
-     * The message to sign.
-     **/
-    message: v.string(),
-    /**
-     * The protocol to use for signing the message.
-     *
-     * If not specified, defaults to ECDSA if signing with a P2WPKH or P2SH address,
-     * and to BIP322 if signing with a taproot address.
-     */
-    protocol: v.optional(v.enum(MessageSigningProtocols)),
-  }),
+  paramsSchema: bitcoinSignMessageV2ParamsSchema,
   method: bitcoinMethods.bitcoin_signMessageV2,
 });
 

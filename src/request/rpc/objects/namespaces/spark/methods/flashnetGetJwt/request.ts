@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { sparkMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const sparkFlashnetGetJwtParamsSchema = v.null();
+
+export type SparkFlashnetGetJwtParams = v.InferOutput<typeof sparkFlashnetGetJwtParamsSchema>;
 
 export const sparkFlashnetGetJwtRequestSchema = createRequestSchema({
-  paramsSchema: v.null(),
+  paramsSchema: sparkFlashnetGetJwtParamsSchema,
   method: sparkMethods.spark_flashnet_getJwt,
 });
 

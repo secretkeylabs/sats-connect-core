@@ -1,5 +1,6 @@
 import type { ExactObject } from 'src/request/exact';
 import { SparkMethod, sparkMethods } from 'src/request/methods';
+import * as v from 'valibot';
 import {
   type SparkFlashnetClawbackFundsRequest,
   sparkFlashnetClawbackFundsRequestSchema,
@@ -98,7 +99,7 @@ export type SparkRequests = ExactObject<
   }
 >;
 
-export const sparkRequestSchemas = [
+export const sparkRequestSchema = v.variant('method', [
   sparkGetAddressesRequestSchema,
   sparkGetAddressesV2RequestSchema,
   sparkGetBalanceRequestSchema,
@@ -112,7 +113,7 @@ export const sparkRequestSchemas = [
   sparkFlashnetExecuteRouteSwapRequestSchema,
   sparkFlashnetClawbackFundsRequestSchema,
   sparkGetClawbackEligibleTransfersRequestSchema,
-] as const;
+]);
 
 export type SparkSuccessResponses = ExactObject<
   SparkMethod,
@@ -133,7 +134,7 @@ export type SparkSuccessResponses = ExactObject<
   }
 >;
 
-export const sparkSuccessResponseSchemas = [
+export const sparkSuccessResponseSchema = v.variant('~sats-connect-method', [
   sparkGetAddressesSuccessResponseSchema,
   sparkGetAddressesV2SuccessResponseSchema,
   sparkGetBalanceSuccessResponseSchema,
@@ -147,4 +148,4 @@ export const sparkSuccessResponseSchemas = [
   sparkFlashnetExecuteRouteSwapSuccessResponseSchema,
   sparkFlashnetClawbackFundsSuccessResponseSchema,
   sparkGetClawbackEligibleTransfersSuccessResponseSchema,
-] as const;
+]);

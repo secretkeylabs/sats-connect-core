@@ -1,18 +1,22 @@
-import * as v from 'valibot';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { runesMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const runesEstimateEtchResultSchema = v.object({
+  totalSize: v.number(),
+  totalCost: v.number(),
+  costBreakdown: v.object({
+    postage: v.number(),
+    networkFee: v.number(),
+    serviceFee: v.number(),
+    appServiceFee: v.number(),
+  }),
+});
+
+export type RunesEstimateEtchResult = v.InferOutput<typeof runesEstimateEtchResultSchema>;
 
 export const runesEstimateEtchSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    totalSize: v.number(),
-    totalCost: v.number(),
-    costBreakdown: v.object({
-      postage: v.number(),
-      networkFee: v.number(),
-      serviceFee: v.number(),
-      appServiceFee: v.number(),
-    }),
-  }),
+  resultSchema: runesEstimateEtchResultSchema,
   method: runesMethods.runes_estimateEtch,
 });
 

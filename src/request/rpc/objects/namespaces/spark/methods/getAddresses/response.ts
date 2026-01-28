@@ -1,7 +1,7 @@
-import * as v from 'valibot';
+import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { sparkMethods } from 'src/request/methods';
-import { addressSchema } from 'src/addresses';
+import * as v from 'valibot';
 
 const getNetworkResultSchema = v.object({
   bitcoin: v.object({
@@ -15,14 +15,18 @@ const getNetworkResultSchema = v.object({
   }),
 });
 
+export const sparkGetAddressesResultSchema = v.object({
+  /**
+   * The addresses generated for the given purposes.
+   */
+  addresses: v.array(addressSchema),
+  network: getNetworkResultSchema,
+});
+
+export type SparkGetAddressesResult = v.InferOutput<typeof sparkGetAddressesResultSchema>;
+
 export const sparkGetAddressesSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    /**
-     * The addresses generated for the given purposes.
-     */
-    addresses: v.array(addressSchema),
-    network: getNetworkResultSchema,
-  }),
+  resultSchema: sparkGetAddressesResultSchema,
   method: sparkMethods.spark_getAddresses,
 });
 

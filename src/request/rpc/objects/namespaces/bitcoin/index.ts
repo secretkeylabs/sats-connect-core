@@ -1,5 +1,6 @@
 import type { ExactObject } from 'src/request/exact';
 import { BitcoinMethod, bitcoinMethods } from 'src/request/methods';
+import * as v from 'valibot';
 import {
   type BitcoinGetAccountsRequest,
   bitcoinGetAccountsRequestSchema,
@@ -119,7 +120,7 @@ export type BitcoinRequests = ExactObject<
   }
 >;
 
-export const bitcoinRequestSchemas = [
+export const bitcoinRequestSchema = v.variant('method', [
   bitcoinGetAccountsRequestSchema,
   bitcoinGetAccountsV2RequestSchema,
   bitcoinGetAddressesRequestSchema,
@@ -136,7 +137,7 @@ export const bitcoinRequestSchemas = [
   bitcoinSignMultipleMessagesV2RequestSchema,
   bitcoinSignPsbtRequestSchema,
   bitcoinSignPsbtV2RequestSchema,
-] as const;
+]);
 
 export type BitcoinSuccessResponses = ExactObject<
   BitcoinMethod,
@@ -160,7 +161,7 @@ export type BitcoinSuccessResponses = ExactObject<
   }
 >;
 
-export const bitcoinSuccessResponseSchemas = [
+export const bitcoinSuccessResponseSchema = v.variant('~sats-connect-method', [
   bitcoinGetAccountsSuccessResponseSchema,
   bitcoinGetAccountsV2SuccessResponseSchema,
   bitcoinGetAddressesSuccessResponseSchema,
@@ -177,4 +178,4 @@ export const bitcoinSuccessResponseSchemas = [
   bitcoinSignMultipleMessagesV2SuccessResponseSchema,
   bitcoinSignPsbtSuccessResponseSchema,
   bitcoinSignPsbtV2SuccessResponseSchema,
-] as const;
+]);

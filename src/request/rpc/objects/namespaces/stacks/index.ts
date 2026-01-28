@@ -1,5 +1,6 @@
 import type { ExactObject } from 'src/request/exact';
 import { StacksMethod, stacksMethods } from 'src/request/methods';
+import * as v from 'valibot';
 import {
   type StacksCallContractRequest,
   stacksCallContractRequestSchema,
@@ -77,7 +78,7 @@ export type StacksRequests = ExactObject<
   }
 >;
 
-export const stacksRequestSchemas = [
+export const stacksRequestSchema = v.variant('method', [
   stacksCallContractRequestSchema,
   stacksDeployContractRequestSchema,
   stacksGetAccountsRequestSchema,
@@ -88,7 +89,7 @@ export const stacksRequestSchemas = [
   stacksSignTransactionRequestSchema,
   stacksSignTransactionsRequestSchema,
   stacksTransferStxRequestSchema,
-] as const;
+]);
 
 export type StacksSuccessResponses = ExactObject<
   StacksMethod,
@@ -106,7 +107,7 @@ export type StacksSuccessResponses = ExactObject<
   }
 >;
 
-export const stacksSuccessResponseSchemas = [
+export const stacksSuccessResponseSchema = v.variant('~sats-connect-method', [
   stacksCallContractSuccessResponseSchema,
   stacksDeployContractSuccessResponseSchema,
   stacksGetAccountsSuccessResponseSchema,
@@ -117,4 +118,4 @@ export const stacksSuccessResponseSchemas = [
   stacksSignTransactionSuccessResponseSchema,
   stacksSignTransactionsSuccessResponseSchema,
   stacksTransferStxSuccessResponseSchema,
-] as const;
+]);

@@ -1,5 +1,11 @@
 import { RequestReturn } from 'src/request';
-import { Method } from 'src/request/methods';
+import {
+  BitcoinMethod,
+  Method,
+  OrdinalsMethod,
+  RunesMethod,
+  StacksMethod,
+} from 'src/request/methods';
 import {
   bitcoinNetworkConfigurationSchema,
   sparkNetworkConfigurationSchema,
@@ -7,12 +13,6 @@ import {
   starknetNetworkConfigurationSchema,
 } from 'src/request/rpc/objects/namespaces/wallet/shared/networks';
 import { RpcRequestParams } from 'src/request/rpc/requests';
-import {
-  BitcoinRequestMethod,
-  OrdinalsRequestMethod,
-  RunesRequestMethod,
-  StacksRequestMethod,
-} from 'src/request/types';
 import * as v from 'valibot';
 import { addressSchema, GetAddressResponse } from '../addresses';
 import type { GetCapabilitiesResponse } from '../capabilities';
@@ -126,12 +126,7 @@ export interface Provider {
   mozillaAddOnsUrl?: string;
   googlePlayStoreUrl?: string;
   iOSAppStoreUrl?: string;
-  methods?: (
-    | StacksRequestMethod
-    | BitcoinRequestMethod
-    | RunesRequestMethod
-    | OrdinalsRequestMethod
-  )[];
+  methods?: (StacksMethod | BitcoinMethod | RunesMethod | OrdinalsMethod)[];
 }
 
 export interface SupportedWallet extends Provider {

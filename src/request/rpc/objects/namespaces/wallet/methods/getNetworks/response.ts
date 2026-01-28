@@ -1,6 +1,6 @@
-import * as v from 'valibot';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
 
 const bitcoinNetworkConfigurationSchema = v.object({
   id: v.string(),
@@ -40,27 +40,31 @@ const starknetNetworkConfigurationSchema = v.object({
   blockExplorerUrl: v.optional(v.string()),
 });
 
-export const walletGetNetworksSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    active: v.object({
-      bitcoin: bitcoinNetworkConfigurationSchema,
-      stacks: stacksNetworkConfigurationSchema,
-      spark: sparkNetworkConfigurationSchema,
-      starknet: starknetNetworkConfigurationSchema,
-    }),
-    builtin: v.object({
-      bitcoin: v.array(bitcoinNetworkConfigurationSchema),
-      stacks: v.array(stacksNetworkConfigurationSchema),
-      spark: v.array(sparkNetworkConfigurationSchema),
-      starknet: v.array(starknetNetworkConfigurationSchema),
-    }),
-    custom: v.object({
-      bitcoin: v.array(bitcoinNetworkConfigurationSchema),
-      stacks: v.array(stacksNetworkConfigurationSchema),
-      spark: v.array(sparkNetworkConfigurationSchema),
-      starknet: v.array(starknetNetworkConfigurationSchema),
-    }),
+export const walletGetNetworksResultSchema = v.object({
+  active: v.object({
+    bitcoin: bitcoinNetworkConfigurationSchema,
+    stacks: stacksNetworkConfigurationSchema,
+    spark: sparkNetworkConfigurationSchema,
+    starknet: starknetNetworkConfigurationSchema,
   }),
+  builtin: v.object({
+    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
+    stacks: v.array(stacksNetworkConfigurationSchema),
+    spark: v.array(sparkNetworkConfigurationSchema),
+    starknet: v.array(starknetNetworkConfigurationSchema),
+  }),
+  custom: v.object({
+    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
+    stacks: v.array(stacksNetworkConfigurationSchema),
+    spark: v.array(sparkNetworkConfigurationSchema),
+    starknet: v.array(starknetNetworkConfigurationSchema),
+  }),
+});
+
+export type WalletGetNetworksResult = v.InferOutput<typeof walletGetNetworksResultSchema>;
+
+export const walletGetNetworksSuccessResponseSchema = createSuccessResponseSchema({
+  resultSchema: walletGetNetworksResultSchema,
   method: walletMethods.wallet_getNetworks,
 });
 

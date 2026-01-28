@@ -1,5 +1,6 @@
 import type { ExactObject } from 'src/request/exact';
 import { WalletMethod, walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
 import {
   type WalletAddNetworkRequest,
   walletAddNetworkRequestSchema,
@@ -133,7 +134,7 @@ export type WalletRequests = ExactObject<
   }
 >;
 
-export const walletRequestSchemas = [
+export const walletRequestSchema = v.variant('method', [
   walletAddNetworkRequestSchema,
   walletAddNetworkV2RequestSchema,
   walletChangeNetworkByIdRequestSchema,
@@ -152,7 +153,7 @@ export const walletRequestSchemas = [
   walletOpenReceiveRequestSchema,
   walletRenouncePermissionsRequestSchema,
   walletRequestPermissionsRequestSchema,
-] as const;
+]);
 
 export type WalletSuccessResponses = ExactObject<
   WalletMethod,
@@ -178,7 +179,7 @@ export type WalletSuccessResponses = ExactObject<
   }
 >;
 
-export const walletSuccessResponseSchemas = [
+export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
   walletAddNetworkSuccessResponseSchema,
   walletAddNetworkV2SuccessResponseSchema,
   walletChangeNetworkByIdSuccessResponseSchema,
@@ -197,4 +198,4 @@ export const walletSuccessResponseSchemas = [
   walletOpenReceiveSuccessResponseSchema,
   walletRenouncePermissionsSuccessResponseSchema,
   walletRequestPermissionsSuccessResponseSchema,
-] as const;
+]);

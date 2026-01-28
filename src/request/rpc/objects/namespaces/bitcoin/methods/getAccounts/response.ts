@@ -1,18 +1,22 @@
-import * as v from 'valibot';
+import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { bitcoinMethods } from 'src/request/methods';
-import { addressSchema } from 'src/addresses';
-import { walletTypeSchema } from 'src/request/types/common';
+import * as v from 'valibot';
+import { walletTypeSchema } from '../../shared';
+
+export const bitcoinGetAccountsResultSchema = v.array(
+  v.object({
+    ...addressSchema.entries,
+    ...v.object({
+      walletType: walletTypeSchema,
+    }).entries,
+  })
+);
+
+export type BitcoinGetAccountsResult = v.InferOutput<typeof bitcoinGetAccountsResultSchema>;
 
 export const bitcoinGetAccountsSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.array(
-    v.object({
-      ...addressSchema.entries,
-      ...v.object({
-        walletType: walletTypeSchema,
-      }).entries,
-    })
-  ),
+  resultSchema: bitcoinGetAccountsResultSchema,
   method: bitcoinMethods.getAccounts,
 });
 

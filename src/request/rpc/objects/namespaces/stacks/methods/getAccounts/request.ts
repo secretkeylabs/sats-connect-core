@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { stacksMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const stacksGetAccountsParamsSchema = v.nullish(v.null());
+
+export type StacksGetAccountsParams = v.InferOutput<typeof stacksGetAccountsParamsSchema>;
 
 export const stacksGetAccountsRequestSchema = createRequestSchema({
-  paramsSchema: v.nullish(v.null()),
+  paramsSchema: stacksGetAccountsParamsSchema,
   method: stacksMethods.stx_getAccounts,
 });
 

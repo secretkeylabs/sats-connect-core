@@ -1,5 +1,6 @@
 import type { ExactObject } from 'src/request/exact';
 import { RunesMethod, runesMethods } from 'src/request/methods';
+import * as v from 'valibot';
 import {
   type RunesEstimateEtchRequest,
   runesEstimateEtchRequestSchema,
@@ -70,7 +71,7 @@ export type RunesRequests = ExactObject<
   }
 >;
 
-export const runesRequestSchemas = [
+export const runesRequestSchema = v.variant('method', [
   runesEstimateEtchRequestSchema,
   runesEstimateMintRequestSchema,
   runesEstimateRbfOrderRequestSchema,
@@ -80,7 +81,7 @@ export const runesRequestSchemas = [
   runesMintRequestSchema,
   runesRbfOrderRequestSchema,
   runesTransferRequestSchema,
-] as const;
+]);
 
 export type RunesSuccessResponses = ExactObject<
   RunesMethod,
@@ -97,7 +98,7 @@ export type RunesSuccessResponses = ExactObject<
   }
 >;
 
-export const runesSuccessResponseSchemas = [
+export const runesSuccessResponseSchema = v.variant('~sats-connect-method', [
   runesEstimateEtchSuccessResponseSchema,
   runesEstimateMintSuccessResponseSchema,
   runesEstimateRbfOrderSuccessResponseSchema,
@@ -107,4 +108,4 @@ export const runesSuccessResponseSchemas = [
   runesMintSuccessResponseSchema,
   runesRbfOrderSuccessResponseSchema,
   runesTransferSuccessResponseSchema,
-] as const;
+]);

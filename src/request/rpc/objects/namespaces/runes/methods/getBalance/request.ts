@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { runesMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const runesGetBalanceParamsSchema = v.nullish(v.null());
+
+export type RunesGetBalanceParams = v.InferOutput<typeof runesGetBalanceParamsSchema>;
 
 export const runesGetBalanceRequestSchema = createRequestSchema({
-  paramsSchema: v.nullish(v.null()),
+  paramsSchema: runesGetBalanceParamsSchema,
   method: runesMethods.runes_getBalance,
 });
 

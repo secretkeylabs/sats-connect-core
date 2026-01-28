@@ -1,5 +1,6 @@
 import type { ExactObject } from 'src/request/exact';
 import { OrdinalsMethod, ordinalsMethods } from 'src/request/methods';
+import * as v from 'valibot';
 import {
   type OrdinalsGetInscriptionsRequest,
   ordinalsGetInscriptionsRequestSchema,
@@ -21,10 +22,10 @@ export type OrdinalsRequests = ExactObject<
   }
 >;
 
-export const ordinalsRequestSchemas = [
+export const ordinalsRequestSchema = v.variant('method', [
   ordinalsGetInscriptionsRequestSchema,
   ordinalsSendInscriptionsRequestSchema,
-] as const;
+]);
 
 export type OrdinalsSuccessResponses = ExactObject<
   OrdinalsMethod,
@@ -34,7 +35,7 @@ export type OrdinalsSuccessResponses = ExactObject<
   }
 >;
 
-export const ordinalsSuccessResponseSchemas = [
+export const ordinalsSuccessResponseSchema = v.variant('~sats-connect-method', [
   ordinalsGetInscriptionsSuccessResponseSchema,
   ordinalsSendInscriptionsSuccessResponseSchema,
-] as const;
+]);

@@ -2,8 +2,14 @@ import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSc
 import { walletMethods } from 'src/request/methods';
 import * as v from 'valibot';
 
+export const walletRequestPermissionsResultSchema = v.literal(true);
+
+export type WalletRequestPermissionsResult = v.InferOutput<
+  typeof walletRequestPermissionsResultSchema
+>;
+
 export const walletRequestPermissionsSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.literal(true),
+  resultSchema: walletRequestPermissionsResultSchema,
   method: walletMethods.wallet_requestPermissions,
 });
 

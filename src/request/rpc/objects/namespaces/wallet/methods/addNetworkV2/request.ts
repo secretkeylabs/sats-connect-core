@@ -23,11 +23,15 @@ const networkConfigurationOptionsSchema = v.variant('chain', [
   starknetNetworkConfigurationOptionsSchema,
 ]);
 
+export const walletAddNetworkV2ParamsSchema = v.object({
+  network: networkConfigurationOptionsSchema,
+  isActive: v.optional(v.boolean()),
+});
+
+export type WalletAddNetworkV2Params = v.InferOutput<typeof walletAddNetworkV2ParamsSchema>;
+
 export const walletAddNetworkV2RequestSchema = createRequestSchema({
-  paramsSchema: v.object({
-    network: networkConfigurationOptionsSchema,
-    isActive: v.optional(v.boolean()),
-  }),
+  paramsSchema: walletAddNetworkV2ParamsSchema,
   method: walletMethods.wallet_addNetworkV2,
 });
 

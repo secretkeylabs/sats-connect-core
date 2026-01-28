@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const walletGetNetworkParamsSchema = v.nullish(v.null());
+
+export type WalletGetNetworkParams = v.InferOutput<typeof walletGetNetworkParamsSchema>;
 
 export const walletGetNetworkRequestSchema = createRequestSchema({
-  paramsSchema: v.nullish(v.null()),
+  paramsSchema: walletGetNetworkParamsSchema,
   method: walletMethods.wallet_getNetwork,
 });
 

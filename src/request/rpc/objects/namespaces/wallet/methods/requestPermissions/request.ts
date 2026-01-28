@@ -28,8 +28,16 @@ const permissionRequestParamsSchema = v.variant('type', [
   walletPermissionRequestSchema,
 ]);
 
+export const walletRequestPermissionsParamsSchema = v.nullish(
+  v.array(permissionRequestParamsSchema)
+);
+
+export type WalletRequestPermissionsParams = v.InferOutput<
+  typeof walletRequestPermissionsParamsSchema
+>;
+
 export const walletRequestPermissionsRequestSchema = createRequestSchema({
-  paramsSchema: v.nullish(v.array(permissionRequestParamsSchema)),
+  paramsSchema: walletRequestPermissionsParamsSchema,
   method: walletMethods.wallet_requestPermissions,
 });
 

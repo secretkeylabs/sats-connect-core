@@ -3,25 +3,29 @@ import { bitcoinMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import { MessageSigningProtocols } from '../../shared';
 
+export const bitcoinSignMessageV2ResultSchema = v.object({
+  /**
+   * The signature of the message.
+   */
+  signature: v.string(),
+  /**
+   * hash of the message.
+   */
+  messageHash: v.string(),
+  /**
+   * The address used for signing.
+   */
+  address: v.string(),
+  /**
+   * The protocol used for signing the message.
+   */
+  protocol: v.enum(MessageSigningProtocols),
+});
+
+export type BitcoinSignMessageV2Result = v.InferOutput<typeof bitcoinSignMessageV2ResultSchema>;
+
 export const bitcoinSignMessageV2SuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    /**
-     * The signature of the message.
-     */
-    signature: v.string(),
-    /**
-     * hash of the message.
-     */
-    messageHash: v.string(),
-    /**
-     * The address used for signing.
-     */
-    address: v.string(),
-    /**
-     * The protocol used for signing the message.
-     */
-    protocol: v.enum(MessageSigningProtocols),
-  }),
+  resultSchema: bitcoinSignMessageV2ResultSchema,
   method: bitcoinMethods.bitcoin_signMessageV2,
 });
 

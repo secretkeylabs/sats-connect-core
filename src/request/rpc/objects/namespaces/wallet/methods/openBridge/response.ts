@@ -1,9 +1,13 @@
-import * as v from 'valibot';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const walletOpenBridgeResultSchema = v.nullish(v.null());
+
+export type WalletOpenBridgeResult = v.InferOutput<typeof walletOpenBridgeResultSchema>;
 
 export const walletOpenBridgeSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.nullish(v.null()),
+  resultSchema: walletOpenBridgeResultSchema,
   method: walletMethods.wallet_openBridge,
 });
 

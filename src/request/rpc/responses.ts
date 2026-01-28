@@ -1,31 +1,23 @@
 import * as v from 'valibot';
 import type { ExactObject } from '../exact';
 import type { Method } from '../methods';
-
-// Import namespace-specific aggregated types and schemas
 import {
   type BitcoinSuccessResponses,
-  bitcoinSuccessResponseSchemas,
+  bitcoinSuccessResponseSchema,
 } from './objects/namespaces/bitcoin';
 import {
   type OrdinalsSuccessResponses,
-  ordinalsSuccessResponseSchemas,
+  ordinalsSuccessResponseSchema,
 } from './objects/namespaces/ordinals';
-import {
-  type RunesSuccessResponses,
-  runesSuccessResponseSchemas,
-} from './objects/namespaces/runes';
-import {
-  type SparkSuccessResponses,
-  sparkSuccessResponseSchemas,
-} from './objects/namespaces/spark';
+import { type RunesSuccessResponses, runesSuccessResponseSchema } from './objects/namespaces/runes';
+import { type SparkSuccessResponses, sparkSuccessResponseSchema } from './objects/namespaces/spark';
 import {
   type StacksSuccessResponses,
-  stacksSuccessResponseSchemas,
+  stacksSuccessResponseSchema,
 } from './objects/namespaces/stacks';
 import {
   type WalletSuccessResponses,
-  walletSuccessResponseSchemas,
+  walletSuccessResponseSchema,
 } from './objects/namespaces/wallet';
 
 export type RpcSuccessResponses = ExactObject<
@@ -41,12 +33,12 @@ export type RpcSuccessResponses = ExactObject<
 export type RpcSuccessResponseResult<M extends Method> = RpcSuccessResponses[M]['result'];
 
 export const rpcSuccessResponseSchema = v.variant('~sats-connect-method', [
-  ...bitcoinSuccessResponseSchemas,
-  ...stacksSuccessResponseSchemas,
-  ...sparkSuccessResponseSchemas,
-  ...runesSuccessResponseSchemas,
-  ...ordinalsSuccessResponseSchemas,
-  ...walletSuccessResponseSchemas,
+  bitcoinSuccessResponseSchema,
+  stacksSuccessResponseSchema,
+  sparkSuccessResponseSchema,
+  runesSuccessResponseSchema,
+  ordinalsSuccessResponseSchema,
+  walletSuccessResponseSchema,
 ]);
 
 export type RpcSuccessResponse = v.InferOutput<typeof rpcSuccessResponseSchema>;

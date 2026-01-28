@@ -1,7 +1,7 @@
-import * as v from 'valibot';
+import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { bitcoinMethods } from 'src/request/methods';
-import { addressSchema } from 'src/addresses';
+import * as v from 'valibot';
 
 const getNetworkResultSchema = v.object({
   bitcoin: v.object({
@@ -15,14 +15,18 @@ const getNetworkResultSchema = v.object({
   }),
 });
 
+export const bitcoinGetAddressesResultSchema = v.object({
+  /**
+   * The addresses generated for the given purposes.
+   */
+  addresses: v.array(addressSchema),
+  network: getNetworkResultSchema,
+});
+
+export type BitcoinGetAddressesResult = v.InferOutput<typeof bitcoinGetAddressesResultSchema>;
+
 export const bitcoinGetAddressesSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    /**
-     * The addresses generated for the given purposes.
-     */
-    addresses: v.array(addressSchema),
-    network: getNetworkResultSchema,
-  }),
+  resultSchema: bitcoinGetAddressesResultSchema,
   method: bitcoinMethods.getAddresses,
 });
 

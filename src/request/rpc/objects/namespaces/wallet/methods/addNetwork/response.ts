@@ -1,11 +1,15 @@
-import * as v from 'valibot';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const walletAddNetworkResultSchema = v.object({
+  id: v.string(),
+});
+
+export type WalletAddNetworkResult = v.InferOutput<typeof walletAddNetworkResultSchema>;
 
 export const walletAddNetworkSuccessResponseSchema = createSuccessResponseSchema({
-  resultSchema: v.object({
-    id: v.string(),
-  }),
+  resultSchema: walletAddNetworkResultSchema,
   method: walletMethods.wallet_addNetwork,
 });
 

@@ -1,11 +1,17 @@
-import * as v from 'valibot';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
+import * as v from 'valibot';
+
+export const walletChangeNetworkByIdParamsSchema = v.object({
+  id: v.string(),
+});
+
+export type WalletChangeNetworkByIdParams = v.InferOutput<
+  typeof walletChangeNetworkByIdParamsSchema
+>;
 
 export const walletChangeNetworkByIdRequestSchema = createRequestSchema({
-  paramsSchema: v.object({
-    id: v.string(),
-  }),
+  paramsSchema: walletChangeNetworkByIdParamsSchema,
   method: walletMethods.wallet_changeNetworkById,
 });
 
