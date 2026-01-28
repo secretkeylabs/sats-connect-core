@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 import { createRequestSchema } from '../../../../createRequestSchema';
 import { runesMethods } from '../../../../methods';
+import { BitcoinNetworkType } from '../../../../../types';
 
 export const runesTransferRequestSchema = createRequestSchema({
   paramsSchema: v.object({
@@ -11,6 +12,7 @@ export const runesTransferRequestSchema = createRequestSchema({
         address: v.string(),
       })
     ),
+    network: v.optional(v.enum(BitcoinNetworkType)),
   }),
   method: runesMethods.runes_transfer,
 });

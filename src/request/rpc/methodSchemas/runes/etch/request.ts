@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 import { createRequestSchema } from '../../../../createRequestSchema';
 import { runesMethods } from '../../../../methods';
+import { BitcoinNetworkType } from '../../../../../types';
 
 const etchTermsSchema = v.object({
   amount: v.optional(v.string()),
@@ -31,6 +32,7 @@ export const runesEtchRequestSchema = createRequestSchema({
     feeRate: v.number(),
     appServiceFee: v.optional(v.number()),
     appServiceFeeAddress: v.optional(v.string()),
+    network: v.optional(v.enum(BitcoinNetworkType)),
   }),
   method: runesMethods.runes_etch,
 });
