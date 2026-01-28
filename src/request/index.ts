@@ -188,3 +188,4 @@ export const addListener = (
 export * from './methods';
 export * from './rpc';
 export * from './rpcSpec';
+export * from './shared';
