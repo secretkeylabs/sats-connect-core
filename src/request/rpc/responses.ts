@@ -28,7 +28,7 @@ export type RpcSuccessResponses = ExactObject<
 
 export type RpcSuccessResponseResult<M extends Method> = RpcSuccessResponses[M]['result'];
 
-export const rpcSuccessResponseSchema = v.union([
+export const rpcSuccessResponseSchema = v.variant('~sats-connect-method', [
   ...bitcoinSuccessResponseSchemas,
   ...stacksSuccessResponseSchemas,
   ...sparkSuccessResponseSchemas,

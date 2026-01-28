@@ -1,28 +1,62 @@
-import { runesMethods } from '../../../methods';
 import type { ExactObject } from '../../../exact';
-
-// Runes request imports
+import { RunesMethod, runesMethods } from '../../../methods';
 import {
   type RunesEstimateEtchRequest,
   runesEstimateEtchRequestSchema,
-} from './estimateEtch/request';
+  type RunesEstimateEtchSuccessResponse,
+  runesEstimateEtchSuccessResponseSchema,
+} from './estimateEtch';
 import {
   type RunesEstimateMintRequest,
   runesEstimateMintRequestSchema,
-} from './estimateMint/request';
+  type RunesEstimateMintSuccessResponse,
+  runesEstimateMintSuccessResponseSchema,
+} from './estimateMint';
 import {
   type RunesEstimateRbfOrderRequest,
   runesEstimateRbfOrderRequestSchema,
-} from './estimateRbfOrder/request';
-import { type RunesEtchRequest, runesEtchRequestSchema } from './etch/request';
-import { type RunesGetBalanceRequest, runesGetBalanceRequestSchema } from './getBalance/request';
-import { type RunesGetOrderRequest, runesGetOrderRequestSchema } from './getOrder/request';
-import { type RunesMintRequest, runesMintRequestSchema } from './mint/request';
-import { type RunesRbfOrderRequest, runesRbfOrderRequestSchema } from './rbfOrder/request';
-import { type RunesTransferRequest, runesTransferRequestSchema } from './transfer/request';
+  type RunesEstimateRbfOrderSuccessResponse,
+  runesEstimateRbfOrderSuccessResponseSchema,
+} from './estimateRbfOrder';
+import {
+  type RunesEtchRequest,
+  runesEtchRequestSchema,
+  type RunesEtchSuccessResponse,
+  runesEtchSuccessResponseSchema,
+} from './etch';
+import {
+  type RunesGetBalanceRequest,
+  runesGetBalanceRequestSchema,
+  type RunesGetBalanceSuccessResponse,
+  runesGetBalanceSuccessResponseSchema,
+} from './getBalance';
+import {
+  type RunesGetOrderRequest,
+  runesGetOrderRequestSchema,
+  type RunesGetOrderSuccessResponse,
+  runesGetOrderSuccessResponseSchema,
+} from './getOrder';
+import {
+  type RunesMintRequest,
+  runesMintRequestSchema,
+  type RunesMintSuccessResponse,
+  runesMintSuccessResponseSchema,
+} from './mint';
+import {
+  type RunesRbfOrderRequest,
+  runesRbfOrderRequestSchema,
+  type RunesRbfOrderSuccessResponse,
+  runesRbfOrderSuccessResponseSchema,
+} from './rbfOrder';
+import {
+  type RunesTransferRequest,
+  runesTransferRequestSchema,
+  type RunesTransferSuccessResponse,
+  runesTransferSuccessResponseSchema,
+} from './transfer';
 
 export type RunesRequests = ExactObject<
-  (typeof runesMethods)[keyof typeof runesMethods],
+  RunesMethod,
   {
     [runesMethods.runes_estimateEtch]: RunesEstimateEtchRequest;
     [runesMethods.runes_estimateMint]: RunesEstimateMintRequest;
@@ -48,40 +82,8 @@ export const runesRequestSchemas = [
   runesTransferRequestSchema,
 ] as const;
 
-// Runes response imports
-import {
-  type RunesEstimateEtchSuccessResponse,
-  runesEstimateEtchSuccessResponseSchema,
-} from './estimateEtch/response';
-import {
-  type RunesEstimateMintSuccessResponse,
-  runesEstimateMintSuccessResponseSchema,
-} from './estimateMint/response';
-import {
-  type RunesEstimateRbfOrderSuccessResponse,
-  runesEstimateRbfOrderSuccessResponseSchema,
-} from './estimateRbfOrder/response';
-import { type RunesEtchSuccessResponse, runesEtchSuccessResponseSchema } from './etch/response';
-import {
-  type RunesGetBalanceSuccessResponse,
-  runesGetBalanceSuccessResponseSchema,
-} from './getBalance/response';
-import {
-  type RunesGetOrderSuccessResponse,
-  runesGetOrderSuccessResponseSchema,
-} from './getOrder/response';
-import { type RunesMintSuccessResponse, runesMintSuccessResponseSchema } from './mint/response';
-import {
-  type RunesRbfOrderSuccessResponse,
-  runesRbfOrderSuccessResponseSchema,
-} from './rbfOrder/response';
-import {
-  type RunesTransferSuccessResponse,
-  runesTransferSuccessResponseSchema,
-} from './transfer/response';
-
 export type RunesSuccessResponses = ExactObject<
-  (typeof runesMethods)[keyof typeof runesMethods],
+  RunesMethod,
   {
     [runesMethods.runes_estimateEtch]: RunesEstimateEtchSuccessResponse;
     [runesMethods.runes_estimateMint]: RunesEstimateMintSuccessResponse;

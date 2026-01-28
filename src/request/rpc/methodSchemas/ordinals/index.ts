@@ -1,18 +1,20 @@
-import { ordinalsMethods } from '../../../methods';
 import type { ExactObject } from '../../../exact';
-
-// Ordinals request imports
+import { OrdinalsMethod, ordinalsMethods } from '../../../methods';
 import {
   type OrdinalsGetInscriptionsRequest,
   ordinalsGetInscriptionsRequestSchema,
-} from './getInscriptions/request';
+  type OrdinalsGetInscriptionsSuccessResponse,
+  ordinalsGetInscriptionsSuccessResponseSchema,
+} from './getInscriptions';
 import {
   type OrdinalsSendInscriptionsRequest,
   ordinalsSendInscriptionsRequestSchema,
-} from './sendInscriptions/request';
+  type OrdinalsSendInscriptionsSuccessResponse,
+  ordinalsSendInscriptionsSuccessResponseSchema,
+} from './sendInscriptions';
 
 export type OrdinalsRequests = ExactObject<
-  (typeof ordinalsMethods)[keyof typeof ordinalsMethods],
+  OrdinalsMethod,
   {
     [ordinalsMethods.ord_getInscriptions]: OrdinalsGetInscriptionsRequest;
     [ordinalsMethods.ord_sendInscriptions]: OrdinalsSendInscriptionsRequest;
@@ -24,18 +26,8 @@ export const ordinalsRequestSchemas = [
   ordinalsSendInscriptionsRequestSchema,
 ] as const;
 
-// Ordinals response imports
-import {
-  type OrdinalsGetInscriptionsSuccessResponse,
-  ordinalsGetInscriptionsSuccessResponseSchema,
-} from './getInscriptions/response';
-import {
-  type OrdinalsSendInscriptionsSuccessResponse,
-  ordinalsSendInscriptionsSuccessResponseSchema,
-} from './sendInscriptions/response';
-
 export type OrdinalsSuccessResponses = ExactObject<
-  (typeof ordinalsMethods)[keyof typeof ordinalsMethods],
+  OrdinalsMethod,
   {
     [ordinalsMethods.ord_getInscriptions]: OrdinalsGetInscriptionsSuccessResponse;
     [ordinalsMethods.ord_sendInscriptions]: OrdinalsSendInscriptionsSuccessResponse;

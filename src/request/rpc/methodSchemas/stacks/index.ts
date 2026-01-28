@@ -1,50 +1,68 @@
-import { stacksMethods } from '../../../methods';
 import type { ExactObject } from '../../../exact';
-
-// Stacks request imports
+import { StacksMethod, stacksMethods } from '../../../methods';
 import {
   type StacksCallContractRequest,
   stacksCallContractRequestSchema,
-} from './callContract/request';
+  type StacksCallContractSuccessResponse,
+  stacksCallContractSuccessResponseSchema,
+} from './callContract';
 import {
   type StacksDeployContractRequest,
   stacksDeployContractRequestSchema,
-} from './deployContract/request';
+  type StacksDeployContractSuccessResponse,
+  stacksDeployContractSuccessResponseSchema,
+} from './deployContract';
 import {
   type StacksGetAccountsRequest,
   stacksGetAccountsRequestSchema,
-} from './getAccounts/request';
+  type StacksGetAccountsSuccessResponse,
+  stacksGetAccountsSuccessResponseSchema,
+} from './getAccounts';
 import {
   type StacksGetAddressesRequest,
   stacksGetAddressesRequestSchema,
-} from './getAddresses/request';
+  type StacksGetAddressesSuccessResponse,
+  stacksGetAddressesSuccessResponseSchema,
+} from './getAddresses';
 import {
   type StacksGetAddressesV2Request,
   stacksGetAddressesV2RequestSchema,
-} from './getAddressesV2/request';
+  type StacksGetAddressesV2SuccessResponse,
+  stacksGetAddressesV2SuccessResponseSchema,
+} from './getAddressesV2';
 import {
   type StacksSignMessageRequest,
   stacksSignMessageRequestSchema,
-} from './signMessage/request';
+  type StacksSignMessageSuccessResponse,
+  stacksSignMessageSuccessResponseSchema,
+} from './signMessage';
 import {
   type StacksSignStructuredMessageRequest,
   stacksSignStructuredMessageRequestSchema,
-} from './signStructuredMessage/request';
+  type StacksSignStructuredMessageSuccessResponse,
+  stacksSignStructuredMessageSuccessResponseSchema,
+} from './signStructuredMessage';
 import {
   type StacksSignTransactionRequest,
   stacksSignTransactionRequestSchema,
-} from './signTransaction/request';
+  type StacksSignTransactionSuccessResponse,
+  stacksSignTransactionSuccessResponseSchema,
+} from './signTransaction';
 import {
   type StacksSignTransactionsRequest,
   stacksSignTransactionsRequestSchema,
-} from './signTransactions/request';
+  type StacksSignTransactionsSuccessResponse,
+  stacksSignTransactionsSuccessResponseSchema,
+} from './signTransactions';
 import {
   type StacksTransferStxRequest,
   stacksTransferStxRequestSchema,
-} from './transferStx/request';
+  type StacksTransferStxSuccessResponse,
+  stacksTransferStxSuccessResponseSchema,
+} from './transferStx';
 
 export type StacksRequests = ExactObject<
-  (typeof stacksMethods)[keyof typeof stacksMethods],
+  StacksMethod,
   {
     [stacksMethods.stx_callContract]: StacksCallContractRequest;
     [stacksMethods.stx_deployContract]: StacksDeployContractRequest;
@@ -72,50 +90,8 @@ export const stacksRequestSchemas = [
   stacksTransferStxRequestSchema,
 ] as const;
 
-// Stacks response imports
-import {
-  type StacksCallContractSuccessResponse,
-  stacksCallContractSuccessResponseSchema,
-} from './callContract/response';
-import {
-  type StacksDeployContractSuccessResponse,
-  stacksDeployContractSuccessResponseSchema,
-} from './deployContract/response';
-import {
-  type StacksGetAccountsSuccessResponse,
-  stacksGetAccountsSuccessResponseSchema,
-} from './getAccounts/response';
-import {
-  type StacksGetAddressesSuccessResponse,
-  stacksGetAddressesSuccessResponseSchema,
-} from './getAddresses/response';
-import {
-  type StacksGetAddressesV2SuccessResponse,
-  stacksGetAddressesV2SuccessResponseSchema,
-} from './getAddressesV2/response';
-import {
-  type StacksSignMessageSuccessResponse,
-  stacksSignMessageSuccessResponseSchema,
-} from './signMessage/response';
-import {
-  type StacksSignStructuredMessageSuccessResponse,
-  stacksSignStructuredMessageSuccessResponseSchema,
-} from './signStructuredMessage/response';
-import {
-  type StacksSignTransactionSuccessResponse,
-  stacksSignTransactionSuccessResponseSchema,
-} from './signTransaction/response';
-import {
-  type StacksSignTransactionsSuccessResponse,
-  stacksSignTransactionsSuccessResponseSchema,
-} from './signTransactions/response';
-import {
-  type StacksTransferStxSuccessResponse,
-  stacksTransferStxSuccessResponseSchema,
-} from './transferStx/response';
-
 export type StacksSuccessResponses = ExactObject<
-  (typeof stacksMethods)[keyof typeof stacksMethods],
+  StacksMethod,
   {
     [stacksMethods.stx_callContract]: StacksCallContractSuccessResponse;
     [stacksMethods.stx_deployContract]: StacksDeployContractSuccessResponse;

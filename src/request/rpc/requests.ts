@@ -2,7 +2,6 @@ import * as v from 'valibot';
 import type { Method } from '../methods';
 import type { ExactObject } from '../exact';
 
-// Import namespace-specific aggregated types and schemas
 import { type BitcoinRequests, bitcoinRequestSchemas } from './methodSchemas/bitcoin';
 import { type StacksRequests, stacksRequestSchemas } from './methodSchemas/stacks';
 import { type SparkRequests, sparkRequestSchemas } from './methodSchemas/spark';

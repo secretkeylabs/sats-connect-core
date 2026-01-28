@@ -1,9 +1,9 @@
 import {
   bitcoinMethods,
-  stacksMethods,
-  sparkMethods,
-  runesMethods,
   ordinalsMethods,
+  runesMethods,
+  sparkMethods,
+  stacksMethods,
   walletMethods,
   type Method,
 } from '../methods';
@@ -14,7 +14,7 @@ const supportStates = {
   removed: 'removed',
 } as const;
 
-const { active, deprecated, removed } = supportStates;
+const { active } = supportStates;
 
 export type SupportState = (typeof supportStates)[keyof typeof supportStates];
 
