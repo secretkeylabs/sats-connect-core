@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 import type { ExactObject } from '../exact';
 import type { Method } from '../methods';
+import { RpcId } from '../shared';
 import { type BitcoinRequests, bitcoinRequestSchema } from './objects/namespaces/bitcoin';
 import { type OrdinalsRequests, ordinalsRequestSchema } from './objects/namespaces/ordinals';
 import { type RunesRequests, runesRequestSchema } from './objects/namespaces/runes';
@@ -38,7 +39,7 @@ export function createRpcRequest<M extends Method>({
 }: {
   method: M;
   params: RpcRequestParams<M>;
-  id: RpcRequest['id'];
+  id: RpcId;
 }): RpcRequests[M] {
   return {
     jsonrpc: '2.0',

@@ -2,6 +2,7 @@ import type { GenericSchema } from 'valibot';
 import * as v from 'valibot';
 import { Method } from './methods';
 import { specRequestSchema } from './rpcSpec';
+import { rpcIdSchema } from './shared';
 
 export function createRequestSchema<const Params extends GenericSchema, M extends Method>({
   paramsSchema,
@@ -12,7 +13,7 @@ export function createRequestSchema<const Params extends GenericSchema, M extend
 }) {
   return v.object({
     ...specRequestSchema.entries,
-    id: v.string(),
+    id: rpcIdSchema,
     method: v.literal(method),
     params: paramsSchema,
   });
