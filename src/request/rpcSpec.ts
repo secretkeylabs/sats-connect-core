@@ -1,9 +1,9 @@
 import * as v from 'valibot';
 
-export const rpcIdSchema = v.union([v.string(), v.number(), v.null()]);
-export type RpcId = v.InferOutput<typeof rpcIdSchema>;
+export const specIdSchema = v.union([v.string(), v.number(), v.null()]);
+export type SpecId = v.InferOutput<typeof specIdSchema>;
 
-export const rpcRequestSchema = v.object({
+export const specRequestSchema = v.object({
   jsonrpc: v.literal('2.0'),
   method: v.string(),
   params: v.optional(
@@ -17,16 +17,16 @@ export const rpcRequestSchema = v.object({
       v.null(),
     ])
   ),
-  id: v.optional(rpcIdSchema),
+  id: v.optional(specIdSchema),
 });
-export type RpcRequest = v.InferOutput<typeof rpcRequestSchema>;
+export type SpecRequest = v.InferOutput<typeof specRequestSchema>;
 
-export const rpcSuccessResponseSchema = v.object({
+export const specSuccessResponseSchema = v.object({
   jsonrpc: v.literal('2.0'),
   result: v.unknown(),
-  id: rpcIdSchema,
+  id: specIdSchema,
 });
-export type RpcSuccessResponse = v.InferOutput<typeof rpcSuccessResponseSchema>;
+export type SpecSuccessResponse = v.InferOutput<typeof specSuccessResponseSchema>;
 
 const warningSchema = v.variant('code', [
   v.object({
@@ -48,28 +48,34 @@ export type Warning = v.InferOutput<typeof warningSchema>;
  * acceptable when clients are known to be able to handle such a structure,
  * which they can since they're all part of Sats Connect.
  */
-export const rpcSuccessWithExtensionsResponseSchema = v.object({
-  ...rpcSuccessResponseSchema.entries,
+export const specSuccessWithExtensionsResponseSchema = v.object({
+  ...specSuccessResponseSchema.entries,
   extensions: v.optional(
     v.object({
       warnings: v.array(warningSchema),
     })
   ),
 });
-export type RpcSuccessWithExtensionsResponse = v.InferOutput<
-  typeof rpcSuccessWithExtensionsResponseSchema
+export type SpecSuccessWithExtensionsResponse = v.InferOutput<
+  typeof specSuccessWithExtensionsResponseSchema
 >;
 
-export const rpcErrorObject = v.object({
+export const specErrorObject = v.object({
   code: v.number(),
   message: v.string(),
   data: v.optional(v.unknown()),
 });
-export type RpcErrorObject = v.InferOutput<typeof rpcErrorObject>;
+export type specErrorObject = v.InferOutput<typeof specErrorObject>;
 
-export const rpcErrorResponseSchema = v.object({
+export const specErrorResponseSchema = v.object({
   jsonrpc: v.literal('2.0'),
-  error: rpcErrorObject,
-  id: rpcIdSchema,
+  error: specErrorObject,
+  id: specIdSchema,
 });
-export type RpcErrorResponse = v.InferOutput<typeof rpcErrorResponseSchema>;
+export type SpecErrorResponse = v.InferOutput<typeof specErrorResponseSchema>;
+
+export const specResponseSchema = v.union([
+  specSuccessWithExtensionsResponseSchema,
+  specErrorResponseSchema,
+]);
+export type SpecResponse = v.InferOutput<typeof specResponseSchema>;

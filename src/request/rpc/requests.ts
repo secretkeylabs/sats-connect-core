@@ -30,3 +30,20 @@ export const rpcRequestSchema = v.variant('method', [
 ]);
 
 export type RpcRequest = v.InferOutput<typeof rpcRequestSchema>;
+
+export function createRpcRequest<M extends Method>({
+  method,
+  params,
+  id,
+}: {
+  method: M;
+  params: RpcRequestParams<M>;
+  id: RpcRequest['id'];
+}): RpcRequests[M] {
+  return {
+    jsonrpc: '2.0',
+    method,
+    params,
+    id,
+  } as RpcRequests[M];
+}

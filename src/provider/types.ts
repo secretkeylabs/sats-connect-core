@@ -1,4 +1,4 @@
-import { RequestReturn } from 'src/request';
+import { RpcSuccessResponses } from 'src/request';
 import {
   BitcoinMethod,
   Method,
@@ -100,7 +100,7 @@ interface BaseBitcoinProvider {
     method: M,
     options: RpcRequestParams<M>,
     providerId?: string
-  ) => Promise<RequestReturn<M>>;
+  ) => Promise<RpcSuccessResponses[M]>;
   connect: (request: string) => Promise<GetAddressResponse>;
   signMessage: (request: string) => Promise<SignMessageResponse>;
   signTransaction: (request: string) => Promise<SignTransactionResponse>;

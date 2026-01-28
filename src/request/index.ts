@@ -2,13 +2,13 @@ import * as v from 'valibot';
 import { AddListener, BitcoinProvider, getProviderById, ListenerInfo } from '../provider';
 import { RpcErrorCode } from '../types';
 import { bitcoinMethods, Method } from './methods';
-import {
-  RpcErrorResponse,
-  rpcErrorResponseSchema,
-  rpcSuccessWithExtensionsResponseSchema,
-} from './rpc';
 import { RpcRequestParams } from './rpc/requests';
 import { RpcSuccessResponseResult } from './rpc/responses';
+import {
+  SpecErrorResponse,
+  specErrorResponseSchema,
+  specSuccessWithExtensionsResponseSchema,
+} from './rpcSpec';
 import { sanitizeRequest } from './sanitizeRequest';
 
 type BitcoinGetInfoResult = RpcSuccessResponseResult<typeof bitcoinMethods.getInfo>;
@@ -24,14 +24,14 @@ const requestInternal = async <const M extends Method>(
 ): Promise<RequestReturn<M>> => {
   const response = await provider.request(method, params);
 
-  if (v.is(rpcErrorResponseSchema, response)) {
+  if (v.is(specErrorResponseSchema, response)) {
     return {
       status: 'error',
       error: response.error,
     };
   }
 
-  if (v.is(rpcSuccessWithExtensionsResponseSchema, response)) {
+  if (v.is(specSuccessWithExtensionsResponseSchema, response)) {
     return {
       status: 'success',
       result: response.result as RpcSuccessResponseResult<M>,
@@ -54,7 +54,7 @@ export type RequestReturn<M extends Method> =
       status: 'success';
     }
   | {
-      error: RpcErrorResponse['error'];
+      error: SpecErrorResponse['error'];
       status: 'error';
     };
 
@@ -185,4 +185,6 @@ export const addListener = (
   return provider.addListener(listenerInfo);
 };
 
+export * from './methods';
 export * from './rpc';
+export * from './rpcSpec';
