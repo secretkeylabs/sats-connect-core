@@ -37,3 +37,5 @@ export const ordinalsSuccessResponseSchema = v.variant('~sats-connect-method', [
   ordinalsGetInscriptionsSuccessResponseSchema,
   ordinalsSendInscriptionsSuccessResponseSchema,
 ]);
+
+export * from './methods';

@@ -165,3 +165,5 @@ export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
   walletRenouncePermissionsSuccessResponseSchema,
   walletRequestPermissionsSuccessResponseSchema,
 ]);
+
+export * from './methods';

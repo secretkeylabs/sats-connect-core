@@ -93,3 +93,5 @@ export const runesSuccessResponseSchema = v.variant('~sats-connect-method', [
   runesRbfOrderSuccessResponseSchema,
   runesTransferSuccessResponseSchema,
 ]);
+
+export * from './methods';

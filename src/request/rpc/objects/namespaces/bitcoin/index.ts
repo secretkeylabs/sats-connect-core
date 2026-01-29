@@ -149,3 +149,6 @@ export const bitcoinSuccessResponseSchema = v.variant('~sats-connect-method', [
   bitcoinSignPsbtSuccessResponseSchema,
   bitcoinSignPsbtV2SuccessResponseSchema,
 ]);
+
+export * from './methods';
+export * from './shared';

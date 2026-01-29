@@ -101,3 +101,5 @@ export const stacksSuccessResponseSchema = v.variant('~sats-connect-method', [
   stacksSignTransactionsSuccessResponseSchema,
   stacksTransferStxSuccessResponseSchema,
 ]);
+
+export * from './methods';

@@ -125,3 +125,5 @@ export const sparkSuccessResponseSchema = v.variant('~sats-connect-method', [
   sparkFlashnetClawbackFundsSuccessResponseSchema,
   sparkGetClawbackEligibleTransfersSuccessResponseSchema,
 ]);
+
+export * from './methods';
