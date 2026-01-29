@@ -1,27 +1,7 @@
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
 import * as v from 'valibot';
-import {
-  bitcoinNetworkConfigurationSchema,
-  sparkNetworkConfigurationSchema,
-  stacksNetworkConfigurationSchema,
-  starknetNetworkConfigurationSchema,
-} from '../../shared/networks';
-
-// Network configuration schemas (omitting 'id' field)
-const bitcoinNetworkConfigurationOptionsSchema = v.omit(bitcoinNetworkConfigurationSchema, ['id']);
-const sparkNetworkConfigurationOptionsSchema = v.omit(sparkNetworkConfigurationSchema, ['id']);
-const stacksNetworkConfigurationOptionsSchema = v.omit(stacksNetworkConfigurationSchema, ['id']);
-const starknetNetworkConfigurationOptionsSchema = v.omit(starknetNetworkConfigurationSchema, [
-  'id',
-]);
-
-const networkConfigurationOptionsSchema = v.variant('chain', [
-  bitcoinNetworkConfigurationOptionsSchema,
-  sparkNetworkConfigurationOptionsSchema,
-  stacksNetworkConfigurationOptionsSchema,
-  starknetNetworkConfigurationOptionsSchema,
-]);
+import { networkConfigurationOptionsSchema } from '../../shared';
 
 export const walletAddNetworkV2ParamsSchema = v.object({
   network: networkConfigurationOptionsSchema,

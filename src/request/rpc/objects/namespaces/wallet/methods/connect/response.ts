@@ -2,26 +2,14 @@ import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
 import * as v from 'valibot';
-
-const walletTypeSchema = v.picklist(['software', 'ledger']);
-
-const getNetworkResultSchema = v.object({
-  bitcoin: v.object({
-    name: v.picklist(['Mainnet', 'Testnet', 'Signet']),
-  }),
-  stacks: v.object({
-    name: v.picklist(['Mainnet', 'Testnet']),
-  }),
-  spark: v.object({
-    name: v.picklist(['Mainnet', 'Testnet']),
-  }),
-});
+import { walletTypeSchema } from '../../../bitcoin/shared';
+import { walletGetNetworkResultSchema } from '../getNetwork';
 
 export const walletConnectResultSchema = v.object({
   id: v.string(),
   addresses: v.array(addressSchema),
   walletType: walletTypeSchema,
-  network: getNetworkResultSchema,
+  network: walletGetNetworkResultSchema,
 });
 
 export type WalletConnectResult = v.InferOutput<typeof walletConnectResultSchema>;

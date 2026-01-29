@@ -1,6 +1,7 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { stacksMethods } from 'src/request/methods';
 import * as v from 'valibot';
+import { walletGetNetworkResultSchema } from '../../../wallet';
 
 export const stacksGetAccountsResultSchema = v.object({
   /**
@@ -14,10 +15,7 @@ export const stacksGetAccountsResultSchema = v.object({
       gaiaAppKey: v.string(),
     })
   ),
-  network: v.object({
-    type: v.string(),
-    address: v.string(),
-  }),
+  network: walletGetNetworkResultSchema,
 });
 
 export type StacksGetAccountsResult = v.InferOutput<typeof stacksGetAccountsResultSchema>;

@@ -1,16 +1,17 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import { BitcoinNetworkType, SparkNetworkType, StacksNetworkType } from 'src/types';
 import * as v from 'valibot';
 
 export const walletGetNetworkResultSchema = v.object({
   bitcoin: v.object({
-    name: v.picklist(['Mainnet', 'Testnet', 'Signet']),
+    name: v.enum(BitcoinNetworkType),
   }),
   stacks: v.object({
-    name: v.picklist(['Mainnet', 'Testnet']),
+    name: v.enum(StacksNetworkType),
   }),
   spark: v.object({
-    name: v.picklist(['Mainnet', 'Testnet']),
+    name: v.enum(SparkNetworkType),
   }),
 });
 

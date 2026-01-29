@@ -2,16 +2,14 @@ import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { stacksMethods } from 'src/request/methods';
 import * as v from 'valibot';
+import { walletGetNetworkResultSchema } from '../../../wallet';
 
 export const stacksGetAddressesResultSchema = v.object({
   /**
    * The addresses generated for the given purposes.
    */
   addresses: v.array(addressSchema),
-  network: v.object({
-    type: v.string(),
-    address: v.string(),
-  }),
+  network: walletGetNetworkResultSchema,
 });
 
 export type StacksGetAddressesResult = v.InferOutput<typeof stacksGetAddressesResultSchema>;

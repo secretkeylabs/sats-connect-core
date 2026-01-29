@@ -140,3 +140,37 @@ export type ActiveNetworks = ExactObject<
     starknet: StarknetNetworkConfiguration;
   }
 >;
+
+// Network configuration schemas (omitting 'id' field)
+export const bitcoinNetworkConfigurationOptionsSchema = v.omit(bitcoinNetworkConfigurationSchema, [
+  'id',
+]);
+export type BitcoinNetworkConfigurationOptions = v.InferOutput<
+  typeof bitcoinNetworkConfigurationOptionsSchema
+>;
+export const sparkNetworkConfigurationOptionsSchema = v.omit(sparkNetworkConfigurationSchema, [
+  'id',
+]);
+export type SparkNetworkConfigurationOptions = v.InferOutput<
+  typeof sparkNetworkConfigurationOptionsSchema
+>;
+export const stacksNetworkConfigurationOptionsSchema = v.omit(stacksNetworkConfigurationSchema, [
+  'id',
+]);
+export type StacksNetworkConfigurationOptions = v.InferOutput<
+  typeof stacksNetworkConfigurationOptionsSchema
+>;
+export const starknetNetworkConfigurationOptionsSchema = v.omit(
+  starknetNetworkConfigurationSchema,
+  ['id']
+);
+export type StarknetNetworkConfigurationOptions = v.InferOutput<
+  typeof starknetNetworkConfigurationOptionsSchema
+>;
+export const networkConfigurationOptionsSchema = v.variant('chain', [
+  bitcoinNetworkConfigurationOptionsSchema,
+  sparkNetworkConfigurationOptionsSchema,
+  stacksNetworkConfigurationOptionsSchema,
+  starknetNetworkConfigurationOptionsSchema,
+]);
+export type NetworkConfigurationOptions = v.InferOutput<typeof networkConfigurationOptionsSchema>;

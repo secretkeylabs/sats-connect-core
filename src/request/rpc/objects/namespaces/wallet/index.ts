@@ -167,3 +167,4 @@ export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
 ]);
 
 export * from './methods';
+export * from './shared';
