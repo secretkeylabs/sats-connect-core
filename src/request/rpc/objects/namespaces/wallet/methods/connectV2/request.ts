@@ -2,36 +2,11 @@ import { AddressPurpose } from 'src/addresses';
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
 import * as v from 'valibot';
-
-// Permission request schemas
-const accountActionsSchema = v.object({
-  read: v.optional(v.boolean()),
-});
-
-const walletActionsSchema = v.object({
-  readNetwork: v.optional(v.boolean()),
-});
-
-const accountPermissionRequestSchema = v.object({
-  type: v.literal('account'),
-  resourceId: v.string(),
-  actions: accountActionsSchema,
-});
-
-const walletPermissionRequestSchema = v.object({
-  type: v.literal('wallet'),
-  resourceId: v.string(),
-  actions: walletActionsSchema,
-});
-
-const permissionRequestParamsSchema = v.variant('type', [
-  accountPermissionRequestSchema,
-  walletPermissionRequestSchema,
-]);
+import { permissionRequestParamsSchema } from '../../shared';
 
 export const walletConnectV2ParamsSchema = v.nullish(
   v.object({
-    permissions: v.optional(v.array(permissionRequestParamsSchema)),
+    permissions: permissionRequestParamsSchema,
     addresses: v.optional(v.array(v.enum(AddressPurpose))),
     message: v.optional(
       v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))

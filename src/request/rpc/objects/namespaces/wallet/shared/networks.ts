@@ -141,6 +141,8 @@ export type ActiveNetworks = ExactObject<
   }
 >;
 
+// #### Custom Sats Connect values and types ####
+
 // Network configuration schemas (omitting 'id' field)
 export const bitcoinNetworkConfigurationOptionsSchema = v.omit(bitcoinNetworkConfigurationSchema, [
   'id',
@@ -174,3 +176,26 @@ export const networkConfigurationOptionsSchema = v.variant('chain', [
   starknetNetworkConfigurationOptionsSchema,
 ]);
 export type NetworkConfigurationOptions = v.InferOutput<typeof networkConfigurationOptionsSchema>;
+
+export const allResolvedNetworksSchema = v.object({
+  active: v.object({
+    bitcoin: bitcoinNetworkConfigurationSchema,
+    spark: sparkNetworkConfigurationSchema,
+    stacks: stacksNetworkConfigurationSchema,
+    starknet: starknetNetworkConfigurationSchema,
+  }),
+  builtin: v.object({
+    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
+    spark: v.array(sparkNetworkConfigurationSchema),
+    stacks: v.array(stacksNetworkConfigurationSchema),
+    starknet: v.array(starknetNetworkConfigurationSchema),
+  }),
+  custom: v.object({
+    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
+    spark: v.array(sparkNetworkConfigurationSchema),
+    stacks: v.array(stacksNetworkConfigurationSchema),
+    starknet: v.array(starknetNetworkConfigurationSchema),
+  }),
+});
+
+export type AllResolvedNetworks = v.InferOutput<typeof allResolvedNetworksSchema>;
