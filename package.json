@@ -28,7 +28,8 @@
     "axios": "1.13.2",
     "bitcoin-address-validation": "3.0.0",
     "buffer": "6.0.3",
-    "jsontokens": "4.0.1"
+    "jsontokens": "4.0.1",
+    "ts-pattern": "5.9.0"
   },
   "devDependencies": {
     "husky": "9.1.7",
