@@ -1,8 +1,8 @@
 import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import { walletTypeSchema } from 'src/request/rpc/objects/shared';
 import * as v from 'valibot';
-import { walletTypeSchema } from '../../../bitcoin/shared';
 import { walletGetNetworkResultSchema } from '../getNetwork';
 
 export const walletConnectResultSchema = v.object({

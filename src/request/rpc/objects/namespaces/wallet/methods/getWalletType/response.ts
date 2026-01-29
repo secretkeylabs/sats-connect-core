@@ -1,8 +1,9 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
+import { walletTypeSchema } from 'src/request/rpc/objects/shared';
 import * as v from 'valibot';
 
-export const walletGetWalletTypeResultSchema = v.picklist(['software', 'ledger']);
+export const walletGetWalletTypeResultSchema = walletTypeSchema;
 
 export type WalletGetWalletTypeResult = v.InferOutput<typeof walletGetWalletTypeResultSchema>;
 

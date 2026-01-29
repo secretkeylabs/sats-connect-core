@@ -1,4 +1,4 @@
-import { walletTypeSchema } from 'src/request/rpc/objects/namespaces/bitcoin/shared';
+import { walletTypeSchema } from 'src/request/rpc/objects/shared';
 import * as v from 'valibot';
 import type { RequestOptions, RequestPayload } from '../types';
 
