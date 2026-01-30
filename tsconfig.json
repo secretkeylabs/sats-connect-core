@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "declaration": true,
     "sourceMap": true,
@@ -11,6 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "useUnknownInCatchVariables": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "noImplicitAny": true,
     "allowUnreachableCode": false,
     "skipLibCheck": true
