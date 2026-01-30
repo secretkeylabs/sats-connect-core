@@ -1,8 +1,9 @@
-import { AddListener } from 'src/provider/types';
-import { Method } from 'src/request/methods';
-import { RpcRequestParams } from 'src/request/rpc/requests';
+import type { AddListener } from 'src/provider/types';
+import type { Method } from 'src/request/methods';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import { DefaultAdaptersInfo } from '.';
-import { addListener, request, RequestReturn } from '../request';
+import type { RequestReturn } from '../request';
+import { addListener, request } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 
 class XverseAdapter extends SatsConnectAdapter {

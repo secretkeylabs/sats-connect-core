@@ -1,5 +1,5 @@
 import type { ExactObject } from 'src/request/exact';
-import { WalletMethod, walletMethods } from 'src/request/methods';
+import type { WalletMethod, walletMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import {
   type WalletAddNetworkRequest,

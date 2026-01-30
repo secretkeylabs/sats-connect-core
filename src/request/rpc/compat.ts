@@ -1,6 +1,6 @@
 import { BitcoinNetworkType, SparkNetworkType, StacksNetworkType } from 'src/types';
 import { match } from 'ts-pattern';
-import {
+import type {
   BitcoinNetworkConfigurationChainMode,
   SparkNetworkConfigurationChainMode,
   StacksNetworkConfigurationChainMode,

@@ -1,13 +1,14 @@
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
 import { Buffer } from 'buffer';
-import { RequestReturn } from 'src';
-import { AddListener, NetworkChangeEvent } from 'src/provider/types';
-import { Method } from 'src/request/methods';
+import type { RequestReturn } from 'src';
+import type { AddListener, NetworkChangeEvent } from 'src/provider/types';
+import type { Method } from 'src/request/methods';
 import { MessageSigningProtocols } from 'src/request/rpc/objects/namespaces/bitcoin/shared';
-import { RpcRequestParams } from 'src/request/rpc/requests';
-import { RpcSuccessResponseResult } from 'src/request/rpc/responses';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
+import type { RpcSuccessResponseResult } from 'src/request/rpc/responses';
 import { DefaultAdaptersInfo } from '.';
-import { Address, AddressPurpose } from '../addresses';
+import type { Address } from '../addresses';
+import { AddressPurpose } from '../addresses';
 import { RpcErrorCode } from '../types';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 
@@ -50,13 +51,13 @@ declare global {
 }
 
 function convertSignInputsToInputType(signInputs?: Record<string, number[]>): InputType {
-  let result: InputType = [];
+  const result: InputType = [];
   if (!signInputs) {
     return result;
   }
-  for (let address in signInputs) {
-    let indexes = signInputs[address];
-    for (let index of indexes) {
+  for (const address in signInputs) {
+    const indexes = signInputs[address];
+    for (const index of indexes) {
       result.push({
         index: index,
         address: address,

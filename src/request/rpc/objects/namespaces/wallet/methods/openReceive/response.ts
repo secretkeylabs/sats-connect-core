@@ -1,7 +1,7 @@
 import { addressSchema } from 'src/addresses';
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
-import * as v from 'valibot';
+import type * as v from 'valibot';
 
 export const walletOpenReceiveResultSchema = addressSchema;
 

@@ -2,7 +2,7 @@ import type { Json } from 'jsontokens';
 import { createUnsecuredToken } from 'jsontokens';
 
 import { getProviderOrThrow } from '../provider';
-import { CreateInscriptionOptions } from './types';
+import type { CreateInscriptionOptions } from './types';
 import { validateInscriptionPayload } from './utils';
 
 export const createInscription = async (options: CreateInscriptionOptions) => {

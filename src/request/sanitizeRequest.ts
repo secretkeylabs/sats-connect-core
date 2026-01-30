@@ -1,9 +1,9 @@
 import { AddressPurpose } from 'src/addresses';
-import { RequestReturn } from '.';
-import { bitcoinMethods, Method } from './methods';
+import type { RequestReturn } from '.';
+import type { bitcoinMethods, Method } from './methods';
 import { ProviderPlatform } from './rpc/objects/namespaces/bitcoin/shared';
-import { RpcRequestParams } from './rpc/requests';
-import { RpcSuccessResponseResult } from './rpc/responses';
+import type { RpcRequestParams } from './rpc/requests';
+import type { RpcSuccessResponseResult } from './rpc/responses';
 
 type BitcoinGetInfoResult = RpcSuccessResponseResult<typeof bitcoinMethods.getInfo>;
 
@@ -15,7 +15,7 @@ export const sanitizeRequest = <M extends Method>(
   try {
     // best effort to sanitize the request
     // if something goes wrong, we just return the original request
-    const [major, minor, patch] = providerInfo.version.split('.').map((part) => parseInt(part, 10));
+    const [major, minor] = providerInfo.version.split('.').map((part) => parseInt(part, 10));
     const platform = providerInfo.platform;
 
     if (

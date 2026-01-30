@@ -1,9 +1,9 @@
-import { Method } from 'src/request/methods';
-import { RpcRequestParams } from 'src/request/rpc/requests';
+import type { Method } from 'src/request/methods';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import { DefaultAdaptersInfo } from '.';
 import { getProviderById } from '../provider';
-import { AddListener } from '../provider/types';
-import { RequestReturn } from '../request';
+import type { AddListener } from '../provider/types';
+import type { RequestReturn } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 
 type UtxoProvider<M extends Method> = {

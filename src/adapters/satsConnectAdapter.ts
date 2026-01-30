@@ -1,7 +1,7 @@
-import { AddListener } from 'src/provider';
-import { RequestReturn } from 'src/request';
-import { Method } from 'src/request/methods';
-import { RpcRequestParams } from 'src/request/rpc/requests';
+import type { AddListener } from 'src/provider';
+import type { RequestReturn } from 'src/request';
+import type { Method } from 'src/request/methods';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import { getRunesApiClient, RunesApi } from '../runes/api';
 import { RpcErrorCode } from '../types';
 

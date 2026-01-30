@@ -1,7 +1,7 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
 import { walletTypeSchema } from 'src/request/rpc/objects/shared';
-import * as v from 'valibot';
+import type * as v from 'valibot';
 
 export const walletGetWalletTypeResultSchema = walletTypeSchema;
 

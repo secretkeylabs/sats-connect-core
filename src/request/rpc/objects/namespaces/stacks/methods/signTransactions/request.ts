@@ -10,7 +10,7 @@ export const stacksSignTransactionsParamsSchema = v.object({
     v.array(
       v.pipe(
         v.string(),
-        v.check((hex) => {
+        v.check(() => {
           // NOTE: The following method is a `@stacks/transactions` v7 method,
           // and is left here in preparation for when other libraries are also
           // updated to v7.

@@ -1,7 +1,8 @@
-import { AddListener } from 'src/provider';
-import { Method } from 'src/request/methods';
-import { RpcRequestParams } from 'src/request/rpc/requests';
-import { request, RequestReturn } from '../request';
+import type { AddListener } from 'src/provider';
+import type { Method } from 'src/request/methods';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
+import type { RequestReturn } from '../request';
+import { request } from '../request';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 
 class BaseAdapter extends SatsConnectAdapter {

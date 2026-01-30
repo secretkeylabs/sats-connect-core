@@ -1,6 +1,6 @@
-import { Provider } from '../provider';
+import type { Provider } from '../provider';
 import { FordefiAdapter } from './fordefi';
-import { SatsConnectAdapter } from './satsConnectAdapter';
+import type { SatsConnectAdapter } from './satsConnectAdapter';
 import { UnisatAdapter } from './unisat';
 import { XverseAdapter } from './xverse';
 

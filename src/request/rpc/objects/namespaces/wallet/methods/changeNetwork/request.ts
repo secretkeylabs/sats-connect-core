@@ -1,9 +1,10 @@
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { walletMethods } from 'src/request/methods';
+import { BitcoinNetworkType } from 'src/types';
 import * as v from 'valibot';
 
 export const walletChangeNetworkParamsSchema = v.object({
-  name: v.picklist(['Mainnet', 'Testnet', 'Signet']),
+  name: v.enum(BitcoinNetworkType),
 });
 
 export type WalletChangeNetworkParams = v.InferOutput<typeof walletChangeNetworkParamsSchema>;

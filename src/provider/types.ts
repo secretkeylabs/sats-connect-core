@@ -1,5 +1,5 @@
-import { RpcSuccessResponses } from 'src/request';
-import {
+import type { RpcSuccessResponses } from 'src/request';
+import type {
   BitcoinMethod,
   Method,
   OrdinalsMethod,
@@ -12,9 +12,10 @@ import {
   stacksNetworkConfigurationSchema,
   starknetNetworkConfigurationSchema,
 } from 'src/request/rpc/objects/namespaces/wallet/shared/networks';
-import { RpcRequestParams } from 'src/request/rpc/requests';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import * as v from 'valibot';
-import { addressSchema, GetAddressResponse } from '../addresses';
+import type { GetAddressResponse } from '../addresses';
+import { addressSchema } from '../addresses';
 import type { GetCapabilitiesResponse } from '../capabilities';
 import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
 import type { SignMessageResponse } from '../messages';

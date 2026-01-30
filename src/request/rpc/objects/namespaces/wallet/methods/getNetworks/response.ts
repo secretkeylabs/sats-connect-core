@@ -1,6 +1,6 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
-import * as v from 'valibot';
+import type * as v from 'valibot';
 import { allResolvedNetworksSchema } from '../../shared';
 
 export const walletGetNetworksResultSchema = allResolvedNetworksSchema;

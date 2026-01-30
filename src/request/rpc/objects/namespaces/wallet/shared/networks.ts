@@ -3,7 +3,7 @@
 // having xverse-core as a dependency, since it has side effects and doesn't
 // support tree-shaking, which would make sats-connect-core too heavy.
 
-import { ExactObject } from 'src/utils/exact';
+import type { ExactObject } from 'src/utils/exact';
 import * as v from 'valibot';
 
 export const commonNetworkConfigurationSchema = v.object({

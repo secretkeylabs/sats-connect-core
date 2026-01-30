@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import type { ExactObject } from '../exact';
 import type { Method } from '../methods';
-import { RpcId } from '../shared';
+import type { RpcId } from '../shared';
 import { type BitcoinRequests, bitcoinRequestSchema } from './objects/namespaces/bitcoin';
 import { type OrdinalsRequests, ordinalsRequestSchema } from './objects/namespaces/ordinals';
 import { type RunesRequests, runesRequestSchema } from './objects/namespaces/runes';

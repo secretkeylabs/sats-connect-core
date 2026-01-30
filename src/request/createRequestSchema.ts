@@ -1,6 +1,6 @@
 import type { GenericSchema } from 'valibot';
 import * as v from 'valibot';
-import { Method } from './methods';
+import type { Method } from './methods';
 import { specRequestSchema } from './rpcSpec';
 import { rpcIdSchema } from './shared';
 

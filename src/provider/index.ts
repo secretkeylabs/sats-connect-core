@@ -20,6 +20,9 @@ export function getProviders(): Provider[] {
 }
 
 export function getProviderById(providerId: string) {
+  // Silencing the lint error for now, would need to add more robust type checks
+  // here.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return providerId?.split('.').reduce((acc: any, part) => acc?.[part], window);
 }
 

@@ -31,8 +31,6 @@ export type ExecuteMintOrderRequest = {
   fundTransactionId: string;
 };
 
-export type ExecuteMintOrderResponse = {};
-
 export type CreateEtchOrderRequest = {
   runeName: string;
   divisibility?: number;

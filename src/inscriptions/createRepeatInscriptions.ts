@@ -1,6 +1,7 @@
-import { Json, createUnsecuredToken } from 'jsontokens';
+import type { Json } from 'jsontokens';
+import { createUnsecuredToken } from 'jsontokens';
 import { getProviderOrThrow } from '../provider';
-import { CreateRepeatInscriptionsOptions } from './types';
+import type { CreateRepeatInscriptionsOptions } from './types';
 import { validateInscriptionPayload } from './utils';
 
 export const createRepeatInscriptions = async (options: CreateRepeatInscriptionsOptions) => {

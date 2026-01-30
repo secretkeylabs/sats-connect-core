@@ -1,5 +1,5 @@
 import type { ExactObject } from 'src/request/exact';
-import { StacksMethod, stacksMethods } from 'src/request/methods';
+import type { StacksMethod, stacksMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import {
   type StacksCallContractRequest,

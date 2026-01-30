@@ -1,5 +1,5 @@
 import type { ExactObject } from 'src/request/exact';
-import { OrdinalsMethod, ordinalsMethods } from 'src/request/methods';
+import type { OrdinalsMethod, ordinalsMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import {
   type OrdinalsGetInscriptionsRequest,

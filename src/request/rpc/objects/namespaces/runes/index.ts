@@ -1,5 +1,5 @@
 import type { ExactObject } from 'src/request/exact';
-import { RunesMethod, runesMethods } from 'src/request/methods';
+import type { RunesMethod, runesMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import {
   type RunesEstimateEtchRequest,

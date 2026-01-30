@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 import type { ExactObject } from '../exact';
 import type { Method } from '../methods';
-import { RpcId } from '../shared';
+import type { RpcId } from '../shared';
 import {
   type BitcoinSuccessResponses,
   bitcoinSuccessResponseSchema,

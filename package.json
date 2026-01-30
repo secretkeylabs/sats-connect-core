@@ -13,7 +13,8 @@
     "check-types": "tsc --noEmit",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
-    "ci": "npm run check-types && npm run check-format && npm run build",
+    "lint": "eslint .",
+    "ci": "npm run check-types && npm run check-format && npm run lint && npm run build",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -32,15 +33,25 @@
     "ts-pattern": "5.9.0"
   },
   "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "@typescript-eslint/eslint-plugin": "8.48.0",
+    "@typescript-eslint/parser": "8.48.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-import-resolver-typescript": "4.4.4",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-prettier": "5.5.4",
+    "eslint-plugin-unused-imports": "4.3.0",
+    "eslint": "9.39.1",
     "husky": "9.1.7",
     "lint-staged": "16.2.7",
-    "prettier": "3.8.0",
     "prettier-plugin-organize-imports": "4.3.0",
+    "prettier": "3.8.0",
     "process": "0.11.10",
     "rimraf": "6.1.2",
     "stream-browserify": "3.0.0",
     "ts-loader": "9.5.4",
     "tsdown": "0.19.0",
+    "typescript-eslint": "8.48.0",
     "typescript": "5.9.3",
     "util": "0.12.5",
     "vm-browserify": "1.1.2"

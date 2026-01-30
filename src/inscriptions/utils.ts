@@ -1,11 +1,11 @@
-import { CreateInscriptionPayload } from './types';
+import type { CreateInscriptionPayload } from './types';
 
 const MAX_CONTENT_LENGTH_MAINNET = 400e3; // 400kb is the max miners will mine
 const MAX_CONTENT_LENGTH_TESTNET = 60e3; // 60kb limit on Testnet to prevent spam
 
 export const validateInscriptionPayload = (payload: CreateInscriptionPayload) => {
   const { contentType, content, payloadType, network, appFeeAddress, appFee } = payload;
-  if (!/^[a-z]+\/[a-z0-9\-\.\+]+(?=;.*|$)/.test(contentType)) {
+  if (!/^[a-z]+\/[a-z0-9\-.+]+(?=;.*|$)/.test(contentType)) {
     throw new Error('Invalid content type detected');
   }
 

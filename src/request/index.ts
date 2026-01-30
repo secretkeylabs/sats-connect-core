@@ -1,14 +1,12 @@
 import * as v from 'valibot';
-import { AddListener, BitcoinProvider, getProviderById, ListenerInfo } from '../provider';
+import type { AddListener, BitcoinProvider, ListenerInfo } from '../provider';
+import { getProviderById } from '../provider';
 import { RpcErrorCode } from '../types';
-import { bitcoinMethods, Method } from './methods';
-import { RpcRequestParams } from './rpc/requests';
-import { RpcSuccessResponseResult } from './rpc/responses';
-import {
-  SpecErrorResponse,
-  specErrorResponseSchema,
-  specSuccessWithExtensionsResponseSchema,
-} from './rpcSpec';
+import type { bitcoinMethods, Method } from './methods';
+import type { RpcRequestParams } from './rpc/requests';
+import type { RpcSuccessResponseResult } from './rpc/responses';
+import type { SpecErrorResponse } from './rpcSpec';
+import { specErrorResponseSchema, specSuccessWithExtensionsResponseSchema } from './rpcSpec';
 import { sanitizeRequest } from './sanitizeRequest';
 
 type BitcoinGetInfoResult = RpcSuccessResponseResult<typeof bitcoinMethods.getInfo>;

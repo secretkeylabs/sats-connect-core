@@ -1,5 +1,5 @@
 import type { ExactObject } from 'src/request/exact';
-import { BitcoinMethod, bitcoinMethods } from 'src/request/methods';
+import type { BitcoinMethod, bitcoinMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import {
   type BitcoinGetAccountsRequest,

@@ -1,5 +1,5 @@
 import type { ExactObject } from 'src/request/exact';
-import { SparkMethod, sparkMethods } from 'src/request/methods';
+import type { SparkMethod, sparkMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import {
   type SparkFlashnetClawbackFundsRequest,
