@@ -103,10 +103,13 @@ export const walletMethods = {
 export type WalletMethod = (typeof walletMethods)[keyof typeof walletMethods];
 
 // All methods
-export type Method =
-  | BitcoinMethod
-  | StacksMethod
-  | SparkMethod
-  | RunesMethod
-  | OrdinalsMethod
-  | WalletMethod;
+export const methods = {
+  ...bitcoinMethods,
+  ...stacksMethods,
+  ...sparkMethods,
+  ...runesMethods,
+  ...ordinalsMethods,
+  ...walletMethods,
+};
+
+export type Method = (typeof methods)[keyof typeof methods];

@@ -5,7 +5,12 @@ import { networkConfigurationOptionsSchema } from '../../shared';
 
 export const walletAddNetworkV2ParamsSchema = v.object({
   network: networkConfigurationOptionsSchema,
-  isActive: v.optional(v.boolean()),
+
+  /**
+   * Whether to switch to the newly added network after adding it. Defaults to
+   * false.
+   */
+  switch: v.optional(v.boolean(), false),
 });
 
 export type WalletAddNetworkV2Params = v.InferOutput<typeof walletAddNetworkV2ParamsSchema>;

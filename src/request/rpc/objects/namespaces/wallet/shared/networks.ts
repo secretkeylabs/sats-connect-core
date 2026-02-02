@@ -6,6 +6,26 @@
 import type { ExactObject } from 'src/utils/exact';
 import * as v from 'valibot';
 
+export const networkConfigurationChains = {
+  bitcoin: 'bitcoin',
+  spark: 'spark',
+  stacks: 'stacks',
+  starknet: 'starknet',
+} as const;
+
+export const networkConfigurationChainSchema = v.enum(networkConfigurationChains);
+
+export type NetworkConfigurationChain = v.InferOutput<typeof networkConfigurationChainSchema>;
+
+export const networkConfigurationSources = {
+  builtin: 'builtin',
+  custom: 'custom',
+} as const;
+
+export const networkConfigurationSourceSchema = v.enum(networkConfigurationSources);
+
+export type NetworkConfigurationSource = v.InferOutput<typeof networkConfigurationSourceSchema>;
+
 export const commonNetworkConfigurationSchema = v.object({
   /** Unique ID that identifies this network's settings. */
   id: v.string(),
@@ -21,6 +41,11 @@ export const commonNetworkConfigurationSchema = v.object({
    * or more testnets, each which may have slightly different behavior.
    */
   mode: v.picklist([]),
+
+  /**
+   * How the network configuration was created.
+   */
+  source: networkConfigurationSourceSchema,
 
   /**
    * URL to a block explorer for this network. The URL should expect to be
@@ -49,14 +74,14 @@ const bitcoinChainMode = {
   regtest: 'regtest',
 } as const;
 
-const bitcoinChainModeSchema = v.enum(bitcoinChainMode);
+const bitcoinChainModeSchema = v.pipe(v.string(), v.enum(bitcoinChainMode));
 
 export type BitcoinNetworkConfigurationChainMode = v.InferOutput<typeof bitcoinChainModeSchema>;
 
 export const bitcoinNetworkConfigurationSchema = v.object({
-  chain: v.literal('bitcoin'),
   ...commonNetworkConfigurationSchema.entries,
-  mode: v.pipe(v.string(), bitcoinChainModeSchema),
+  chain: v.literal(networkConfigurationChains.bitcoin),
+  mode: bitcoinChainModeSchema,
   xverseApiUrl: v.pipe(v.string(), v.url()),
   electrsApiUrl: v.pipe(v.string(), v.url()),
 });
@@ -68,16 +93,17 @@ export const sparkChainMode = {
   regtest: 'regtest',
 } as const;
 
-const sparkChainModeSchema = v.enum(sparkChainMode);
+const sparkChainModeSchema = v.pipe(v.string(), v.enum(sparkChainMode));
 
 export type SparkNetworkConfigurationChainMode = v.InferOutput<typeof sparkChainModeSchema>;
 
 export const sparkNetworkConfigurationSchema = v.object({
-  chain: v.literal('spark'),
   ...commonNetworkConfigurationSchema.entries,
-  mode: v.pipe(v.string(), sparkChainModeSchema),
+  chain: v.literal(networkConfigurationChains.spark),
+  mode: sparkChainModeSchema,
   electrsApiUrl: v.pipe(v.string(), v.url()),
 });
+
 export type SparkNetworkConfiguration = v.InferOutput<typeof sparkNetworkConfigurationSchema>;
 
 export const stacksChainMode = {
@@ -87,14 +113,14 @@ export const stacksChainMode = {
   mocknet: 'mocknet',
 } as const;
 
-export const stacksChainModeSchema = v.enum(stacksChainMode);
+export const stacksChainModeSchema = v.pipe(v.string(), v.enum(stacksChainMode));
 
 export type StacksNetworkConfigurationChainMode = v.InferOutput<typeof stacksChainModeSchema>;
 
 export const stacksNetworkConfigurationSchema = v.object({
-  chain: v.literal('stacks'),
   ...commonNetworkConfigurationSchema.entries,
-  mode: v.pipe(v.string(), stacksChainModeSchema),
+  chain: v.literal(networkConfigurationChains.stacks),
+  mode: stacksChainModeSchema,
   stacksApiUrl: v.pipe(v.string(), v.url()),
   xverseApiUrl: v.pipe(v.string(), v.url()),
 });
@@ -106,14 +132,14 @@ export const starknetChainMode = {
   sepolia: 'sepolia',
 } as const;
 
-const starknetChainModeSchema = v.enum(starknetChainMode);
+const starknetChainModeSchema = v.pipe(v.string(), v.enum(starknetChainMode));
 
 export type StarknetNetworkConfigurationChainMode = v.InferOutput<typeof starknetChainModeSchema>;
 
 export const starknetNetworkConfigurationSchema = v.object({
-  chain: v.literal('starknet'),
   ...commonNetworkConfigurationSchema.entries,
-  mode: v.pipe(v.string(), starknetChainModeSchema),
+  chain: v.literal(networkConfigurationChains.starknet),
+  mode: starknetChainModeSchema,
   rpcApiUrl: v.pipe(v.string(), v.url()),
   xverseApiUrl: v.pipe(v.string(), v.url()),
 });
@@ -129,8 +155,6 @@ export const networkConfigurationSchema = v.variant('chain', [
 
 export type NetworkConfiguration = v.InferOutput<typeof networkConfigurationSchema>;
 
-export type NetworkConfigurationChain = NetworkConfiguration['chain'];
-
 export type ActiveNetworks = ExactObject<
   NetworkConfigurationChain,
   {
@@ -143,28 +167,32 @@ export type ActiveNetworks = ExactObject<
 
 // #### Custom Sats Connect values and types ####
 
-// Network configuration schemas (omitting 'id' field)
-export const bitcoinNetworkConfigurationOptionsSchema = v.omit(bitcoinNetworkConfigurationSchema, [
-  'id',
-]);
+const omitFields = ['id', 'source'] as const;
+// Network configuration schemas (omitting 'id' and 'source' fields)
+export const bitcoinNetworkConfigurationOptionsSchema = v.omit(
+  bitcoinNetworkConfigurationSchema,
+  omitFields
+);
 export type BitcoinNetworkConfigurationOptions = v.InferOutput<
   typeof bitcoinNetworkConfigurationOptionsSchema
 >;
-export const sparkNetworkConfigurationOptionsSchema = v.omit(sparkNetworkConfigurationSchema, [
-  'id',
-]);
+export const sparkNetworkConfigurationOptionsSchema = v.omit(
+  sparkNetworkConfigurationSchema,
+  omitFields
+);
 export type SparkNetworkConfigurationOptions = v.InferOutput<
   typeof sparkNetworkConfigurationOptionsSchema
 >;
-export const stacksNetworkConfigurationOptionsSchema = v.omit(stacksNetworkConfigurationSchema, [
-  'id',
-]);
+export const stacksNetworkConfigurationOptionsSchema = v.omit(
+  stacksNetworkConfigurationSchema,
+  omitFields
+);
 export type StacksNetworkConfigurationOptions = v.InferOutput<
   typeof stacksNetworkConfigurationOptionsSchema
 >;
 export const starknetNetworkConfigurationOptionsSchema = v.omit(
   starknetNetworkConfigurationSchema,
-  ['id']
+  omitFields
 );
 export type StarknetNetworkConfigurationOptions = v.InferOutput<
   typeof starknetNetworkConfigurationOptionsSchema
@@ -184,18 +212,7 @@ export const allResolvedNetworksSchema = v.object({
     stacks: stacksNetworkConfigurationSchema,
     starknet: starknetNetworkConfigurationSchema,
   }),
-  builtin: v.object({
-    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
-    spark: v.array(sparkNetworkConfigurationSchema),
-    stacks: v.array(stacksNetworkConfigurationSchema),
-    starknet: v.array(starknetNetworkConfigurationSchema),
-  }),
-  custom: v.object({
-    bitcoin: v.array(bitcoinNetworkConfigurationSchema),
-    spark: v.array(sparkNetworkConfigurationSchema),
-    stacks: v.array(stacksNetworkConfigurationSchema),
-    starknet: v.array(starknetNetworkConfigurationSchema),
-  }),
+  all: v.array(networkConfigurationSchema),
 });
 
 export type AllResolvedNetworks = v.InferOutput<typeof allResolvedNetworksSchema>;

@@ -1,10 +1,9 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
-import * as v from 'valibot';
+import type * as v from 'valibot';
+import { networkConfigurationSchema } from '../../shared/networks';
 
-export const walletAddNetworkV2ResultSchema = v.object({
-  id: v.string(),
-});
+export const walletAddNetworkV2ResultSchema = networkConfigurationSchema;
 
 export type WalletAddNetworkV2Result = v.InferOutput<typeof walletAddNetworkV2ResultSchema>;
 
