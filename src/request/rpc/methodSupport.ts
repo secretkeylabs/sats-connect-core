@@ -21,13 +21,11 @@ export type SupportState = (typeof supportStates)[keyof typeof supportStates];
 export const methodSupport: Record<Method, SupportState> = {
   // Bitcoin methods
   [bitcoinMethods.getAccounts]: active,
-  [bitcoinMethods.bitcoin_getAccountsV2]: active,
   [bitcoinMethods.getAddresses]: active,
   [bitcoinMethods.bitcoin_getAddressesV2]: active,
   [bitcoinMethods.getBalance]: active,
   [bitcoinMethods.bitcoin_getBalanceV2]: active,
   [bitcoinMethods.getInfo]: active,
-  [bitcoinMethods.bitcoin_getInfoV2]: active,
   [bitcoinMethods.sendTransfer]: active,
   [bitcoinMethods.bitcoin_sendTransferV2]: active,
   [bitcoinMethods.signMessage]: active,

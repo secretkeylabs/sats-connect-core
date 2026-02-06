@@ -1,13 +1,11 @@
 // Bitcoin methods
 export const bitcoinMethods = {
   getAccounts: 'getAccounts',
-  bitcoin_getAccountsV2: 'bitcoin_getAccountsV2',
   getAddresses: 'getAddresses',
   bitcoin_getAddressesV2: 'bitcoin_getAddressesV2',
   getBalance: 'getBalance',
   bitcoin_getBalanceV2: 'bitcoin_getBalanceV2',
   getInfo: 'getInfo',
-  bitcoin_getInfoV2: 'bitcoin_getInfoV2',
   sendTransfer: 'sendTransfer',
   bitcoin_sendTransferV2: 'bitcoin_sendTransferV2',
   signMessage: 'signMessage',
