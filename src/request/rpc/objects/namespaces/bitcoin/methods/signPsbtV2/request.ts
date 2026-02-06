@@ -1,22 +1,9 @@
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { bitcoinMethods } from 'src/request/methods';
-import * as v from 'valibot';
+import type * as v from 'valibot';
+import { signPsbtParamsSchema } from '../../shared/signPsbt';
 
-export const bitcoinSignPsbtV2ParamsSchema = v.object({
-  /**
-   * The base64 encoded PSBT to sign.
-   */
-  psbt: v.string(),
-  /**
-   * The inputs to sign.
-   * The key is the address and the value is an array of indexes of the inputs to sign.
-   */
-  signInputs: v.optional(v.record(v.string(), v.array(v.number()))),
-  /**
-   * Whether to broadcast the transaction after signing.
-   **/
-  broadcast: v.optional(v.boolean()),
-});
+export const bitcoinSignPsbtV2ParamsSchema = signPsbtParamsSchema;
 
 export type BitcoinSignPsbtV2Params = v.InferOutput<typeof bitcoinSignPsbtV2ParamsSchema>;
 

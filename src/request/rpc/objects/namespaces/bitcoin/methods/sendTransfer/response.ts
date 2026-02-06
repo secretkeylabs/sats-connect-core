@@ -1,13 +1,9 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { bitcoinMethods } from 'src/request/methods';
-import * as v from 'valibot';
+import type * as v from 'valibot';
+import { sendTransferResultSchema } from '../../shared/sendTransfer';
 
-export const bitcoinSendTransferResultSchema = v.object({
-  /**
-   * The transaction id as a hex-encoded string.
-   */
-  txid: v.string(),
-});
+export const bitcoinSendTransferResultSchema = sendTransferResultSchema;
 
 export type BitcoinSendTransferResult = v.InferOutput<typeof bitcoinSendTransferResultSchema>;
 

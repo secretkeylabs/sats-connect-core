@@ -1,19 +1,9 @@
 import { createRequestSchema } from 'src/request/createRequestSchema';
 import { bitcoinMethods } from 'src/request/methods';
-import * as v from 'valibot';
+import type * as v from 'valibot';
+import { sendTransferParamsSchema } from '../../shared/sendTransfer';
 
-export const bitcoinSendTransferV2ParamsSchema = v.object({
-  /**
-   * Array of recipients to send to.
-   * The amount to send to each recipient is in satoshis.
-   */
-  recipients: v.array(
-    v.object({
-      address: v.string(),
-      amount: v.number(),
-    })
-  ),
-});
+export const bitcoinSendTransferV2ParamsSchema = sendTransferParamsSchema;
 
 export type BitcoinSendTransferV2Params = v.InferOutput<typeof bitcoinSendTransferV2ParamsSchema>;
 
