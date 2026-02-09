@@ -11,9 +11,9 @@ export const signPsbtParamsSchema = v.object({
    */
   signInputs: v.optional(v.record(v.string(), v.array(v.number()))),
   /**
-   * Whether to broadcast the transaction after signing.
+   * Whether to broadcast the transaction after signing. Defaults to `false`.
    */
-  broadcast: v.optional(v.boolean()),
+  broadcast: v.optional(v.boolean(), false),
 });
 
 export const signPsbtResultSchema = v.object({
