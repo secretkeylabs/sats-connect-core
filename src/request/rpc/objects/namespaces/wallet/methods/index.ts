@@ -1,7 +1,6 @@
 export * from './addNetwork';
 export * from './addNetworkV2';
 export * from './changeNetwork';
-export * from './changeNetworkById';
 export * from './connect';
 export * from './connectV2';
 export * from './disconnect';
@@ -16,3 +15,4 @@ export * from './openBuy';
 export * from './openReceive';
 export * from './renouncePermissions';
 export * from './requestPermissions';
+export * from './switchNetworkById';

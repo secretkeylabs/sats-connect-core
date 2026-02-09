@@ -10,8 +10,6 @@ import {
   walletAddNetworkV2RequestSchema,
   type WalletAddNetworkV2SuccessResponse,
   walletAddNetworkV2SuccessResponseSchema,
-  type WalletChangeNetworkByIdRequest,
-  walletChangeNetworkByIdRequestSchema,
   type WalletChangeNetworkByIdSuccessResponse,
   walletChangeNetworkByIdSuccessResponseSchema,
   type WalletChangeNetworkRequest,
@@ -74,6 +72,8 @@ import {
   walletRequestPermissionsRequestSchema,
   type WalletRequestPermissionsSuccessResponse,
   walletRequestPermissionsSuccessResponseSchema,
+  type WalletSwitchNetworkByIdRequest,
+  walletSwitchNetworkByIdRequestSchema,
 } from './methods';
 
 export type WalletRequests = ExactObject<
@@ -81,7 +81,7 @@ export type WalletRequests = ExactObject<
   {
     [walletMethods.wallet_addNetwork]: WalletAddNetworkRequest;
     [walletMethods.wallet_addNetworkV2]: WalletAddNetworkV2Request;
-    [walletMethods.wallet_changeNetworkById]: WalletChangeNetworkByIdRequest;
+    [walletMethods.wallet_switchNetworkById]: WalletSwitchNetworkByIdRequest;
     [walletMethods.wallet_changeNetwork]: WalletChangeNetworkRequest;
     [walletMethods.wallet_connect]: WalletConnectRequest;
     [walletMethods.wallet_connectV2]: WalletConnectV2Request;
@@ -103,7 +103,7 @@ export type WalletRequests = ExactObject<
 export const walletRequestSchema = v.variant('method', [
   walletAddNetworkRequestSchema,
   walletAddNetworkV2RequestSchema,
-  walletChangeNetworkByIdRequestSchema,
+  walletSwitchNetworkByIdRequestSchema,
   walletChangeNetworkRequestSchema,
   walletConnectRequestSchema,
   walletConnectV2RequestSchema,
@@ -126,7 +126,7 @@ export type WalletSuccessResponses = ExactObject<
   {
     [walletMethods.wallet_addNetwork]: WalletAddNetworkSuccessResponse;
     [walletMethods.wallet_addNetworkV2]: WalletAddNetworkV2SuccessResponse;
-    [walletMethods.wallet_changeNetworkById]: WalletChangeNetworkByIdSuccessResponse;
+    [walletMethods.wallet_switchNetworkById]: WalletChangeNetworkByIdSuccessResponse;
     [walletMethods.wallet_changeNetwork]: WalletChangeNetworkSuccessResponse;
     [walletMethods.wallet_connect]: WalletConnectSuccessResponse;
     [walletMethods.wallet_connectV2]: WalletConnectV2SuccessResponse;

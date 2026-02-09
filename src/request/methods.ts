@@ -24,7 +24,6 @@ export const stacksMethods = {
   stx_deployContract: 'stx_deployContract',
   stx_getAccounts: 'stx_getAccounts',
   stx_getAddresses: 'stx_getAddresses',
-  stacks_getAddressesV2: 'stacks_getAddressesV2',
   stx_signMessage: 'stx_signMessage',
   stx_signStructuredMessage: 'stx_signStructuredMessage',
   stx_signTransaction: 'stx_signTransaction',
@@ -80,7 +79,6 @@ export type OrdinalsMethod = (typeof ordinalsMethods)[keyof typeof ordinalsMetho
 export const walletMethods = {
   wallet_addNetwork: 'wallet_addNetwork',
   wallet_addNetworkV2: 'wallet_addNetworkV2',
-  wallet_changeNetworkById: 'wallet_changeNetworkById',
   wallet_changeNetwork: 'wallet_changeNetwork',
   wallet_connect: 'wallet_connect',
   wallet_connectV2: 'wallet_connectV2',
@@ -96,6 +94,7 @@ export const walletMethods = {
   wallet_openReceive: 'wallet_openReceive',
   wallet_renouncePermissions: 'wallet_renouncePermissions',
   wallet_requestPermissions: 'wallet_requestPermissions',
+  wallet_switchNetworkById: 'wallet_switchNetworkById',
 } as const;
 
 export type WalletMethod = (typeof walletMethods)[keyof typeof walletMethods];

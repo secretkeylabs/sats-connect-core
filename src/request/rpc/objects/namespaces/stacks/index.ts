@@ -18,10 +18,6 @@ import {
   stacksGetAddressesRequestSchema,
   type StacksGetAddressesSuccessResponse,
   stacksGetAddressesSuccessResponseSchema,
-  type StacksGetAddressesV2Request,
-  stacksGetAddressesV2RequestSchema,
-  type StacksGetAddressesV2SuccessResponse,
-  stacksGetAddressesV2SuccessResponseSchema,
   type StacksSignMessageRequest,
   stacksSignMessageRequestSchema,
   type StacksSignMessageSuccessResponse,
@@ -51,7 +47,6 @@ export type StacksRequests = ExactObject<
     [stacksMethods.stx_deployContract]: StacksDeployContractRequest;
     [stacksMethods.stx_getAccounts]: StacksGetAccountsRequest;
     [stacksMethods.stx_getAddresses]: StacksGetAddressesRequest;
-    [stacksMethods.stacks_getAddressesV2]: StacksGetAddressesV2Request;
     [stacksMethods.stx_signMessage]: StacksSignMessageRequest;
     [stacksMethods.stx_signStructuredMessage]: StacksSignStructuredMessageRequest;
     [stacksMethods.stx_signTransaction]: StacksSignTransactionRequest;
@@ -65,7 +60,6 @@ export const stacksRequestSchema = v.variant('method', [
   stacksDeployContractRequestSchema,
   stacksGetAccountsRequestSchema,
   stacksGetAddressesRequestSchema,
-  stacksGetAddressesV2RequestSchema,
   stacksSignMessageRequestSchema,
   stacksSignStructuredMessageRequestSchema,
   stacksSignTransactionRequestSchema,
@@ -80,7 +74,6 @@ export type StacksSuccessResponses = ExactObject<
     [stacksMethods.stx_deployContract]: StacksDeployContractSuccessResponse;
     [stacksMethods.stx_getAccounts]: StacksGetAccountsSuccessResponse;
     [stacksMethods.stx_getAddresses]: StacksGetAddressesSuccessResponse;
-    [stacksMethods.stacks_getAddressesV2]: StacksGetAddressesV2SuccessResponse;
     [stacksMethods.stx_signMessage]: StacksSignMessageSuccessResponse;
     [stacksMethods.stx_signStructuredMessage]: StacksSignStructuredMessageSuccessResponse;
     [stacksMethods.stx_signTransaction]: StacksSignTransactionSuccessResponse;
@@ -94,7 +87,6 @@ export const stacksSuccessResponseSchema = v.variant('~sats-connect-method', [
   stacksDeployContractSuccessResponseSchema,
   stacksGetAccountsSuccessResponseSchema,
   stacksGetAddressesSuccessResponseSchema,
-  stacksGetAddressesV2SuccessResponseSchema,
   stacksSignMessageSuccessResponseSchema,
   stacksSignStructuredMessageSuccessResponseSchema,
   stacksSignTransactionSuccessResponseSchema,

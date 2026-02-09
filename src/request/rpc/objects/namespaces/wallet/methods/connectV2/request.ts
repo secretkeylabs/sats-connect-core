@@ -7,7 +7,7 @@ import { permissionRequestParamsSchema } from '../../shared';
 export const walletConnectV2ParamsSchema = v.nullish(
   v.object({
     permissions: permissionRequestParamsSchema,
-    addresses: v.optional(v.array(v.enum(AddressPurpose))),
+    addressPurposes: v.optional(v.array(v.enum(AddressPurpose))),
     message: v.optional(
       v.pipe(v.string(), v.maxLength(80, 'The message must not exceed 80 characters.'))
     ),

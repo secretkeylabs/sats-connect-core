@@ -40,7 +40,6 @@ export const methodSupport: Record<Method, SupportState> = {
   [stacksMethods.stx_deployContract]: active,
   [stacksMethods.stx_getAccounts]: active,
   [stacksMethods.stx_getAddresses]: active,
-  [stacksMethods.stacks_getAddressesV2]: active,
   [stacksMethods.stx_signMessage]: active,
   [stacksMethods.stx_signStructuredMessage]: active,
   [stacksMethods.stx_signTransaction]: active,
@@ -80,7 +79,6 @@ export const methodSupport: Record<Method, SupportState> = {
   // Wallet methods
   [walletMethods.wallet_addNetwork]: active,
   [walletMethods.wallet_addNetworkV2]: active,
-  [walletMethods.wallet_changeNetworkById]: active,
   [walletMethods.wallet_changeNetwork]: active,
   [walletMethods.wallet_connect]: active,
   [walletMethods.wallet_connectV2]: active,
@@ -96,4 +94,5 @@ export const methodSupport: Record<Method, SupportState> = {
   [walletMethods.wallet_openReceive]: active,
   [walletMethods.wallet_renouncePermissions]: active,
   [walletMethods.wallet_requestPermissions]: active,
+  [walletMethods.wallet_switchNetworkById]: active,
 };

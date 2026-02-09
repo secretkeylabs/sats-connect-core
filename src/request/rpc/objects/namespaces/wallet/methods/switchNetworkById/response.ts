@@ -10,7 +10,7 @@ export type WalletChangeNetworkByIdResult = v.InferOutput<
 
 export const walletChangeNetworkByIdSuccessResponseSchema = createSuccessResponseSchema({
   resultSchema: walletChangeNetworkByIdResultSchema,
-  method: walletMethods.wallet_changeNetworkById,
+  method: walletMethods.wallet_switchNetworkById,
 });
 
 export type WalletChangeNetworkByIdSuccessResponse = v.InferOutput<
