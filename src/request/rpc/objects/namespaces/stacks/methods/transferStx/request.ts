@@ -35,7 +35,8 @@ export const stacksTransferStxParamsSchema = v.object({
   /**
    * A hex-encoded string representing the post conditions.
    *
-   * A post condition may be converted to it's hex representation using the `serializePostCondition` helper from the `@stacks/transactions` package,
+   * A post condition may be converted to it's hex representation using the
+   * `serializePostCondition` helper from the `@stacks/transactions` package,
    *
    * ```js
    * import { serializePostCondition } from '@stacks/transactions';

@@ -27,7 +27,7 @@ export const stacksSignTransactionsParamsSchema = v.object({
    * Whether the signed transactions should be broadcast after signing. Defaults
    * to `true`.
    */
-  broadcast: v.optional(v.boolean()),
+  broadcast: v.optional(v.boolean(), true),
 });
 
 export type StacksSignTransactionsParams = v.InferOutput<typeof stacksSignTransactionsParamsSchema>;
