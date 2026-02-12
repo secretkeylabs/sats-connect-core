@@ -31,6 +31,8 @@ export const permissionSchema = v.variant('type', [
   walletPermissionSchema,
 ]);
 
+export const permission = v.variant('type', [accountPermissionSchema, walletPermissionSchema]);
+
 /**
  * Permissions with the clientId field omitted and optional actions. Used for
  * permission requests, since the wallet performs authentication based on the
