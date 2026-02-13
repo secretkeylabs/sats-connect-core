@@ -94,7 +94,7 @@ export const walletMethods = {
   wallet_openReceive: 'wallet_openReceive',
   wallet_renouncePermissions: 'wallet_renouncePermissions',
   wallet_requestPermissions: 'wallet_requestPermissions',
-  wallet_switchNetworkById: 'wallet_switchNetworkById',
+  wallet_switchNetwork: 'wallet_switchNetwork',
 } as const;
 
 export type WalletMethod = (typeof walletMethods)[keyof typeof walletMethods];

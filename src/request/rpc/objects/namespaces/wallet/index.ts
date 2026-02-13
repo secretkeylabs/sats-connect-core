@@ -10,8 +10,6 @@ import {
   walletAddNetworkV2RequestSchema,
   type WalletAddNetworkV2SuccessResponse,
   walletAddNetworkV2SuccessResponseSchema,
-  type WalletChangeNetworkByIdSuccessResponse,
-  walletChangeNetworkByIdSuccessResponseSchema,
   type WalletChangeNetworkRequest,
   walletChangeNetworkRequestSchema,
   type WalletChangeNetworkSuccessResponse,
@@ -72,8 +70,9 @@ import {
   walletRequestPermissionsRequestSchema,
   type WalletRequestPermissionsSuccessResponse,
   walletRequestPermissionsSuccessResponseSchema,
-  type WalletSwitchNetworkByIdRequest,
-  walletSwitchNetworkByIdRequestSchema,
+  type WalletSwitchNetworkRequest,
+  walletSwitchNetworkRequestSchema,
+  walletSwitchNetworkSuccessResponseSchema,
 } from './methods';
 
 export type WalletRequests = ExactObject<
@@ -81,7 +80,6 @@ export type WalletRequests = ExactObject<
   {
     [walletMethods.wallet_addNetwork]: WalletAddNetworkRequest;
     [walletMethods.wallet_addNetworkV2]: WalletAddNetworkV2Request;
-    [walletMethods.wallet_switchNetworkById]: WalletSwitchNetworkByIdRequest;
     [walletMethods.wallet_changeNetwork]: WalletChangeNetworkRequest;
     [walletMethods.wallet_connect]: WalletConnectRequest;
     [walletMethods.wallet_connectV2]: WalletConnectV2Request;
@@ -97,13 +95,13 @@ export type WalletRequests = ExactObject<
     [walletMethods.wallet_openReceive]: WalletOpenReceiveRequest;
     [walletMethods.wallet_renouncePermissions]: WalletRenouncePermissionsRequest;
     [walletMethods.wallet_requestPermissions]: WalletRequestPermissionsRequest;
+    [walletMethods.wallet_switchNetwork]: WalletSwitchNetworkRequest;
   }
 >;
 
 export const walletRequestSchema = v.variant('method', [
   walletAddNetworkRequestSchema,
   walletAddNetworkV2RequestSchema,
-  walletSwitchNetworkByIdRequestSchema,
   walletChangeNetworkRequestSchema,
   walletConnectRequestSchema,
   walletConnectV2RequestSchema,
@@ -119,6 +117,7 @@ export const walletRequestSchema = v.variant('method', [
   walletOpenReceiveRequestSchema,
   walletRenouncePermissionsRequestSchema,
   walletRequestPermissionsRequestSchema,
+  walletSwitchNetworkRequestSchema,
 ]);
 
 export type WalletSuccessResponses = ExactObject<
@@ -126,7 +125,6 @@ export type WalletSuccessResponses = ExactObject<
   {
     [walletMethods.wallet_addNetwork]: WalletAddNetworkSuccessResponse;
     [walletMethods.wallet_addNetworkV2]: WalletAddNetworkV2SuccessResponse;
-    [walletMethods.wallet_switchNetworkById]: WalletChangeNetworkByIdSuccessResponse;
     [walletMethods.wallet_changeNetwork]: WalletChangeNetworkSuccessResponse;
     [walletMethods.wallet_connect]: WalletConnectSuccessResponse;
     [walletMethods.wallet_connectV2]: WalletConnectV2SuccessResponse;
@@ -142,13 +140,13 @@ export type WalletSuccessResponses = ExactObject<
     [walletMethods.wallet_openReceive]: WalletOpenReceiveSuccessResponse;
     [walletMethods.wallet_renouncePermissions]: WalletRenouncePermissionsSuccessResponse;
     [walletMethods.wallet_requestPermissions]: WalletRequestPermissionsSuccessResponse;
+    [walletMethods.wallet_switchNetwork]: WalletChangeNetworkSuccessResponse;
   }
 >;
 
 export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
   walletAddNetworkSuccessResponseSchema,
   walletAddNetworkV2SuccessResponseSchema,
-  walletChangeNetworkByIdSuccessResponseSchema,
   walletChangeNetworkSuccessResponseSchema,
   walletConnectSuccessResponseSchema,
   walletConnectV2SuccessResponseSchema,
@@ -156,14 +154,15 @@ export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
   walletGetAccountSuccessResponseSchema,
   walletGetAccountV2SuccessResponseSchema,
   walletGetCurrentPermissionsSuccessResponseSchema,
-  walletGetNetworkSuccessResponseSchema,
   walletGetNetworksSuccessResponseSchema,
+  walletGetNetworkSuccessResponseSchema,
   walletGetWalletTypeSuccessResponseSchema,
   walletOpenBridgeSuccessResponseSchema,
   walletOpenBuySuccessResponseSchema,
   walletOpenReceiveSuccessResponseSchema,
   walletRenouncePermissionsSuccessResponseSchema,
   walletRequestPermissionsSuccessResponseSchema,
+  walletSwitchNetworkSuccessResponseSchema,
 ]);
 
 export * from './methods';

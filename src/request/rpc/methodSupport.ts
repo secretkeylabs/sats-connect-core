@@ -94,5 +94,5 @@ export const methodSupport: Record<Method, SupportState> = {
   [walletMethods.wallet_openReceive]: active,
   [walletMethods.wallet_renouncePermissions]: active,
   [walletMethods.wallet_requestPermissions]: active,
-  [walletMethods.wallet_switchNetworkById]: active,
+  [walletMethods.wallet_switchNetwork]: active,
 };

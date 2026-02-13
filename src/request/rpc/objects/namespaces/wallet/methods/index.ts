@@ -15,4 +15,4 @@ export * from './openBuy';
 export * from './openReceive';
 export * from './renouncePermissions';
 export * from './requestPermissions';
-export * from './switchNetworkById';
+export * from './switchNetwork';
