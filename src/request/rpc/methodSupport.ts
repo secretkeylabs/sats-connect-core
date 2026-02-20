@@ -96,3 +96,9 @@ export const methodSupport: Record<Method, SupportState> = {
   [walletMethods.wallet_requestPermissions]: active,
   [walletMethods.wallet_switchNetwork]: active,
 };
+
+export const defineMethodSupport = (
+  supportDefinition: Record<Method, SupportState>
+): Record<Method, SupportState> => {
+  return supportDefinition;
+};
