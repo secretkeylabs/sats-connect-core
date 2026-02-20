@@ -1,7 +1,8 @@
 import type { Json } from 'jsontokens';
 import { createUnsecuredToken } from 'jsontokens';
 
-import { BitcoinProvider, Capability, getProviderOrThrow } from '../provider';
+import type { BitcoinProvider, Capability } from '../provider';
+import { getProviderOrThrow } from '../provider';
 import type { GetCapabilitiesOptions } from './types';
 
 // we use this type in order for the build to fail if a new capability is added

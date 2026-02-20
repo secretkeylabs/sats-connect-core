@@ -1,5 +1,5 @@
+import { walletTypeSchema } from 'src/request/rpc/objects/shared';
 import * as v from 'valibot';
-import { walletTypeSchema } from '../request/types/common';
 import type { RequestOptions, RequestPayload } from '../types';
 
 export enum AddressPurpose {

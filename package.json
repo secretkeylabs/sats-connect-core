@@ -1,6 +1,6 @@
 {
   "name": "@sats-connect/core",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
@@ -8,12 +8,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "build:watch": "tsup --watch",
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
     "check-types": "tsc --noEmit",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
-    "ci": "npm run check-types && npm run check-format && npm run build",
+    "lint": "eslint .",
+    "ci": "npm run check-types && npm run check-format && npm run lint && npm run build",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -25,21 +26,33 @@
     ]
   },
   "dependencies": {
-    "axios": "1.12.0",
+    "axios": "1.13.5",
     "bitcoin-address-validation": "3.0.0",
     "buffer": "6.0.3",
-    "jsontokens": "4.0.1"
+    "jsontokens": "4.0.1",
+    "ts-pattern": "5.9.0"
   },
   "devDependencies": {
+    "@eslint/js": "9.39.2",
+    "@typescript-eslint/eslint-plugin": "8.54.0",
+    "@typescript-eslint/parser": "8.54.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-import-resolver-typescript": "4.4.4",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-prettier": "5.5.5",
+    "eslint-plugin-unused-imports": "4.3.0",
+    "eslint": "9.39.2",
     "husky": "9.1.7",
-    "lint-staged": "16.1.5",
-    "prettier": "3.6.2",
+    "lint-staged": "16.2.7",
+    "prettier-plugin-organize-imports": "4.3.0",
+    "prettier": "3.8.0",
     "process": "0.11.10",
-    "rimraf": "6.0.1",
+    "rimraf": "6.1.2",
     "stream-browserify": "3.0.0",
     "ts-loader": "9.5.4",
-    "tsup": "8.5.0",
-    "typescript": "5.9.2",
+    "tsdown": "0.19.0",
+    "typescript-eslint": "8.54.0",
+    "typescript": "5.9.3",
     "util": "0.12.5",
     "vm-browserify": "1.1.2"
   },

@@ -1,22 +1,30 @@
+import type { RpcSuccessResponses } from 'src/request';
+import type {
+  BitcoinMethod,
+  Method,
+  OrdinalsMethod,
+  RunesMethod,
+  StacksMethod,
+} from 'src/request/methods';
+import {
+  bitcoinNetworkConfigurationSchema,
+  sparkNetworkConfigurationSchema,
+  stacksNetworkConfigurationSchema,
+  starknetNetworkConfigurationSchema,
+} from 'src/request/rpc/objects/namespaces/wallet/shared/networks';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import * as v from 'valibot';
-import { addressSchema, GetAddressResponse } from '../addresses';
+import type { GetAddressResponse } from '../addresses';
+import { addressSchema } from '../addresses';
 import type { GetCapabilitiesResponse } from '../capabilities';
 import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
 import type { SignMessageResponse } from '../messages';
-import {
-  BtcRequestMethod,
-  OrdinalsRequestMethod,
-  Params,
-  Requests,
-  RunesRequestMethod,
-  StxRequestMethod,
-} from '../request';
 import type {
   SendBtcTransactionResponse,
   SignMultipleTransactionsResponse,
   SignTransactionResponse,
 } from '../transactions';
-import { BitcoinNetworkType, RpcResponse } from '../types';
+import { BitcoinNetworkType } from '../types';
 
 // accountChange
 export const accountChangeEventName = 'accountChange';
@@ -39,6 +47,19 @@ export const networkChangeSchema = v.object({
   addresses: v.optional(v.array(addressSchema)),
 });
 export type NetworkChangeEvent = v.InferOutput<typeof networkChangeSchema>;
+
+export const networkChangeEventNameV2 = 'networkChangeV2';
+export const networkChangeV2Schema = v.object({
+  type: v.literal(networkChangeEventName),
+  networks: v.object({
+    bitcoin: bitcoinNetworkConfigurationSchema,
+    spark: sparkNetworkConfigurationSchema,
+    stacks: stacksNetworkConfigurationSchema,
+    starknet: starknetNetworkConfigurationSchema,
+  }),
+  addresses: v.optional(v.array(addressSchema)),
+});
+export type NetworkChangeEventV2 = v.InferOutput<typeof networkChangeSchema>;
 
 // disconnect
 export const disconnectEventName = 'disconnect';
@@ -76,11 +97,11 @@ export type ListenerInfo =
 export type AddListener = (arg: ListenerInfo) => () => void;
 
 interface BaseBitcoinProvider {
-  request: <Method extends keyof Requests>(
-    method: Method,
-    options: Params<Method>,
+  request: <M extends Method>(
+    method: M,
+    options: RpcRequestParams<M>,
     providerId?: string
-  ) => Promise<RpcResponse<Method>>;
+  ) => Promise<RpcSuccessResponses[M]>;
   connect: (request: string) => Promise<GetAddressResponse>;
   signMessage: (request: string) => Promise<SignMessageResponse>;
   signTransaction: (request: string) => Promise<SignTransactionResponse>;
@@ -106,7 +127,7 @@ export interface Provider {
   mozillaAddOnsUrl?: string;
   googlePlayStoreUrl?: string;
   iOSAppStoreUrl?: string;
-  methods?: (StxRequestMethod | BtcRequestMethod | RunesRequestMethod | OrdinalsRequestMethod)[];
+  methods?: (StacksMethod | BitcoinMethod | RunesMethod | OrdinalsMethod)[];
 }
 
 export interface SupportedWallet extends Provider {

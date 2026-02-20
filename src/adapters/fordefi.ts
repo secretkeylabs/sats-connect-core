@@ -1,32 +1,33 @@
-import { AddListener } from '../provider/types';
+import type { Method } from 'src/request/methods';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import { DefaultAdaptersInfo } from '.';
-import { Params, Requests, Return } from '../request';
-import { RpcResult } from '../types';
-import { SatsConnectAdapter } from './satsConnectAdapter';
 import { getProviderById } from '../provider';
+import type { AddListener } from '../provider/types';
+import type { RequestReturn } from '../request';
+import { SatsConnectAdapter } from './satsConnectAdapter';
 
-type UtxoProvider<Method extends keyof Requests = keyof Requests> = {
-  request: (method: Method, params: Params<Method>) => Promise<Return<Method>>;
+type UtxoProvider<M extends Method> = {
+  request: (method: M, params: RpcRequestParams<M>) => Promise<RequestReturn<M>>;
   addListener: AddListener;
 };
 
-interface FordefiProviders {
-  UtxoProvider: UtxoProvider;
+interface FordefiProviders<M extends Method> {
+  UtxoProvider: UtxoProvider<M>;
 }
 
 declare global {
   interface Window {
-    FordefiProviders?: FordefiProviders;
+    FordefiProviders?: FordefiProviders<Method>;
   }
 }
 
 class FordefiAdapter extends SatsConnectAdapter {
   id = DefaultAdaptersInfo.fordefi.id;
 
-  requestInternal = async <Method extends keyof Requests>(
-    method: Method,
-    params: Params<Method>
-  ): Promise<RpcResult<Method>> => {
+  requestInternal = async <M extends Method>(
+    method: M,
+    params: RpcRequestParams<M>
+  ): Promise<RequestReturn<M>> => {
     const provider = getProviderById(this.id);
 
     if (!provider) {

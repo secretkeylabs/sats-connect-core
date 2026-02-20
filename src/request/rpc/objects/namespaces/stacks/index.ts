@@ -1,0 +1,97 @@
+import type { ExactObject } from 'src/request/exact';
+import type { StacksMethod, stacksMethods } from 'src/request/methods';
+import * as v from 'valibot';
+import {
+  type StacksCallContractRequest,
+  stacksCallContractRequestSchema,
+  type StacksCallContractSuccessResponse,
+  stacksCallContractSuccessResponseSchema,
+  type StacksDeployContractRequest,
+  stacksDeployContractRequestSchema,
+  type StacksDeployContractSuccessResponse,
+  stacksDeployContractSuccessResponseSchema,
+  type StacksGetAccountsRequest,
+  stacksGetAccountsRequestSchema,
+  type StacksGetAccountsSuccessResponse,
+  stacksGetAccountsSuccessResponseSchema,
+  type StacksGetAddressesRequest,
+  stacksGetAddressesRequestSchema,
+  type StacksGetAddressesSuccessResponse,
+  stacksGetAddressesSuccessResponseSchema,
+  type StacksSignMessageRequest,
+  stacksSignMessageRequestSchema,
+  type StacksSignMessageSuccessResponse,
+  stacksSignMessageSuccessResponseSchema,
+  type StacksSignStructuredMessageRequest,
+  stacksSignStructuredMessageRequestSchema,
+  type StacksSignStructuredMessageSuccessResponse,
+  stacksSignStructuredMessageSuccessResponseSchema,
+  type StacksSignTransactionRequest,
+  stacksSignTransactionRequestSchema,
+  type StacksSignTransactionsRequest,
+  stacksSignTransactionsRequestSchema,
+  type StacksSignTransactionsSuccessResponse,
+  stacksSignTransactionsSuccessResponseSchema,
+  type StacksSignTransactionSuccessResponse,
+  stacksSignTransactionSuccessResponseSchema,
+  type StacksTransferStxRequest,
+  stacksTransferStxRequestSchema,
+  type StacksTransferStxSuccessResponse,
+  stacksTransferStxSuccessResponseSchema,
+} from './methods';
+
+export type StacksRequests = ExactObject<
+  StacksMethod,
+  {
+    [stacksMethods.stx_callContract]: StacksCallContractRequest;
+    [stacksMethods.stx_deployContract]: StacksDeployContractRequest;
+    [stacksMethods.stx_getAccounts]: StacksGetAccountsRequest;
+    [stacksMethods.stx_getAddresses]: StacksGetAddressesRequest;
+    [stacksMethods.stx_signMessage]: StacksSignMessageRequest;
+    [stacksMethods.stx_signStructuredMessage]: StacksSignStructuredMessageRequest;
+    [stacksMethods.stx_signTransaction]: StacksSignTransactionRequest;
+    [stacksMethods.stx_signTransactions]: StacksSignTransactionsRequest;
+    [stacksMethods.stx_transferStx]: StacksTransferStxRequest;
+  }
+>;
+
+export const stacksRequestSchema = v.variant('method', [
+  stacksCallContractRequestSchema,
+  stacksDeployContractRequestSchema,
+  stacksGetAccountsRequestSchema,
+  stacksGetAddressesRequestSchema,
+  stacksSignMessageRequestSchema,
+  stacksSignStructuredMessageRequestSchema,
+  stacksSignTransactionRequestSchema,
+  stacksSignTransactionsRequestSchema,
+  stacksTransferStxRequestSchema,
+]);
+
+export type StacksSuccessResponses = ExactObject<
+  StacksMethod,
+  {
+    [stacksMethods.stx_callContract]: StacksCallContractSuccessResponse;
+    [stacksMethods.stx_deployContract]: StacksDeployContractSuccessResponse;
+    [stacksMethods.stx_getAccounts]: StacksGetAccountsSuccessResponse;
+    [stacksMethods.stx_getAddresses]: StacksGetAddressesSuccessResponse;
+    [stacksMethods.stx_signMessage]: StacksSignMessageSuccessResponse;
+    [stacksMethods.stx_signStructuredMessage]: StacksSignStructuredMessageSuccessResponse;
+    [stacksMethods.stx_signTransaction]: StacksSignTransactionSuccessResponse;
+    [stacksMethods.stx_signTransactions]: StacksSignTransactionsSuccessResponse;
+    [stacksMethods.stx_transferStx]: StacksTransferStxSuccessResponse;
+  }
+>;
+
+export const stacksSuccessResponseSchema = v.variant('~sats-connect-method', [
+  stacksCallContractSuccessResponseSchema,
+  stacksDeployContractSuccessResponseSchema,
+  stacksGetAccountsSuccessResponseSchema,
+  stacksGetAddressesSuccessResponseSchema,
+  stacksSignMessageSuccessResponseSchema,
+  stacksSignStructuredMessageSuccessResponseSchema,
+  stacksSignTransactionSuccessResponseSchema,
+  stacksSignTransactionsSuccessResponseSchema,
+  stacksTransferStxSuccessResponseSchema,
+]);
+
+export * from './methods';

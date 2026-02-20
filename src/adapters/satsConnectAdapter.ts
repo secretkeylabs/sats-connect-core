@@ -1,12 +1,16 @@
+import type { AddListener } from 'src/provider';
+import type { RequestReturn } from 'src/request';
+import type { Method } from 'src/request/methods';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import { getRunesApiClient, RunesApi } from '../runes/api';
-import { Params, Requests } from '../request';
-import { RpcErrorCode, RpcResult } from '../types';
-import { AddListener } from 'src/provider';
+import { RpcErrorCode } from '../types';
 
 abstract class SatsConnectAdapter {
   abstract readonly id: string;
 
-  private async mintRunes(params: Params<'runes_mint'>): Promise<RpcResult<'runes_mint'>> {
+  private async mintRunes(
+    params: RpcRequestParams<'runes_mint'>
+  ): Promise<RequestReturn<'runes_mint'>> {
     try {
       const walletInfo = await this.requestInternal('getInfo', null).catch(() => null);
       if (walletInfo && walletInfo.status === 'success') {
@@ -26,7 +30,7 @@ abstract class SatsConnectAdapter {
           }
         }
       }
-      const mintRequest: Omit<Params<'runes_mint'>, 'network'> = {
+      const mintRequest: Omit<RpcRequestParams<'runes_mint'>, 'network'> = {
         destinationAddress: params.destinationAddress,
         feeRate: params.feeRate,
         refundAddress: params.refundAddress,
@@ -82,8 +86,10 @@ abstract class SatsConnectAdapter {
     }
   }
 
-  private async etchRunes(params: Params<'runes_etch'>): Promise<RpcResult<'runes_etch'>> {
-    const etchRequest: Omit<Params<'runes_etch'>, 'network'> = {
+  private async etchRunes(
+    params: RpcRequestParams<'runes_etch'>
+  ): Promise<RequestReturn<'runes_etch'>> {
+    const etchRequest: Omit<RpcRequestParams<'runes_etch'>, 'network'> = {
       destinationAddress: params.destinationAddress,
       refundAddress: params.refundAddress,
       feeRate: params.feeRate,
@@ -165,9 +171,9 @@ abstract class SatsConnectAdapter {
   }
 
   private async estimateMint(
-    params: Params<'runes_estimateMint'>
-  ): Promise<RpcResult<'runes_estimateMint'>> {
-    const estimateMintRequest: Omit<Params<'runes_estimateMint'>, 'network'> = {
+    params: RpcRequestParams<'runes_estimateMint'>
+  ): Promise<RequestReturn<'runes_estimateMint'>> {
+    const estimateMintRequest: Omit<RpcRequestParams<'runes_estimateMint'>, 'network'> = {
       destinationAddress: params.destinationAddress,
       feeRate: params.feeRate,
       repeats: params.repeats,
@@ -176,7 +182,7 @@ abstract class SatsConnectAdapter {
       appServiceFeeAddress: params.appServiceFeeAddress,
     };
     const response = await getRunesApiClient(
-      (params as Params<'runes_estimateMint'>).network
+      (params as RpcRequestParams<'runes_estimateMint'>).network
     ).estimateMintCost(estimateMintRequest);
     if (response.data) {
       return {
@@ -195,9 +201,9 @@ abstract class SatsConnectAdapter {
   }
 
   private async estimateEtch(
-    params: Params<'runes_estimateEtch'>
-  ): Promise<RpcResult<'runes_estimateEtch'>> {
-    const estimateEtchRequest: Omit<Params<'runes_estimateEtch'>, 'network'> = {
+    params: RpcRequestParams<'runes_estimateEtch'>
+  ): Promise<RequestReturn<'runes_estimateEtch'>> {
+    const estimateEtchRequest: Omit<RpcRequestParams<'runes_estimateEtch'>, 'network'> = {
       destinationAddress: params.destinationAddress,
       feeRate: params.feeRate,
       runeName: params.runeName,
@@ -228,7 +234,9 @@ abstract class SatsConnectAdapter {
     };
   }
 
-  private async getOrder(params: Params<'runes_getOrder'>): Promise<RpcResult<'runes_getOrder'>> {
+  private async getOrder(
+    params: RpcRequestParams<'runes_getOrder'>
+  ): Promise<RequestReturn<'runes_getOrder'>> {
     const response = await getRunesApiClient(params.network).getOrder(params.id);
     if (response.data) {
       return {
@@ -249,9 +257,9 @@ abstract class SatsConnectAdapter {
   }
 
   private async estimateRbfOrder(
-    params: Params<'runes_estimateRbfOrder'>
-  ): Promise<RpcResult<'runes_estimateRbfOrder'>> {
-    const rbfOrderRequest: Omit<Params<'runes_estimateRbfOrder'>, 'network'> = {
+    params: RpcRequestParams<'runes_estimateRbfOrder'>
+  ): Promise<RequestReturn<'runes_estimateRbfOrder'>> {
+    const rbfOrderRequest: Omit<RpcRequestParams<'runes_estimateRbfOrder'>, 'network'> = {
       newFeeRate: params.newFeeRate,
       orderId: params.orderId,
     };
@@ -277,9 +285,11 @@ abstract class SatsConnectAdapter {
     };
   }
 
-  private async rbfOrder(params: Params<'runes_rbfOrder'>): Promise<RpcResult<'runes_rbfOrder'>> {
+  private async rbfOrder(
+    params: RpcRequestParams<'runes_rbfOrder'>
+  ): Promise<RequestReturn<'runes_rbfOrder'>> {
     try {
-      const rbfOrderRequest: Omit<Params<'runes_rbfOrder'>, 'network'> = {
+      const rbfOrderRequest: Omit<RpcRequestParams<'runes_rbfOrder'>, 'network'> = {
         newFeeRate: params.newFeeRate,
         orderId: params.orderId,
       };
@@ -326,33 +336,41 @@ abstract class SatsConnectAdapter {
     }
   }
 
-  async request<Method extends keyof Requests>(
-    method: Method,
-    params: Params<Method>
-  ): Promise<RpcResult<Method>> {
+  async request<M extends Method>(
+    method: M,
+    params: RpcRequestParams<M>
+  ): Promise<RequestReturn<M>> {
     switch (method) {
       case 'runes_mint':
-        return this.mintRunes(params as Params<'runes_mint'>) as Promise<RpcResult<Method>>;
+        return this.mintRunes(params as RpcRequestParams<'runes_mint'>) as Promise<
+          RequestReturn<M>
+        >;
       case 'runes_etch':
-        return this.etchRunes(params as Params<'runes_etch'>) as Promise<RpcResult<Method>>;
+        return this.etchRunes(params as RpcRequestParams<'runes_etch'>) as Promise<
+          RequestReturn<M>
+        >;
       case 'runes_estimateMint':
-        return this.estimateMint(params as Params<'runes_estimateMint'>) as Promise<
-          RpcResult<Method>
+        return this.estimateMint(params as RpcRequestParams<'runes_estimateMint'>) as Promise<
+          RequestReturn<M>
         >;
       case 'runes_estimateEtch':
-        return this.estimateEtch(params as Params<'runes_estimateEtch'>) as Promise<
-          RpcResult<Method>
+        return this.estimateEtch(params as RpcRequestParams<'runes_estimateEtch'>) as Promise<
+          RequestReturn<M>
         >;
       case 'runes_getOrder': {
-        return this.getOrder(params as Params<'runes_getOrder'>) as Promise<RpcResult<Method>>;
-      }
-      case 'runes_estimateRbfOrder': {
-        return this.estimateRbfOrder(params as Params<'runes_estimateRbfOrder'>) as Promise<
-          RpcResult<Method>
+        return this.getOrder(params as RpcRequestParams<'runes_getOrder'>) as Promise<
+          RequestReturn<M>
         >;
       }
+      case 'runes_estimateRbfOrder': {
+        return this.estimateRbfOrder(
+          params as RpcRequestParams<'runes_estimateRbfOrder'>
+        ) as Promise<RequestReturn<M>>;
+      }
       case 'runes_rbfOrder': {
-        return this.rbfOrder(params as Params<'runes_rbfOrder'>) as Promise<RpcResult<Method>>;
+        return this.rbfOrder(params as RpcRequestParams<'runes_rbfOrder'>) as Promise<
+          RequestReturn<M>
+        >;
       }
       default:
         return this.requestInternal(method, params);
@@ -361,9 +379,9 @@ abstract class SatsConnectAdapter {
 
   abstract addListener: AddListener;
 
-  protected abstract requestInternal<Method extends keyof Requests>(
-    method: Method,
-    params: Params<Method>
-  ): Promise<RpcResult<Method>>;
+  protected abstract requestInternal<M extends Method>(
+    method: M,
+    params: RpcRequestParams<M>
+  ): Promise<RequestReturn<M>>;
 }
 export { SatsConnectAdapter };

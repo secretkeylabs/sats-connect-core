@@ -1,10 +1,15 @@
 import { AddressType, getAddressInfo } from 'bitcoin-address-validation';
 import { Buffer } from 'buffer';
-import { AddListener, NetworkChangeEvent } from 'src/provider/types';
+import type { RequestReturn } from 'src';
+import type { AddListener, NetworkChangeEvent } from 'src/provider/types';
+import type { Method } from 'src/request/methods';
+import { MessageSigningProtocols } from 'src/request/rpc/objects/namespaces/bitcoin/shared';
+import type { RpcRequestParams } from 'src/request/rpc/requests';
+import type { RpcSuccessResponseResult } from 'src/request/rpc/responses';
 import { DefaultAdaptersInfo } from '.';
-import { Address, AddressPurpose } from '../addresses';
-import { MessageSigningProtocols, Params, Requests, Return } from '../request';
-import { RpcErrorCode, RpcResult } from '../types';
+import type { Address } from '../addresses';
+import { AddressPurpose } from '../addresses';
+import { RpcErrorCode } from '../types';
 import { SatsConnectAdapter } from './satsConnectAdapter';
 
 type InputType = {
@@ -46,13 +51,13 @@ declare global {
 }
 
 function convertSignInputsToInputType(signInputs?: Record<string, number[]>): InputType {
-  let result: InputType = [];
+  const result: InputType = [];
   if (!signInputs) {
     return result;
   }
-  for (let address in signInputs) {
-    let indexes = signInputs[address];
-    for (let index of indexes) {
+  for (const address in signInputs) {
+    const indexes = signInputs[address];
+    for (const index of indexes) {
       result.push({
         index: index,
         address: address,
@@ -65,7 +70,9 @@ function convertSignInputsToInputType(signInputs?: Record<string, number[]>): In
 class UnisatAdapter extends SatsConnectAdapter {
   id = DefaultAdaptersInfo.unisat.id;
 
-  private async getAccounts(params: Params<'getAccounts'>): Promise<Return<'getAccounts'>> {
+  private async getAccounts(
+    params: RpcRequestParams<'getAccounts'>
+  ): Promise<RpcSuccessResponseResult<'getAccounts'>> {
     const { purposes } = params;
     if (
       purposes.includes(AddressPurpose.Stacks) ||
@@ -93,7 +100,7 @@ class UnisatAdapter extends SatsConnectAdapter {
       purpose: AddressPurpose.Ordinals,
       walletType: 'software',
     };
-    const response: Return<'getAccounts'> = [];
+    const response: RpcSuccessResponseResult<'getAccounts'> = [];
     if (purposes.includes(AddressPurpose.Payment)) {
       response.push({ ...paymentAddress, walletType: 'software' });
     }
@@ -103,7 +110,9 @@ class UnisatAdapter extends SatsConnectAdapter {
     return response;
   }
 
-  private async signMessage(params: Params<'signMessage'>): Promise<Return<'signMessage'>> {
+  private async signMessage(
+    params: RpcRequestParams<'signMessage'>
+  ): Promise<RpcSuccessResponseResult<'signMessage'>> {
     const { message, address } = params;
     const addressType = getAddressInfo(address).type;
     const Bip322supportedTypes = [AddressType.p2wpkh, AddressType.p2tr];
@@ -125,7 +134,9 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
   }
 
-  private async sendTransfer(params: Params<'sendTransfer'>): Promise<Return<'sendTransfer'>> {
+  private async sendTransfer(
+    params: RpcRequestParams<'sendTransfer'>
+  ): Promise<RpcSuccessResponseResult<'sendTransfer'>> {
     const { recipients } = params;
     if (recipients.length > 1) {
       throw new Error('Only one recipient is supported by this wallet provider');
@@ -137,7 +148,9 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
   }
 
-  private async signPsbt(params: Params<'signPsbt'>): Promise<Return<'signPsbt'>> {
+  private async signPsbt(
+    params: RpcRequestParams<'signPsbt'>
+  ): Promise<RpcSuccessResponseResult<'signPsbt'>> {
     const { psbt, signInputs, broadcast } = params;
     const psbtHex = Buffer.from(psbt, 'base64').toString('hex');
     const signedPsbt = await window.unisat.signPsbt(psbtHex, {
@@ -157,40 +170,40 @@ class UnisatAdapter extends SatsConnectAdapter {
     };
   }
 
-  requestInternal = async <Method extends keyof Requests>(
-    method: Method,
-    params: Params<Method>
-  ): Promise<RpcResult<Method>> => {
+  requestInternal = async <M extends Method>(
+    method: M,
+    params: RpcRequestParams<M>
+  ): Promise<RequestReturn<M>> => {
     try {
       switch (method) {
         case 'getAccounts': {
-          const response: Return<'getAccounts'> = await this.getAccounts(
-            params as Params<'getAccounts'>
+          const response: RpcSuccessResponseResult<'getAccounts'> = await this.getAccounts(
+            params as RpcRequestParams<'getAccounts'>
           );
           return {
             status: 'success',
-            result: response as Return<Method>,
+            result: response as RpcSuccessResponseResult<M>,
           };
         }
         case 'sendTransfer': {
-          const response = await this.sendTransfer(params as Params<'sendTransfer'>);
+          const response = await this.sendTransfer(params as RpcRequestParams<'sendTransfer'>);
           return {
             status: 'success',
-            result: response as Return<Method>,
+            result: response as RpcSuccessResponseResult<M>,
           };
         }
         case 'signMessage': {
-          const response = await this.signMessage(params as Params<'signMessage'>);
+          const response = await this.signMessage(params as RpcRequestParams<'signMessage'>);
           return {
             status: 'success',
-            result: response as Return<Method>,
+            result: response as RpcSuccessResponseResult<M>,
           };
         }
         case 'signPsbt': {
-          const response = await this.signPsbt(params as Params<'signPsbt'>);
+          const response = await this.signPsbt(params as RpcRequestParams<'signPsbt'>);
           return {
             status: 'success',
-            result: response as Return<Method>,
+            result: response as RpcSuccessResponseResult<M>,
           };
         }
         default: {

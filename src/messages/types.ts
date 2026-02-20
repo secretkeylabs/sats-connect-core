@@ -1,4 +1,4 @@
-import { MessageSigningProtocols } from 'src/request';
+import type { MessageSigningProtocols } from 'src/request/rpc/objects/namespaces/bitcoin/shared';
 import type { RequestOptions, RequestPayload } from '../types';
 
 export interface SignMessagePayload extends RequestPayload {

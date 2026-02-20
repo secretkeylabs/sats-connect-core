@@ -1,16 +1,21 @@
 import { AddressPurpose } from 'src/addresses';
-import { GetInfoResult, Params, ProviderPlatform, Requests } from '../request';
-import { RpcResult } from '../types';
+import type { RequestReturn } from '.';
+import type { bitcoinMethods, Method } from './methods';
+import { ProviderPlatform } from './rpc/objects/namespaces/bitcoin/shared';
+import type { RpcRequestParams } from './rpc/requests';
+import type { RpcSuccessResponseResult } from './rpc/responses';
 
-export const sanitizeRequest = <Method extends keyof Requests>(
-  method: Method,
-  params: Params<Method>,
-  providerInfo: GetInfoResult
-): { method: Method; params: Params<Method>; overrideResponse?: RpcResult<Method> } => {
+type BitcoinGetInfoResult = RpcSuccessResponseResult<typeof bitcoinMethods.getInfo>;
+
+export const sanitizeRequest = <M extends Method>(
+  method: M,
+  params: RpcRequestParams<M>,
+  providerInfo: BitcoinGetInfoResult
+): { method: M; params: RpcRequestParams<M>; overrideResponse?: RequestReturn<M> } => {
   try {
     // best effort to sanitize the request
     // if something goes wrong, we just return the original request
-    const [major, minor, patch] = providerInfo.version.split('.').map((part) => parseInt(part, 10));
+    const [major, minor] = providerInfo.version.split('.').map((part) => parseInt(part, 10));
     const platform = providerInfo.platform;
 
     if (
@@ -30,17 +35,17 @@ export const sanitizeRequest = <Method extends keyof Requests>(
   return { method, params };
 };
 
-const sanitizeAddressPurposeRequest = <Method extends keyof Requests>(
-  method: Method,
-  params: Params<Method>
-): { method: Method; params: Params<Method> } => {
+const sanitizeAddressPurposeRequest = <M extends Method>(
+  method: M,
+  params: RpcRequestParams<M>
+): { method: M; params: RpcRequestParams<M> } => {
   const filterPurposes = (purposes?: AddressPurpose[]) =>
     purposes?.filter(
       (purpose) => purpose !== AddressPurpose.Spark && purpose !== AddressPurpose.Starknet
     );
 
   if (method === 'wallet_connect') {
-    const typedParams = params as Params<'wallet_connect'>;
+    const typedParams = params as RpcRequestParams<'wallet_connect'>;
 
     if (!typedParams) {
       return { method, params };
@@ -50,23 +55,29 @@ const sanitizeAddressPurposeRequest = <Method extends keyof Requests>(
     const overrideParams = {
       ...rest,
       addresses: filterPurposes(addresses),
-    } as Params<Method>;
+    } as RpcRequestParams<M>;
 
     return { method, params: overrideParams };
   }
 
   if (method === 'getAccounts') {
-    const typedParams = params as Params<'getAccounts'>;
+    const typedParams = params as RpcRequestParams<'getAccounts'>;
     const { purposes, ...rest } = typedParams;
-    const overrideParams = { ...rest, purposes: filterPurposes(purposes) } as Params<Method>;
+    const overrideParams = {
+      ...rest,
+      purposes: filterPurposes(purposes),
+    } as RpcRequestParams<M>;
 
     return { method, params: overrideParams };
   }
 
   if (method === 'getAddresses') {
-    const typedParams = params as Params<'getAddresses'>;
+    const typedParams = params as RpcRequestParams<'getAddresses'>;
     const { purposes, ...rest } = typedParams;
-    const overrideParams = { ...rest, purposes: filterPurposes(purposes) } as Params<Method>;
+    const overrideParams = {
+      ...rest,
+      purposes: filterPurposes(purposes),
+    } as RpcRequestParams<M>;
 
     return { method, params: overrideParams };
   }

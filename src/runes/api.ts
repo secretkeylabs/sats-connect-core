@@ -1,5 +1,5 @@
 import { BitcoinNetworkType } from '../types';
-import {
+import type {
   CreateEtchOrderRequest,
   CreateMintOrderRequest,
   CreateOrderResponse,
@@ -11,7 +11,8 @@ import {
   RBFOrderResponse,
 } from './types';
 
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import type { AxiosError, AxiosInstance } from 'axios';
+import axios from 'axios';
 
 const urlNetworkSuffix = {
   [BitcoinNetworkType.Mainnet]: '',

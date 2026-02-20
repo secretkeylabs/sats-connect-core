@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /*
  * This script is used to pin all dependencies in package.json to the exact
  * versions declared in package-lock.json.
