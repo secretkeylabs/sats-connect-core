@@ -1,9 +1,9 @@
 import { createSuccessResponseSchema } from 'src/request/createSuccessResponseSchema';
 import { walletMethods } from 'src/request/methods';
-import type * as v from 'valibot';
+import * as v from 'valibot';
 import { permission } from '../../shared/permissions';
 
-export const walletGetCurrentPermissionsResultSchema = permission;
+export const walletGetCurrentPermissionsResultSchema = v.array(permission);
 
 export type WalletGetCurrentPermissionsResult = v.InferOutput<
   typeof walletGetCurrentPermissionsResultSchema
