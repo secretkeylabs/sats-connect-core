@@ -8,7 +8,7 @@ Ensure the method's full name follows the pattern `<fullMethodName> = <namespace
 
 Add the method definition inside [`namespaces`](./rpc/objects/namespaces)
 
-Add a folder with the `<methodName>` inside the appropriate namespace
+Add a folder with the `<methodName>` inside the `methods` subdirectory of the appropriate namespace (e.g. `src/request/rpc/objects/namespaces/<namespace>/methods/<methodName>`).
 
 The folder should have three files: `index.ts`, `request.ts` and `response.ts`. File `index.ts` simply exports everything from `request.ts` and `response.ts`.
 
