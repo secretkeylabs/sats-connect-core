@@ -38,6 +38,6 @@ Within the newly created `response.ts` file, create the response schema using `c
 
 Create the above types using Valibot's `InferOutput` helper.
 
-Add the request and response schemas to `src/request/methods.ts`.
+Import the request and response schemas into the appropriate namespace index file (e.g. `src/request/rpc/objects/namespaces/<namespace>/index.ts`), add their types to the namespace's `Requests` and `SuccessResponses` type definitions, and register their schemas in the namespace's request and response `v.variant()` schemas. The method name itself should only be declared in `src/request/methods.ts` as described above.
 
 Finally, ensure type checks pass by running the `check-types` script in [`package.json`](../../package.json).
