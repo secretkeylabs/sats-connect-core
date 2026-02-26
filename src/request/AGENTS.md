@@ -4,7 +4,7 @@ Declare the method in [`methods.ts`](methods.ts).
 
 Include the method in the relevant namespace contianer.
 
-Ensure the method's full name follows the pattern `<fullMethodName> = <namespace>_<methoName><version>`
+Ensure the method's full name follows the pattern `<fullMethodName> = <namespace>_<methoName>[version]`. Only include the version for `V2` onwards.
 
 Add the method definition inside [`namespaces`](rpc/objects/namespaces)
 
