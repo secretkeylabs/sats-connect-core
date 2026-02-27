@@ -6,6 +6,8 @@ Include the method in the relevant namespace container.
 
 Ensure the method's full name follows the pattern `<fullMethodName> = <namespace>_<methodName>[version]`. Only include the version for `V2` onwards.
 
+Some existing methods use an abbreviated form of their namespace which is now considered legacy. Going forward, do not abbreviate namespaces.
+
 Add the method definition inside [`namespaces`](./rpc/objects/namespaces)
 
 Add a folder with the `<methodName>` inside the `methods` subdirectory of the appropriate namespace (e.g. `src/request/rpc/objects/namespaces/<namespace>/methods/<methodName>`).
