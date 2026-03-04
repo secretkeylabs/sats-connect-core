@@ -70,6 +70,6 @@
   },
   "homepage": "https://github.com/secretkeylabs/sats-connect-core#readme",
   "engines": {
-    "node": ">=25"
+    "node": ">=24.14.0"
   }
 }
