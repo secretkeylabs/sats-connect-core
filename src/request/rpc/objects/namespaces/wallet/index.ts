@@ -62,6 +62,10 @@ import {
   walletOpenReceiveRequestSchema,
   type WalletOpenReceiveSuccessResponse,
   walletOpenReceiveSuccessResponseSchema,
+  type WalletOpenRequest,
+  walletOpenRequestSchema,
+  type WalletOpenSuccessResponse,
+  walletOpenSuccessResponseSchema,
   type WalletRenouncePermissionsRequest,
   walletRenouncePermissionsRequestSchema,
   type WalletRenouncePermissionsSuccessResponse,
@@ -90,6 +94,7 @@ export type WalletRequests = ExactObject<
     [walletMethods.wallet_getNetwork]: WalletGetNetworkRequest;
     [walletMethods.wallet_getNetworks]: WalletGetNetworksRequest;
     [walletMethods.wallet_getWalletType]: WalletGetWalletTypeRequest;
+    [walletMethods.wallet_open]: WalletOpenRequest;
     [walletMethods.wallet_openBridge]: WalletOpenBridgeRequest;
     [walletMethods.wallet_openBuy]: WalletOpenBuyRequest;
     [walletMethods.wallet_openReceive]: WalletOpenReceiveRequest;
@@ -112,6 +117,7 @@ export const walletRequestSchema = v.variant('method', [
   walletGetNetworkRequestSchema,
   walletGetNetworksRequestSchema,
   walletGetWalletTypeRequestSchema,
+  walletOpenRequestSchema,
   walletOpenBridgeRequestSchema,
   walletOpenBuyRequestSchema,
   walletOpenReceiveRequestSchema,
@@ -135,6 +141,7 @@ export type WalletSuccessResponses = ExactObject<
     [walletMethods.wallet_getNetwork]: WalletGetNetworkSuccessResponse;
     [walletMethods.wallet_getNetworks]: WalletGetNetworksSuccessResponse;
     [walletMethods.wallet_getWalletType]: WalletGetWalletTypeSuccessResponse;
+    [walletMethods.wallet_open]: WalletOpenSuccessResponse;
     [walletMethods.wallet_openBridge]: WalletOpenBridgeSuccessResponse;
     [walletMethods.wallet_openBuy]: WalletOpenBuySuccessResponse;
     [walletMethods.wallet_openReceive]: WalletOpenReceiveSuccessResponse;
@@ -157,6 +164,7 @@ export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
   walletGetNetworksSuccessResponseSchema,
   walletGetNetworkSuccessResponseSchema,
   walletGetWalletTypeSuccessResponseSchema,
+  walletOpenSuccessResponseSchema,
   walletOpenBridgeSuccessResponseSchema,
   walletOpenBuySuccessResponseSchema,
   walletOpenReceiveSuccessResponseSchema,

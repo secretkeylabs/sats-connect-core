@@ -56,7 +56,7 @@ export type RequestReturn<M extends Method> =
       status: 'error';
     };
 
-export const request = async <const M extends Method = Method>(
+export const request = async <const M extends Method>(
   method: M,
   params: RpcRequestParams<M>,
   /**

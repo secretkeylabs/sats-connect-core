@@ -78,6 +78,7 @@ export type OrdinalsMethod = (typeof ordinalsMethods)[keyof typeof ordinalsMetho
 // Wallet methods
 export const walletMethods = {
   wallet_addNetwork: 'wallet_addNetwork',
+  wallet_open: 'wallet_open',
   wallet_addNetworkV2: 'wallet_addNetworkV2',
   wallet_changeNetwork: 'wallet_changeNetwork',
   wallet_connect: 'wallet_connect',
