@@ -16,4 +16,6 @@ export * from './openBuy';
 export * from './openReceive';
 export * from './renouncePermissions';
 export * from './requestPermissions';
+export * from './sign';
+export * from './getEdDsaPublicKey';
 export * from './switchNetwork';
