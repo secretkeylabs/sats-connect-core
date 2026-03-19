@@ -16,10 +16,10 @@ The folder should have three files: `index.ts`, `request.ts` and `response.ts`. 
 
 Within the newly created `request.ts` file, create the request schema using `createRequestSchema` defined in `src/request/createRequestSchema.ts` and define any necessary related schemas. All schemas and types should be exported. At minimum, the file should export:
 
-- `const <fullMethodName>ParamsSchema`
-- `type <fullMethodName>Params`
-- `const <fullMethodName>RequestSchema`
-- `type <fullMethodName>Request`
+- `const <fullMethodNameCamelCase>ParamsSchema`
+- `type <FullMethodNamePascalCase>Params`
+- `const <fullMethodNameCamelCase>RequestSchema`
+- `type <FullMethodNamePascalCase>Request`
 
 Create the above types using Valibot's `InferOutput` helper:
 
@@ -33,10 +33,10 @@ export type FooGetBarParams = v.InferOutput<typeof fooGetBarParamsSchema>;
 
 Within the newly created `response.ts` file, create the response schema using `createSuccessResponseSchema` defined in `src/request/createSuccessResponseSchema.ts` and define any necessary related schemas. All schemas and types should be exported. At minimum, the file should export:
 
-- `const <fullMethodName>ResultSchema`
-- `type <fullMethodName>Result`
-- `const <fullMethodName>SuccessResponseSchema`
-- `type <fullMethodName>SuccessResponse`
+- `const <fullMethodNameCamelCase>ResultSchema`
+- `type <FullMethodNamePascalCase>Result`
+- `const <fullMethodNameCamelCase>SuccessResponseSchema`
+- `type <FullMethodNamePascalCase>SuccessResponse`
 
 Create the above types using Valibot's `InferOutput` helper.
 
