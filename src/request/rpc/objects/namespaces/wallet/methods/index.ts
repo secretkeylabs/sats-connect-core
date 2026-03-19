@@ -10,6 +10,7 @@ export * from './getCurrentPermissions';
 export * from './getNetwork';
 export * from './getNetworks';
 export * from './getWalletType';
+export * from './open';
 export * from './openBridge';
 export * from './openBuy';
 export * from './openReceive';
