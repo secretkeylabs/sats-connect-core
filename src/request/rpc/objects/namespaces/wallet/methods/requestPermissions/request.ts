@@ -3,7 +3,9 @@ import { walletMethods } from 'src/request/methods';
 import * as v from 'valibot';
 import { permissionRequestParamsSchema } from '../../shared/permissions';
 
-export const walletRequestPermissionsParamsSchema = v.array(permissionRequestParamsSchema);
+export const walletRequestPermissionsParamsSchema = v.nullish(
+  v.array(permissionRequestParamsSchema)
+);
 
 export type WalletRequestPermissionsParams = v.InferOutput<
   typeof walletRequestPermissionsParamsSchema
