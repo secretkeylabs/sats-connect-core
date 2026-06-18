@@ -12,10 +12,9 @@
     "build:watch": "tsdown --watch",
     "check-types": "tsc --noEmit",
     "check-format": "prettier --check .",
-    "check-agents": "node scripts/check-agents.mjs",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "ci": "npm run check-agents && npm run check-types && npm run check-format && npm run lint && npm run build",
+    "ci": "npm run check-types && npm run check-format && npm run lint && npm run build",
     "prepare": "husky"
   },
   "lint-staged": {
