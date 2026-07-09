@@ -95,6 +95,8 @@ export const walletMethods = {
   wallet_openReceive: 'wallet_openReceive',
   wallet_renouncePermissions: 'wallet_renouncePermissions',
   wallet_requestPermissions: 'wallet_requestPermissions',
+  wallet_sign: 'wallet_sign',
+  wallet_getEdDsaPublicKey: 'wallet_getEdDsaPublicKey',
   wallet_switchNetwork: 'wallet_switchNetwork',
 } as const;
 
