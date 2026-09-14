@@ -20,7 +20,6 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: npm ci
@@ -29,5 +28,6 @@ jobs:
         run: npm run build
 
       # Authenticates via GitHub OIDC (trusted publishing), no npm token needed.
+      # Do not set registry-url on setup-node: it injects a placeholder NODE_AUTH_TOKEN which disables OIDC.
       - name: Publish to NPM package registry
         run: npm publish --access=public
