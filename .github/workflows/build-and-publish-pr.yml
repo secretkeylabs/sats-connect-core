@@ -7,6 +7,7 @@ permissions:
   contents: read
   packages: write
   pull-requests: write
+  id-token: write # required for npm trusted publishing (OIDC)
 
 jobs:
   build-and-publish:
@@ -21,6 +22,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: npm ci
@@ -46,13 +48,10 @@ jobs:
           SHA: ${{ steps.sha.outputs.SHA }}
           CURRENT_VERSION: ${{ steps.current-version.outputs.CURRENT_VERSION }}
 
+      # Authenticates via GitHub OIDC (trusted publishing), no npm token needed.
       - name: Publish to NPM package registry
-        run: |
-          echo "@sats-connect:registry=https://registry.npmjs.org/" > .npmrc
-          echo "//registry.npmjs.org/:_authToken=$AUTH_TOKEN" >> .npmrc
-          npm publish --access=public --tag pr-$PR_NUMBER
+        run: npm publish --access=public --tag pr-$PR_NUMBER
         env:
-          AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_REGISTRY_TOKEN }}
           PR_NUMBER: ${{ github.event.number }}
 
       - name: Add package pre-release info
