@@ -14,8 +14,8 @@ import {
 } from 'src/request/rpc/objects/namespaces/wallet/shared/networks';
 import type { RpcRequestParams } from 'src/request/rpc/requests';
 import * as v from 'valibot';
-import type { GetAddressResponse } from '../addresses';
-import { addressSchema } from '../addresses';
+import type { GetAddressResponse } from '../addresses/types';
+import { addressSchema } from '../addresses/types';
 import type { GetCapabilitiesResponse } from '../capabilities';
 import type { CreateInscriptionResponse, CreateRepeatInscriptionsResponse } from '../inscriptions';
 import type { SignMessageResponse } from '../messages';
