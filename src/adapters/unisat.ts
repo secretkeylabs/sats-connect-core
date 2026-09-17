@@ -137,9 +137,12 @@ class UnisatAdapter extends SatsConnectAdapter {
   private async sendTransfer(
     params: RpcRequestParams<'sendTransfer'>
   ): Promise<RpcSuccessResponseResult<'sendTransfer'>> {
-    const { recipients } = params;
+    const { recipients, broadcast } = params;
     if (recipients.length > 1) {
       throw new Error('Only one recipient is supported by this wallet provider');
+    }
+    if (broadcast === false) {
+      throw new Error('Signing without broadcasting is not supported by this wallet provider');
     }
     const txid = await window.unisat.sendBitcoin(recipients[0].address, recipients[0].amount);
 
