@@ -8,6 +8,12 @@ export const stacksSignTransactionsResultSchema = v.object({
    * sign request.
    */
   transactions: v.array(v.string()),
+
+  /**
+   * The txids of the broadcast transactions, in the same order as
+   * `transactions`. Only present when the wallet broadcast the batch.
+   */
+  txids: v.optional(v.array(v.string())),
 });
 
 export type StacksSignTransactionsResult = v.InferOutput<typeof stacksSignTransactionsResultSchema>;
