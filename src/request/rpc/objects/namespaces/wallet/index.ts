@@ -38,6 +38,10 @@ import {
   walletGetCurrentPermissionsRequestSchema,
   type WalletGetCurrentPermissionsSuccessResponse,
   walletGetCurrentPermissionsSuccessResponseSchema,
+  type WalletGetEdDsaPublicKeyRequest,
+  walletGetEdDsaPublicKeyRequestSchema,
+  type WalletGetEdDsaPublicKeySuccessResponse,
+  walletGetEdDsaPublicKeySuccessResponseSchema,
   type WalletGetNetworkRequest,
   walletGetNetworkRequestSchema,
   type WalletGetNetworksRequest,
@@ -74,6 +78,10 @@ import {
   walletRequestPermissionsRequestSchema,
   type WalletRequestPermissionsSuccessResponse,
   walletRequestPermissionsSuccessResponseSchema,
+  type WalletSignRequest,
+  walletSignRequestSchema,
+  type WalletSignSuccessResponse,
+  walletSignSuccessResponseSchema,
   type WalletSwitchNetworkRequest,
   walletSwitchNetworkRequestSchema,
   walletSwitchNetworkSuccessResponseSchema,
@@ -100,6 +108,8 @@ export type WalletRequests = ExactObject<
     [walletMethods.wallet_openReceive]: WalletOpenReceiveRequest;
     [walletMethods.wallet_renouncePermissions]: WalletRenouncePermissionsRequest;
     [walletMethods.wallet_requestPermissions]: WalletRequestPermissionsRequest;
+    [walletMethods.wallet_sign]: WalletSignRequest;
+    [walletMethods.wallet_getEdDsaPublicKey]: WalletGetEdDsaPublicKeyRequest;
     [walletMethods.wallet_switchNetwork]: WalletSwitchNetworkRequest;
   }
 >;
@@ -123,6 +133,8 @@ export const walletRequestSchema = v.variant('method', [
   walletOpenReceiveRequestSchema,
   walletRenouncePermissionsRequestSchema,
   walletRequestPermissionsRequestSchema,
+  walletSignRequestSchema,
+  walletGetEdDsaPublicKeyRequestSchema,
   walletSwitchNetworkRequestSchema,
 ]);
 
@@ -147,6 +159,8 @@ export type WalletSuccessResponses = ExactObject<
     [walletMethods.wallet_openReceive]: WalletOpenReceiveSuccessResponse;
     [walletMethods.wallet_renouncePermissions]: WalletRenouncePermissionsSuccessResponse;
     [walletMethods.wallet_requestPermissions]: WalletRequestPermissionsSuccessResponse;
+    [walletMethods.wallet_sign]: WalletSignSuccessResponse;
+    [walletMethods.wallet_getEdDsaPublicKey]: WalletGetEdDsaPublicKeySuccessResponse;
     [walletMethods.wallet_switchNetwork]: WalletChangeNetworkSuccessResponse;
   }
 >;
@@ -170,6 +184,8 @@ export const walletSuccessResponseSchema = v.variant('~sats-connect-method', [
   walletOpenReceiveSuccessResponseSchema,
   walletRenouncePermissionsSuccessResponseSchema,
   walletRequestPermissionsSuccessResponseSchema,
+  walletSignSuccessResponseSchema,
+  walletGetEdDsaPublicKeySuccessResponseSchema,
   walletSwitchNetworkSuccessResponseSchema,
 ]);
 
