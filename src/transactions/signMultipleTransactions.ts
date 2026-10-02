@@ -3,6 +3,10 @@ import { createUnsecuredToken } from 'jsontokens';
 import { getProviderOrThrow } from '../provider';
 import type { SignMultipleTransactionOptions } from './types';
 
+/**
+ * For vault (multisig) accounts the wallet returns the finalized PSBTs without
+ * broadcasting them, so every `txId` in the response is empty.
+ */
 export const signMultipleTransactions = async (options: SignMultipleTransactionOptions) => {
   const provider = await getProviderOrThrow(options.getProvider);
 
