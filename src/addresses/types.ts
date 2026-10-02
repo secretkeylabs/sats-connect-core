@@ -1,4 +1,4 @@
-import { walletTypeSchema } from 'src/request/rpc/objects/shared';
+import { stacksMultisigSchema, walletTypeSchema } from 'src/request/rpc/objects/shared';
 import * as v from 'valibot';
 import type { RequestOptions, RequestPayload } from '../types';
 
@@ -73,12 +73,20 @@ export type UnlockDefinition = v.InferOutput<typeof unlockDefinitionSchema>;
 export const addressSchema = v.pipe(
   v.object({
     address: v.string(),
+    /**
+     * Empty string for multisig (vault) Stacks addresses, which have no single public key.
+     */
     publicKey: v.string(),
     purpose: v.enum(AddressPurpose),
     addressType: v.enum(AddressType),
     walletType: walletTypeSchema,
     scriptPubKey: v.optional(hexSchema),
     unlockDefinition: v.optional(unlockDefinitionSchema),
+    /**
+     * Signer set of a multisig Stacks address. Only present on Stacks-purpose entries from
+     * wallets that support it; older wallets omit it, so fall back to `stx_getAccounts`.
+     */
+    stacksMultisig: v.optional(stacksMultisigSchema),
   }),
   v.check(
     ({ scriptPubKey, unlockDefinition }) =>
@@ -99,7 +107,15 @@ export const addressSchema = v.pipe(
       case 'p2wsh':
         return addressType === AddressType.p2wsh;
     }
-  }, 'unlockDefinition type does not match addressType')
+  }, 'unlockDefinition type does not match addressType'),
+  v.check(
+    ({ purpose, addressType, walletType, stacksMultisig }) =>
+      !stacksMultisig ||
+      (purpose === AddressPurpose.Stacks &&
+        addressType === AddressType.stacks &&
+        walletType === 'multisig'),
+    'stacksMultisig is only valid on multisig Stacks addresses'
+  )
 );
 
 export type Address = v.InferOutput<typeof addressSchema>;

@@ -197,6 +197,60 @@ describe('addressSchema', () => {
   });
 });
 
+const vaultAddress = {
+  address: 'SM2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7',
+  publicKey: '',
+  purpose: AddressPurpose.Stacks,
+  addressType: AddressType.stacks,
+  walletType: 'multisig' as const,
+};
+
+const stacksMultisig = {
+  hashMode: 'P2SHNonSequential' as const,
+  threshold: 2,
+  publicKeys: ['02'.repeat(33), '03'.repeat(33), `02${'ab'.repeat(32)}`],
+};
+
+const parse = (address: unknown) => v.safeParse(addressSchema, address).success;
+
+describe('addressSchema stacksMultisig', () => {
+  it('accepts a vault Stacks address without stacksMultisig', () => {
+    expect(parse(vaultAddress)).toBe(true);
+  });
+
+  it('accepts a vault Stacks address with stacksMultisig', () => {
+    expect(parse({ ...vaultAddress, stacksMultisig })).toBe(true);
+  });
+
+  it('keeps the descriptor in the parsed output', () => {
+    const result = v.parse(addressSchema, { ...vaultAddress, stacksMultisig });
+    expect(result.stacksMultisig).toEqual(stacksMultisig);
+  });
+
+  it.each([
+    ['non-Stacks purpose', { purpose: AddressPurpose.Payment, addressType: AddressType.p2wsh }],
+    ['non-stacks addressType', { addressType: AddressType.p2sh }],
+    ['single-sig walletType', { walletType: 'software' }],
+  ])('rejects stacksMultisig on a %s entry', (_case, overrides) => {
+    expect(parse({ ...vaultAddress, ...overrides, stacksMultisig })).toBe(false);
+  });
+
+  it.each([
+    ['unknown hashMode', { ...stacksMultisig, hashMode: 'P2SH' }],
+    ['zero threshold', { ...stacksMultisig, threshold: 0 }],
+    ['fractional threshold', { ...stacksMultisig, threshold: 1.5 }],
+    [
+      'missing threshold',
+      { hashMode: stacksMultisig.hashMode, publicKeys: stacksMultisig.publicKeys },
+    ],
+    ['no public keys', { ...stacksMultisig, publicKeys: [] }],
+    ['uncompressed public key', { ...stacksMultisig, publicKeys: [`04${'ab'.repeat(64)}`] }],
+    ['uppercase public key', { ...stacksMultisig, publicKeys: [`02${'AB'.repeat(32)}`] }],
+  ])('rejects a stacksMultisig with %s', (_case, descriptor) => {
+    expect(parse({ ...vaultAddress, stacksMultisig: descriptor })).toBe(false);
+  });
+});
+
 describe('embedded address schemas', () => {
   it.each([
     ['bitcoin getAccounts', bitcoinGetAccountsResultSchema, [p2wpkhAddress]],
@@ -257,5 +311,19 @@ describe('embedded address schemas', () => {
     ],
   ])('accepts metadata through %s', (_name, schema, input) => {
     expect(v.safeParse(schema, input).success).toBe(true);
+  });
+
+  it('passes stacksMultisig through wallet connect', () => {
+    const result = v.parse(walletConnectResultSchema, {
+      id: 'account-id',
+      addresses: [{ ...vaultAddress, stacksMultisig }],
+      walletType: 'multisig',
+      network: {
+        bitcoin: { name: 'Mainnet' },
+        stacks: { name: 'mainnet' },
+        spark: { name: 'mainnet' },
+      },
+    });
+    expect(result.addresses[0].stacksMultisig).toEqual(stacksMultisig);
   });
 });
