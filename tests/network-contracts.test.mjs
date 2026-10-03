@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved -- CI builds the tested package artifact after linting. */
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import * as v from 'valibot';
