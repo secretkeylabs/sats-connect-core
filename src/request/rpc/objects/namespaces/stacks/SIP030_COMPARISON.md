@@ -4,22 +4,22 @@ This table provides a comprehensive comparison between the SIP-030 specification
 
 ## Method Coverage Comparison
 
-| Method                      | SIP-030 Spec | Our Implementation | StacksConnect | Status           |
-| --------------------------- | ------------ | ------------------ | ------------- | ---------------- |
-| `stx_transferStx`           | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_transferSip10Ft`       | ✅           | ❌                 | ✅            | Missing in Ours  |
-| `stx_transferSip9Nft`       | ✅           | ❌                 | ✅            | Missing in Ours  |
-| `stx_callContract`          | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_deployContract`        | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_signTransaction`       | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_signMessage`           | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_signStructuredMessage` | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_getAddresses`          | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_getAccounts`           | ✅           | ✅                 | ✅            | All Implement    |
-| `stx_getNetworks`           | ✅           | ❌                 | ✅            | Missing in Ours  |
-| `stx_updateProfile`         | ✅           | ❌                 | ✅            | Missing in Ours  |
-| `stx_signTransactions`      | ❌           | ✅                 | ❌            | Custom Extension |
-| **Total STX Methods**       | **12**       | **9**              | **12**        | **75% vs 100%**  |
+| Method                      | SIP-030 Spec | Our Implementation | StacksConnect | Status            |
+| --------------------------- | ------------ | ------------------ | ------------- | ----------------- |
+| `stx_transferStx`           | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_transferSip10Ft`       | ✅           | ❌                 | ✅            | Missing in Ours   |
+| `stx_transferSip9Nft`       | ✅           | ❌                 | ✅            | Missing in Ours   |
+| `stx_callContract`          | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_deployContract`        | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_signTransaction`       | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_signMessage`           | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_signStructuredMessage` | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_getAddresses`          | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_getAccounts`           | ✅           | ✅                 | ✅            | All Implement     |
+| `stx_getNetworks`           | ✅           | ✅                 | ✅            | SIP-shaped result |
+| `stx_updateProfile`         | ✅           | ❌                 | ✅            | Missing in Ours   |
+| `stx_signTransactions`      | ❌           | ✅                 | ❌            | Custom Extension  |
+| **Total STX Methods**       | **12**       | **9**              | **12**        | **75% vs 100%**   |
 
 ## Parameter Comparison by Method
 
@@ -147,7 +147,9 @@ This table provides a comprehensive comparison between the SIP-030 specification
 **Our Implementation**:
 
 - ❌ Missing 4 SIP-030 methods
-  - `stx_getNetworks` ---> wallet_getNetwork
+  - `stx_getNetworks` is implemented separately from the legacy `wallet_getNetwork`.
+    `wallet_getNetworks` supplies configuration IDs and API URLs for endpoint lookup.
+    See `NETWORK_CONTRACTS.md` for effective chain-ID and event semantics.
   - `stx_updateProfile` ---> No Need to add since Gaia is Deprecated
   - `stx_transferSip10Ft`
   - `stx_transferSip10Ft`

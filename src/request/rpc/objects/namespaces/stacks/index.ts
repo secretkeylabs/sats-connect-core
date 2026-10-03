@@ -18,6 +18,10 @@ import {
   stacksGetAddressesRequestSchema,
   type StacksGetAddressesSuccessResponse,
   stacksGetAddressesSuccessResponseSchema,
+  type StacksGetNetworksRequest,
+  stacksGetNetworksRequestSchema,
+  type StacksGetNetworksSuccessResponse,
+  stacksGetNetworksSuccessResponseSchema,
   type StacksSignMessageRequest,
   stacksSignMessageRequestSchema,
   type StacksSignMessageSuccessResponse,
@@ -47,6 +51,7 @@ export type StacksRequests = ExactObject<
     [stacksMethods.stx_deployContract]: StacksDeployContractRequest;
     [stacksMethods.stx_getAccounts]: StacksGetAccountsRequest;
     [stacksMethods.stx_getAddresses]: StacksGetAddressesRequest;
+    [stacksMethods.stx_getNetworks]: StacksGetNetworksRequest;
     [stacksMethods.stx_signMessage]: StacksSignMessageRequest;
     [stacksMethods.stx_signStructuredMessage]: StacksSignStructuredMessageRequest;
     [stacksMethods.stx_signTransaction]: StacksSignTransactionRequest;
@@ -60,6 +65,7 @@ export const stacksRequestSchema = v.variant('method', [
   stacksDeployContractRequestSchema,
   stacksGetAccountsRequestSchema,
   stacksGetAddressesRequestSchema,
+  stacksGetNetworksRequestSchema,
   stacksSignMessageRequestSchema,
   stacksSignStructuredMessageRequestSchema,
   stacksSignTransactionRequestSchema,
@@ -74,6 +80,7 @@ export type StacksSuccessResponses = ExactObject<
     [stacksMethods.stx_deployContract]: StacksDeployContractSuccessResponse;
     [stacksMethods.stx_getAccounts]: StacksGetAccountsSuccessResponse;
     [stacksMethods.stx_getAddresses]: StacksGetAddressesSuccessResponse;
+    [stacksMethods.stx_getNetworks]: StacksGetNetworksSuccessResponse;
     [stacksMethods.stx_signMessage]: StacksSignMessageSuccessResponse;
     [stacksMethods.stx_signStructuredMessage]: StacksSignStructuredMessageSuccessResponse;
     [stacksMethods.stx_signTransaction]: StacksSignTransactionSuccessResponse;
@@ -87,6 +94,7 @@ export const stacksSuccessResponseSchema = v.variant('~sats-connect-method', [
   stacksDeployContractSuccessResponseSchema,
   stacksGetAccountsSuccessResponseSchema,
   stacksGetAddressesSuccessResponseSchema,
+  stacksGetNetworksSuccessResponseSchema,
   stacksSignMessageSuccessResponseSchema,
   stacksSignStructuredMessageSuccessResponseSchema,
   stacksSignTransactionSuccessResponseSchema,

@@ -7,6 +7,10 @@ import type {
   StacksMethod,
 } from 'src/request/methods';
 import {
+  stacksGetNetworksResultSchema,
+  type StacksGetNetworksResult,
+} from 'src/request/rpc/objects/namespaces/stacks/methods/getNetworks/response';
+import {
   bitcoinNetworkConfigurationSchema,
   sparkNetworkConfigurationSchema,
   stacksNetworkConfigurationSchema,
@@ -68,10 +72,22 @@ export const disconnectSchema = v.object({
 });
 export type DisconnectEvent = v.InferOutput<typeof disconnectSchema>;
 
+// Separate SIP transport: never change the legacy networkChange payload.
+export const stacksNetworkChangeSchema = v.object({
+  type: v.literal('stx_networkChange'),
+  result: stacksGetNetworksResultSchema,
+});
+export type StacksNetworkChangeEvent = v.InferOutput<typeof stacksNetworkChangeSchema>;
+export type Listen = (
+  event: 'stx_networkChange',
+  cb: (result: StacksGetNetworksResult) => void
+) => () => void;
+
 export const walletEventSchema = v.variant('type', [
   accountChangeSchema,
   networkChangeSchema,
   disconnectSchema,
+  stacksNetworkChangeSchema,
 ]);
 
 export type WalletEvent = v.InferOutput<typeof walletEventSchema>;
@@ -110,6 +126,8 @@ interface BaseBitcoinProvider {
   createRepeatInscriptions: (request: string) => Promise<CreateRepeatInscriptionsResponse>;
   signMultipleTransactions: (request: string) => Promise<SignMultipleTransactionsResponse>;
   addListener: AddListener;
+  /** Optional so existing wallet implementations remain compatible. */
+  listen?: Listen;
 }
 
 export type Capability = keyof BaseBitcoinProvider;
