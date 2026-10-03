@@ -1,9 +1,12 @@
 /* eslint-disable import/no-unresolved -- CI builds the tested package artifact after linting. */
+/* global globalThis */
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import * as v from 'valibot';
 import {
   createRpcSuccessResponse,
+  listen,
+  stacksAccountChangeResultSchema,
   stacksGetNetworksRequestSchema,
   stacksGetNetworksResultSchema,
   stacksNetworkConfigurationOptionsSchema,
@@ -77,6 +80,52 @@ test('SIP events and requests share the result shape and numeric parameters', ()
     }).success,
     false
   );
+});
+test('SIP account events are bare accounts arrays, including empty authorization results', () => {
+  const result = [
+    {
+      address: 'SP123',
+      publicKey: '02abc',
+      gaiaHubUrl: 'https://gaia.invalid',
+      gaiaAppKey: '0'.repeat(64),
+    },
+  ];
+  assert.deepEqual(v.parse(stacksAccountChangeResultSchema, result), result);
+  assert.deepEqual(
+    v.parse(walletEventSchema, { type: 'stx_accountChange', result }).result,
+    result
+  );
+  assert.deepEqual(v.parse(stacksAccountChangeResultSchema, []), []);
+  assert.equal(v.safeParse(stacksAccountChangeResultSchema, { accounts: result }).success, false);
+  assert.equal(
+    v.safeParse(stacksAccountChangeResultSchema, [{ address: 'SP123', publicKey: '02abc' }])
+      .success,
+    false
+  );
+  const legacy = { type: 'accountChange', addresses: [] };
+  assert.deepEqual(v.parse(walletEventSchema, legacy), legacy);
+});
+test('SDK listen delegates account events with the native receiver and unlisten', () => {
+  const cleanup = () => {};
+  const callback = () => {};
+  const provider = {
+    listen(event, cb) {
+      assert.equal(this, provider);
+      assert.equal(event, 'stx_accountChange');
+      assert.equal(cb, callback);
+      return cleanup;
+    },
+  };
+  const previousWindow = globalThis.window;
+  globalThis.window = { XverseProviders: { BitcoinProvider: provider } };
+  try {
+    assert.equal(listen('stx_accountChange', callback), cleanup);
+    delete provider.listen;
+    assert.throws(() => listen('stx_accountChange', callback), /does not support/);
+  } finally {
+    if (previousWindow === undefined) delete globalThis.window;
+    else globalThis.window = previousWindow;
+  }
 });
 test('legacy network response/event payloads remain unchanged', () => {
   const result = {

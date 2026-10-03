@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { AddListener, BitcoinProvider, Listen, ListenerInfo } from '../provider';
+import type { AddListener, BitcoinProvider, ListenerInfo, ListenEventMap } from '../provider';
 import { getProviderById } from '../provider';
 import { RpcErrorCode } from '../types';
 import type { bitcoinMethods, Method } from './methods';
@@ -183,10 +183,10 @@ export const addListener = (
   return provider.addListener(listenerInfo);
 };
 
-/** SIP-030 network listener; legacy addListener remains unchanged. */
-export const listen = (
-  event: Parameters<Listen>[0],
-  cb: Parameters<Listen>[1],
+/** SIP-030 listener; legacy addListener remains unchanged. */
+export const listen = <E extends keyof ListenEventMap>(
+  event: E,
+  cb: (result: ListenEventMap[E]) => void,
   providerId?: string
 ): (() => void) => {
   const provider = providerId

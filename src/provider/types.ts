@@ -78,9 +78,28 @@ export const stacksNetworkChangeSchema = v.object({
   result: stacksGetNetworksResultSchema,
 });
 export type StacksNetworkChangeEvent = v.InferOutput<typeof stacksNetworkChangeSchema>;
-export type Listen = (
-  event: 'stx_networkChange',
-  cb: (result: StacksGetNetworksResult) => void
+/** SIP-030 accounts are a bare array, not the legacy multi-chain addresses envelope. */
+export const stacksAccountChangeResultSchema = v.array(
+  v.object({
+    address: v.string(),
+    publicKey: v.string(),
+    gaiaHubUrl: v.string(),
+    gaiaAppKey: v.string(),
+  })
+);
+export type StacksAccountChangeResult = v.InferOutput<typeof stacksAccountChangeResultSchema>;
+export const stacksAccountChangeSchema = v.object({
+  type: v.literal('stx_accountChange'),
+  result: stacksAccountChangeResultSchema,
+});
+export type StacksAccountChangeEvent = v.InferOutput<typeof stacksAccountChangeSchema>;
+export interface ListenEventMap {
+  stx_networkChange: StacksGetNetworksResult;
+  stx_accountChange: StacksAccountChangeResult;
+}
+export type Listen = <E extends keyof ListenEventMap>(
+  event: E,
+  cb: (result: ListenEventMap[E]) => void
 ) => () => void;
 
 export const walletEventSchema = v.variant('type', [
@@ -88,6 +107,7 @@ export const walletEventSchema = v.variant('type', [
   networkChangeSchema,
   disconnectSchema,
   stacksNetworkChangeSchema,
+  stacksAccountChangeSchema,
 ]);
 
 export type WalletEvent = v.InferOutput<typeof walletEventSchema>;
