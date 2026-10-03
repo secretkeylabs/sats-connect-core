@@ -7,6 +7,10 @@ import type {
   StacksMethod,
 } from 'src/request/methods';
 import {
+  stacksGetNetworksResultSchema,
+  type StacksGetNetworksResult,
+} from 'src/request/rpc/objects/namespaces/stacks/methods/getNetworks/response';
+import {
   bitcoinNetworkConfigurationSchema,
   sparkNetworkConfigurationSchema,
   stacksNetworkConfigurationSchema,
@@ -68,10 +72,42 @@ export const disconnectSchema = v.object({
 });
 export type DisconnectEvent = v.InferOutput<typeof disconnectSchema>;
 
+// Separate SIP transport: never change the legacy networkChange payload.
+export const stacksNetworkChangeSchema = v.object({
+  type: v.literal('stx_networkChange'),
+  result: stacksGetNetworksResultSchema,
+});
+export type StacksNetworkChangeEvent = v.InferOutput<typeof stacksNetworkChangeSchema>;
+/** SIP-030 accounts are a bare array, not the legacy multi-chain addresses envelope. */
+export const stacksAccountChangeResultSchema = v.array(
+  v.object({
+    address: v.string(),
+    publicKey: v.string(),
+    gaiaHubUrl: v.string(),
+    gaiaAppKey: v.string(),
+  })
+);
+export type StacksAccountChangeResult = v.InferOutput<typeof stacksAccountChangeResultSchema>;
+export const stacksAccountChangeSchema = v.object({
+  type: v.literal('stx_accountChange'),
+  result: stacksAccountChangeResultSchema,
+});
+export type StacksAccountChangeEvent = v.InferOutput<typeof stacksAccountChangeSchema>;
+export interface ListenEventMap {
+  stx_networkChange: StacksGetNetworksResult;
+  stx_accountChange: StacksAccountChangeResult;
+}
+export type Listen = <E extends keyof ListenEventMap>(
+  event: E,
+  cb: (result: ListenEventMap[E]) => void
+) => () => void;
+
 export const walletEventSchema = v.variant('type', [
   accountChangeSchema,
   networkChangeSchema,
   disconnectSchema,
+  stacksNetworkChangeSchema,
+  stacksAccountChangeSchema,
 ]);
 
 export type WalletEvent = v.InferOutput<typeof walletEventSchema>;
@@ -110,6 +146,8 @@ interface BaseBitcoinProvider {
   createRepeatInscriptions: (request: string) => Promise<CreateRepeatInscriptionsResponse>;
   signMultipleTransactions: (request: string) => Promise<SignMultipleTransactionsResponse>;
   addListener: AddListener;
+  /** Optional so existing wallet implementations remain compatible. */
+  listen?: Listen;
 }
 
 export type Capability = keyof BaseBitcoinProvider;

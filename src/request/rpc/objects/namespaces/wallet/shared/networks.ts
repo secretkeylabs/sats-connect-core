@@ -123,6 +123,9 @@ export const stacksNetworkConfigurationSchema = v.object({
   mode: stacksChainModeSchema,
   stacksApiUrl: v.pipe(v.string(), v.url()),
   xverseApiUrl: v.pipe(v.string(), v.url()),
+  // Copied from Core's Stacks configuration schema. Keep these definitions
+  // aligned manually; see NETWORK_CONTRACTS.md. Zero is a valid wire-format u32.
+  chainId: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(0xffffffff))),
 });
 
 export type StacksNetworkConfiguration = v.InferOutput<typeof stacksNetworkConfigurationSchema>;

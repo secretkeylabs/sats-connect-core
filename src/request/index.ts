@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { AddListener, BitcoinProvider, ListenerInfo } from '../provider';
+import type { AddListener, BitcoinProvider, ListenerInfo, ListenEventMap } from '../provider';
 import { getProviderById } from '../provider';
 import { RpcErrorCode } from '../types';
 import type { bitcoinMethods, Method } from './methods';
@@ -181,6 +181,19 @@ export const addListener = (
   }
 
   return provider.addListener(listenerInfo);
+};
+
+/** SIP-030 listener; legacy addListener remains unchanged. */
+export const listen = <E extends keyof ListenEventMap>(
+  event: E,
+  cb: (result: ListenEventMap[E]) => void,
+  providerId?: string
+): (() => void) => {
+  const provider = providerId
+    ? getProviderById(providerId)
+    : window.XverseProviders?.BitcoinProvider || window.BitcoinProvider;
+  if (!provider?.listen) throw new Error('The wallet provider does not support SIP-030 listeners.');
+  return provider.listen(event, cb);
 };
 
 export * from './methods';

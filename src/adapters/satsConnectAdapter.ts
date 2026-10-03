@@ -1,4 +1,4 @@
-import type { AddListener } from 'src/provider';
+import type { AddListener, Listen } from 'src/provider';
 import type { RequestReturn } from 'src/request';
 import type { Method } from 'src/request/methods';
 import type { RpcRequestParams } from 'src/request/rpc/requests';
@@ -378,6 +378,9 @@ abstract class SatsConnectAdapter {
   }
 
   abstract addListener: AddListener;
+
+  /** Optional: existing third-party adapters do not have to implement SIP events. */
+  listen?: Listen;
 
   protected abstract requestInternal<M extends Method>(
     method: M,

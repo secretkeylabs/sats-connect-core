@@ -24,6 +24,7 @@ export const stacksMethods = {
   stx_deployContract: 'stx_deployContract',
   stx_getAccounts: 'stx_getAccounts',
   stx_getAddresses: 'stx_getAddresses',
+  stx_getNetworks: 'stx_getNetworks',
   stx_signMessage: 'stx_signMessage',
   stx_signStructuredMessage: 'stx_signStructuredMessage',
   stx_signTransaction: 'stx_signTransaction',
