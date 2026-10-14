@@ -70,24 +70,30 @@ export const unlockDefinitionSchema = v.variant('type', [
 
 export type UnlockDefinition = v.InferOutput<typeof unlockDefinitionSchema>;
 
+/**
+ * Address fields without the cross-field checks; spread `.entries` to extend it, but validate
+ * wallet responses with `addressSchema`.
+ */
+export const addressObjectSchema = v.object({
+  address: v.string(),
+  /**
+   * Empty string for multisig (vault) Stacks addresses, which have no single public key.
+   */
+  publicKey: v.string(),
+  purpose: v.enum(AddressPurpose),
+  addressType: v.enum(AddressType),
+  walletType: walletTypeSchema,
+  scriptPubKey: v.optional(hexSchema),
+  unlockDefinition: v.optional(unlockDefinitionSchema),
+  /**
+   * Signer set of a multisig Stacks address. Only present on Stacks-purpose entries from
+   * wallets that support it; older wallets omit it, so fall back to `stx_getAccounts`.
+   */
+  stacksMultisig: v.optional(stacksMultisigSchema),
+});
+
 export const addressSchema = v.pipe(
-  v.object({
-    address: v.string(),
-    /**
-     * Empty string for multisig (vault) Stacks addresses, which have no single public key.
-     */
-    publicKey: v.string(),
-    purpose: v.enum(AddressPurpose),
-    addressType: v.enum(AddressType),
-    walletType: walletTypeSchema,
-    scriptPubKey: v.optional(hexSchema),
-    unlockDefinition: v.optional(unlockDefinitionSchema),
-    /**
-     * Signer set of a multisig Stacks address. Only present on Stacks-purpose entries from
-     * wallets that support it; older wallets omit it, so fall back to `stx_getAccounts`.
-     */
-    stacksMultisig: v.optional(stacksMultisigSchema),
-  }),
+  addressObjectSchema,
   v.check(
     ({ scriptPubKey, unlockDefinition }) =>
       (scriptPubKey === undefined) === (unlockDefinition === undefined),
