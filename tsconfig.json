@@ -17,6 +17,6 @@
     "allowUnreachableCode": false,
     "skipLibCheck": true
   },
-  "include": ["./src"],
-  "exclude": ["./tests", "./dist"]
+  "include": ["./src", "./tests"],
+  "exclude": ["./dist"]
 }
