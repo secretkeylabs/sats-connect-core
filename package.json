@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "axios": "1.13.5",
+    "axios": "1.20.0",
     "bitcoin-address-validation": "3.0.0",
     "buffer": "6.0.3",
     "jsontokens": "4.0.1",
