@@ -1,11 +1,18 @@
+import type { RpcRequestParams } from 'src/request/rpc/requests';
 import * as v from 'valibot';
-import { stacksSignMessageParamsSchema } from './request';
+import { stacksSignMessageParamsSchema, type StacksSignMessageParams } from './request';
+
+// A caller written before vaults existed, and the request() params type it compiles against.
+const legacyParams: StacksSignMessageParams = { message: 'hello' };
+const legacyRequestParams: RpcRequestParams<'stx_signMessage'> = { message: 'hello' };
 
 describe('stacksSignMessageParamsSchema', () => {
-  it('defaults the signer to the selected account', () => {
-    const result = v.parse(stacksSignMessageParamsSchema, { message: 'hello' });
-
-    expect(result).toEqual({ message: 'hello', signer: 'account' });
+  it('keeps signer optional for callers that predate vaults', () => {
+    expect(legacyParams).toEqual({ message: 'hello' });
+    expect(legacyRequestParams).toEqual({ message: 'hello' });
+    expect(v.parse(stacksSignMessageParamsSchema, { message: 'hello' })).toEqual({
+      message: 'hello',
+    });
   });
 
   it('accepts the member signer for a vault co-owner', () => {

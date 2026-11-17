@@ -11,7 +11,11 @@ export const stacksSignMessageParamsSchema = v.object({
    */
   message: v.string(),
 
-  signer: v.optional(v.picklist(stacksSignMessageSigners), 'account'),
+  /**
+   * Which key signs. Wallets treat a missing value as `account`, so callers written before
+   * vaults existed keep compiling and this stays an additive option.
+   */
+  signer: v.optional(v.picklist(stacksSignMessageSigners)),
 });
 
 export type StacksSignMessageParams = v.InferOutput<typeof stacksSignMessageParamsSchema>;
