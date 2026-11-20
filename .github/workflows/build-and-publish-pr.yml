@@ -53,11 +53,3 @@ jobs:
         run: npm publish --access=public --tag pr-$PR_NUMBER
         env:
           PR_NUMBER: ${{ github.event.number }}
-
-      - name: Add package pre-release info
-        uses: secretkeylabs/github-actions/add-package-pre-release-info-to-pr@main
-        with:
-          package-name: '@sats-connect/core'
-          version: ${{ steps.publish-version.outputs.PUBLISH_VERSION }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pr-number: ${{ github.event.pull_request.number }}
