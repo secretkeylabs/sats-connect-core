@@ -71,5 +71,5 @@ export default defineConfig([
     },
   },
 
-  { ignores: ['dist'] },
+  { ignores: ['dist', '.github/actions/**'] },
 ]);
