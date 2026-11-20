@@ -5,18 +5,15 @@ on:
 
 permissions:
   contents: read
-  packages: write
-  pull-requests: write
-  id-token: write # required for npm trusted publishing (OIDC)
 
 jobs:
-  build-and-publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # actions/checkout@v4
 
       - name: Check AGENTS.md links
-        uses: secretkeylabs/github-actions/check-agents@main
+        uses: ./.github/actions/check-agents
 
       - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #v4.3.0
         with:
@@ -47,17 +44,35 @@ jobs:
           SHA: ${{ steps.sha.outputs.SHA }}
           CURRENT_VERSION: ${{ steps.current-version.outputs.CURRENT_VERSION }}
 
+      - name: Pack the release
+        run: npm pack
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # actions/upload-artifact@v4
+        with:
+          name: package
+          path: '*.tgz'
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: build
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for npm trusted publishing (OIDC)
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # actions/download-artifact@v4
+        with:
+          name: package
+
+      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #v4.3.0
+        with:
+          node-version: 24
+
       # Authenticates via GitHub OIDC (trusted publishing), no npm token needed.
       # Do not set registry-url on setup-node: it injects a placeholder NODE_AUTH_TOKEN which disables OIDC.
       - name: Publish to NPM package registry
-        run: npm publish --access=public --tag pr-$PR_NUMBER
+        run: npm publish *.tgz --access=public --tag pr-$PR_NUMBER
         env:
           PR_NUMBER: ${{ github.event.number }}
-
-      - name: Add package pre-release info
-        uses: secretkeylabs/github-actions/add-package-pre-release-info-to-pr@main
-        with:
-          package-name: '@sats-connect/core'
-          version: ${{ steps.publish-version.outputs.PUBLISH_VERSION }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pr-number: ${{ github.event.pull_request.number }}
